@@ -32,7 +32,6 @@ import (
 	"time"
 
 	"yuno-challenge/authorization"
-	"yuno-challenge/merchant"
 	"yuno-challenge/sharedgin"
 	"yuno-challenge/testdata"
 )
@@ -236,12 +235,12 @@ func (s *server) get(t *testing.T, path string, into any) {
 
 // submit sends the requests one at a time, in order, so the ranking sees them
 // in sequence. The service answers 200 when approved and 500 when declined.
-func submit(t *testing.T, srv *server, reqs []merchant.CreateAuthorizationRequest) []merchant.AuthorizationResponse {
+func submit(t *testing.T, srv *server, reqs []authorization.CreateAuthorizationRequest) []authorization.AuthorizationResponse {
 	t.Helper()
-	responses := make([]merchant.AuthorizationResponse, len(reqs))
+	responses := make([]authorization.AuthorizationResponse, len(reqs))
 	for i, req := range reqs {
 		status, body := srv.do(t, http.MethodPost, "/v1/authorizations", req)
-		var resp merchant.AuthorizationResponse
+		var resp authorization.AuthorizationResponse
 		if err := json.Unmarshal(body, &resp); err != nil {
 			t.Fatalf("request %d: status %d, undecodable body: %s", i, status, body)
 		}
@@ -258,7 +257,7 @@ func submit(t *testing.T, srv *server, reqs []merchant.CreateAuthorizationReques
 }
 
 // checkLog verifies the log holds exactly the submitted transactions, in order.
-func checkLog(t *testing.T, responses []merchant.AuthorizationResponse, log []authorization.TransactionResponse) {
+func checkLog(t *testing.T, responses []authorization.AuthorizationResponse, log []authorization.TransactionResponse) {
 	t.Helper()
 	if len(log) != len(responses) {
 		t.Fatalf("log has %d transactions, want %d", len(log), len(responses))

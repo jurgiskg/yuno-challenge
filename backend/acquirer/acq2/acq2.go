@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"yuno-challenge/acquirer"
+	"yuno-challenge/authorization"
 )
 
 type Acquirer struct {
@@ -26,7 +27,7 @@ func (a *Acquirer) Name() string {
 	return "AcquirerTwo"
 }
 
-func (a *Acquirer) Authorize(_ context.Context, req acquirer.AuthorizationRequest) acquirer.AuthorizationResponse {
+func (a *Acquirer) Authorize(_ context.Context, req authorization.Request) acquirer.AuthorizationResponse {
 	if reason, declined := a.rules.Check(req); declined {
 		return acquirer.Declined(reason)
 	}

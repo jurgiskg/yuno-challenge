@@ -16,7 +16,6 @@ import (
 	"yuno-challenge/acquirer/acq2"
 	"yuno-challenge/acquirer/acq3"
 	"yuno-challenge/authorization"
-	"yuno-challenge/merchant"
 	"yuno-challenge/sharedgin"
 	"yuno-challenge/testdata"
 
@@ -76,7 +75,7 @@ func main() {
 	}
 }
 
-func newEngine(apiKey string, processor merchant.Processor, store *authorization.Store) *gin.Engine {
+func newEngine(apiKey string, processor authorization.Processor, store *authorization.Store) *gin.Engine {
 	engine := gin.New()
 	engine.Use(gin.Logger(), gin.Recovery())
 
@@ -88,10 +87,8 @@ func newEngine(apiKey string, processor merchant.Processor, store *authorization
 	// Health stays public for Render's health checks; everything else needs the key.
 	authed := v1.Group("", sharedgin.RequireAPIKey(apiKey))
 
-	merchantController := merchant.NewController(processor)
-	authed.POST("/authorizations", merchantController.CreateAuthorization)
-
-	authorizationController := authorization.NewController(store)
+	authorizationController := authorization.NewController(processor, store)
+	authed.POST("/authorizations", authorizationController.CreateAuthorization)
 	authed.GET("/authorizations", authorizationController.ListAuthorizations)
 	authed.GET("/analytics", authorizationController.GetAnalytics)
 

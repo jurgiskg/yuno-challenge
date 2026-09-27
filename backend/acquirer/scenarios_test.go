@@ -37,7 +37,7 @@ func TestAuthorizationRequests_Scenarios(t *testing.T) {
 		bins[req.Card.Number[:6]] = true
 		countries[req.Country] = true
 
-		authReq := req.ToAuthorizationRequest()
+		authReq := req.ToRequest()
 		resp := primary.Authorize(context.Background(), authReq)
 		switch {
 		case resp.Approved:

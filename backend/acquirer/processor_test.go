@@ -23,7 +23,7 @@ type stubAcquirer struct {
 
 func (s *stubAcquirer) Name() string { return s.name }
 
-func (s *stubAcquirer) Authorize(ctx context.Context, _ AuthorizationRequest) AuthorizationResponse {
+func (s *stubAcquirer) Authorize(ctx context.Context, _ authorization.Request) AuthorizationResponse {
 	s.calls++
 	select {
 	case <-time.After(s.delay):
@@ -47,9 +47,9 @@ func newTestProcessor(t *testing.T, acquirers ...*stubAcquirer) (*Processor, *au
 	return p, store
 }
 
-var testRequest = AuthorizationRequest{
+var testRequest = authorization.Request{
 	MerchantID: "solarbazaar",
-	Card:       Card{Number: "4532015112830366", HolderName: "Maria Lopez", ExpiryMonth: 12, ExpiryYear: 2028, CVV: "123"},
+	Card:       authorization.Card{Number: "4532015112830366", HolderName: "Maria Lopez", ExpiryMonth: 12, ExpiryYear: 2028, CVV: "123"},
 	Amount:     1450000,
 	Currency:   "MXN",
 	Country:    country.MX,

@@ -1,4 +1,4 @@
-package merchant
+package authorization
 
 import (
 	"fmt"
@@ -6,8 +6,6 @@ import (
 	"strconv"
 	"strings"
 
-	"yuno-challenge/acquirer"
-	"yuno-challenge/authorization"
 	"yuno-challenge/country"
 	"yuno-challenge/sharedgin"
 
@@ -111,14 +109,14 @@ func (r CreateAuthorizationRequest) Validate() (string, error) {
 	return r.Card.Validate()
 }
 
-// ToAuthorizationRequest converts the request to the acquirer's format, with the
-// amount in minor units. Call it only after Validate has passed.
-func (r CreateAuthorizationRequest) ToAuthorizationRequest() acquirer.AuthorizationRequest {
+// ToRequest converts the request to the acquirers' format, with the amount in
+// minor units. Call it only after Validate has passed.
+func (r CreateAuthorizationRequest) ToRequest() Request {
 	year, _ := strconv.Atoi(r.Card.Expiry[:4])
 	month, _ := strconv.Atoi(r.Card.Expiry[4:6])
-	return acquirer.AuthorizationRequest{
+	return Request{
 		MerchantID: r.MerchantID,
-		Card: acquirer.Card{
+		Card: Card{
 			Number:      r.Card.Number,
 			HolderName:  r.Card.HolderName,
 			ExpiryMonth: month,
@@ -128,28 +126,6 @@ func (r CreateAuthorizationRequest) ToAuthorizationRequest() acquirer.Authorizat
 		Amount:   r.Amount.Shift(r.Currency.Decimals()).IntPart(),
 		Currency: string(r.Currency),
 		Country:  r.Country,
-	}
-}
-
-type AuthorizationResponse struct {
-	// Transaction ID.
-	ID     string               `json:"id" example:"txn_3f9a1c2b4d5e6f70"`
-	Status authorization.Status `json:"status" example:"APPROVED"`
-	// Acquirer that approved the transaction, omitted when declined.
-	Acquirer string `json:"acquirer,omitempty" example:"AcquirerTwo"`
-	// Final decline reason, omitted when approved.
-	DeclineReason authorization.DeclineReason `json:"declineReason,omitempty" swaggertype:"string" example:"STOLEN_CARD"`
-	// Every acquirer attempt, in the order they were tried.
-	Attempts []authorization.AttemptResponse `json:"attempts"`
-} // @name AuthorizationResponse
-
-func NewAuthorizationResponse(txn authorization.Transaction) AuthorizationResponse {
-	return AuthorizationResponse{
-		ID:            txn.ID,
-		Status:        authorization.StatusOf(txn.Approved),
-		Acquirer:      txn.Acquirer,
-		DeclineReason: txn.DeclineReason,
-		Attempts:      authorization.NewAttemptResponses(txn.Attempts),
 	}
 }
 

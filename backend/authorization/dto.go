@@ -46,6 +46,29 @@ func NewAttemptResponses(attempts []Attempt) []AttemptResponse {
 	return out
 }
 
+// AuthorizationResponse is the result of POST /authorizations.
+type AuthorizationResponse struct {
+	// Transaction ID.
+	ID     string `json:"id" example:"txn_3f9a1c2b4d5e6f70"`
+	Status Status `json:"status" example:"APPROVED"`
+	// Acquirer that approved the transaction, omitted when declined.
+	Acquirer string `json:"acquirer,omitempty" example:"AcquirerTwo"`
+	// Final decline reason, omitted when approved.
+	DeclineReason DeclineReason `json:"declineReason,omitempty" swaggertype:"string" example:"STOLEN_CARD"`
+	// Every acquirer attempt, in the order they were tried.
+	Attempts []AttemptResponse `json:"attempts"`
+} // @name AuthorizationResponse
+
+func NewAuthorizationResponse(txn Transaction) AuthorizationResponse {
+	return AuthorizationResponse{
+		ID:            txn.ID,
+		Status:        StatusOf(txn.Approved),
+		Acquirer:      txn.Acquirer,
+		DeclineReason: txn.DeclineReason,
+		Attempts:      NewAttemptResponses(txn.Attempts),
+	}
+}
+
 // TransactionResponse is one entry of the authorization log.
 type TransactionResponse struct {
 	ID         string    `json:"id" example:"txn_3f9a1c2b4d5e6f70"`

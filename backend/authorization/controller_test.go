@@ -1,4 +1,4 @@
-package merchant
+package authorization
 
 import (
 	"context"
@@ -10,8 +10,6 @@ import (
 	"testing"
 	"time"
 
-	"yuno-challenge/acquirer"
-	"yuno-challenge/authorization"
 	"yuno-challenge/country"
 	"yuno-challenge/sharedgin"
 
@@ -28,11 +26,11 @@ const validBody = `{
 
 // stubProcessor returns txn for every request and remembers the last request.
 type stubProcessor struct {
-	txn  authorization.Transaction
-	last acquirer.AuthorizationRequest
+	txn  Transaction
+	last Request
 }
 
-func (s *stubProcessor) Process(_ context.Context, req acquirer.AuthorizationRequest) authorization.Transaction {
+func (s *stubProcessor) Process(_ context.Context, req Request) Transaction {
 	s.last = req
 	return s.txn
 }
@@ -40,7 +38,7 @@ func (s *stubProcessor) Process(_ context.Context, req acquirer.AuthorizationReq
 func newTestEngine(processor Processor) *gin.Engine {
 	gin.SetMode(gin.TestMode)
 	engine := gin.New()
-	engine.POST("/authorizations", NewController(processor).CreateAuthorization)
+	engine.POST("/authorizations", NewController(processor, NewStore()).CreateAuthorization)
 	return engine
 }
 
@@ -53,7 +51,7 @@ func post(engine *gin.Engine, body string) *httptest.ResponseRecorder {
 }
 
 func TestCreateAuthorization_Validation(t *testing.T) {
-	engine := newTestEngine(&stubProcessor{txn: authorization.Transaction{Approved: true, Acquirer: "AcquirerOne"}})
+	engine := newTestEngine(&stubProcessor{txn: Transaction{Approved: true, Acquirer: "AcquirerOne"}})
 
 	tests := []struct {
 		name       string
@@ -112,41 +110,41 @@ func TestCreateAuthorization_Outcome(t *testing.T) {
 	started := time.Date(2026, 9, 27, 12, 0, 0, 0, time.UTC)
 	tests := []struct {
 		name       string
-		txn        authorization.Transaction
+		txn        Transaction
 		wantStatus int
 		want       AuthorizationResponse
 	}{
 		{
 			name: "approved after failover",
-			txn: authorization.Transaction{
+			txn: Transaction{
 				ID: "txn_1", Approved: true, Acquirer: "AcquirerTwo",
-				Attempts: []authorization.Attempt{
-					{Acquirer: "AcquirerOne", StartedAt: started, Duration: 1500 * time.Microsecond, DeclineReason: authorization.ReasonPolicyDecline},
+				Attempts: []Attempt{
+					{Acquirer: "AcquirerOne", StartedAt: started, Duration: 1500 * time.Microsecond, DeclineReason: ReasonPolicyDecline},
 					{Acquirer: "AcquirerTwo", StartedAt: started, Duration: time.Millisecond, Approved: true},
 				},
 			},
 			wantStatus: http.StatusOK,
 			want: AuthorizationResponse{
-				ID: "txn_1", Status: authorization.StatusApproved, Acquirer: "AcquirerTwo",
-				Attempts: []authorization.AttemptResponse{
-					{Acquirer: "AcquirerOne", StartedAt: started, DurationMs: 1.5, Status: authorization.StatusDeclined, DeclineReason: authorization.ReasonPolicyDecline},
-					{Acquirer: "AcquirerTwo", StartedAt: started, DurationMs: 1, Status: authorization.StatusApproved},
+				ID: "txn_1", Status: StatusApproved, Acquirer: "AcquirerTwo",
+				Attempts: []AttemptResponse{
+					{Acquirer: "AcquirerOne", StartedAt: started, DurationMs: 1.5, Status: StatusDeclined, DeclineReason: ReasonPolicyDecline},
+					{Acquirer: "AcquirerTwo", StartedAt: started, DurationMs: 1, Status: StatusApproved},
 				},
 			},
 		},
 		{
 			name: "hard declined",
-			txn: authorization.Transaction{
-				ID: "txn_2", DeclineReason: authorization.ReasonStolenCard,
-				Attempts: []authorization.Attempt{
-					{Acquirer: "AcquirerOne", StartedAt: started, Duration: time.Millisecond, DeclineReason: authorization.ReasonStolenCard},
+			txn: Transaction{
+				ID: "txn_2", DeclineReason: ReasonStolenCard,
+				Attempts: []Attempt{
+					{Acquirer: "AcquirerOne", StartedAt: started, Duration: time.Millisecond, DeclineReason: ReasonStolenCard},
 				},
 			},
 			wantStatus: http.StatusInternalServerError,
 			want: AuthorizationResponse{
-				ID: "txn_2", Status: authorization.StatusDeclined, DeclineReason: authorization.ReasonStolenCard,
-				Attempts: []authorization.AttemptResponse{
-					{Acquirer: "AcquirerOne", StartedAt: started, DurationMs: 1, Status: authorization.StatusDeclined, DeclineReason: authorization.ReasonStolenCard},
+				ID: "txn_2", Status: StatusDeclined, DeclineReason: ReasonStolenCard,
+				Attempts: []AttemptResponse{
+					{Acquirer: "AcquirerOne", StartedAt: started, DurationMs: 1, Status: StatusDeclined, DeclineReason: ReasonStolenCard},
 				},
 			},
 		},
@@ -168,9 +166,9 @@ func TestCreateAuthorization_Outcome(t *testing.T) {
 				t.Fatalf("response = %+v, want %+v", got, tt.want)
 			}
 
-			wantReq := acquirer.AuthorizationRequest{
+			wantReq := Request{
 				MerchantID: "solarbazaar",
-				Card:       acquirer.Card{Number: "4532015112830366", HolderName: "Maria Lopez", ExpiryMonth: 12, ExpiryYear: 2028, CVV: "123"},
+				Card:       Card{Number: "4532015112830366", HolderName: "Maria Lopez", ExpiryMonth: 12, ExpiryYear: 2028, CVV: "123"},
 				Amount:     1450000,
 				Currency:   "MXN",
 				Country:    country.MX,

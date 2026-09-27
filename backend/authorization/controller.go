@@ -1,17 +1,59 @@
 package authorization
 
 import (
+	"context"
+	"fmt"
 	"net/http"
+
+	"yuno-challenge/sharedgin"
 
 	"github.com/gin-gonic/gin"
 )
 
-type Controller struct {
-	store *Store
+// Processor authorizes a transaction across the acquirers; implemented by
+// *acquirer.Processor.
+type Processor interface {
+	Process(ctx context.Context, req Request) Transaction
 }
 
-func NewController(store *Store) Controller {
-	return Controller{store: store}
+type Controller struct {
+	processor Processor
+	store     *Store
+}
+
+func NewController(processor Processor, store *Store) Controller {
+	return Controller{processor: processor, store: store}
+}
+
+// CreateAuthorization godoc
+// @Summary Authorize a transaction
+// @Description Authorize a card transaction, failing over across acquirers on retriable declines.
+// @Tags authorization
+// @Accept json
+// @Produce json
+// @Param request body CreateAuthorizationRequest true "Authorization request"
+// @Success 200 {object} AuthorizationResponse "Approved"
+// @Failure 400 {object} sharedgin.ErrorResponse
+// @Failure 500 {object} AuthorizationResponse "Declined by every acquirer tried"
+// @Router /authorizations [post]
+func (ctrl Controller) CreateAuthorization(ctx *gin.Context) {
+	var req CreateAuthorizationRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		sharedgin.ValidationError(ctx, fmt.Errorf("failed to bind request body: %w", err))
+		return
+	}
+
+	if code, err := req.Validate(); err != nil {
+		sharedgin.ValidationErrorWithCode(ctx, err, code)
+		return
+	}
+
+	txn := ctrl.processor.Process(ctx.Request.Context(), req.ToRequest())
+	status := http.StatusOK
+	if !txn.Approved {
+		status = http.StatusInternalServerError
+	}
+	ctx.JSON(status, NewAuthorizationResponse(txn))
 }
 
 // ListAuthorizations godoc

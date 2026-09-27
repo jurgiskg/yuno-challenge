@@ -59,7 +59,7 @@ func NewProcessor(acquirers []Acquirer, store *authorization.Store, logger *zap.
 // Process authorizes req, trying acquirers best-ranked first. It stops at the
 // first approval, the first non-retriable decline, or when every acquirer has
 // declined. The transaction is saved to the store before it is returned.
-func (p *Processor) Process(ctx context.Context, req AuthorizationRequest) authorization.Transaction {
+func (p *Processor) Process(ctx context.Context, req authorization.Request) authorization.Transaction {
 	order := p.ranking.Order()
 	txn := authorization.Transaction{
 		ID:         newTransactionID(),
@@ -109,7 +109,7 @@ func (p *Processor) Process(ctx context.Context, req AuthorizationRequest) autho
 
 // attempt calls the acquirer, treating a call that outlives the attempt
 // timeout as a TIMEOUT decline.
-func (p *Processor) attempt(ctx context.Context, acq Acquirer, req AuthorizationRequest) authorization.Attempt {
+func (p *Processor) attempt(ctx context.Context, acq Acquirer, req authorization.Request) authorization.Attempt {
 	ctx, cancel := context.WithTimeout(ctx, p.attemptTimeout)
 	defer cancel()
 

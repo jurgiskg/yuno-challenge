@@ -16,8 +16,8 @@ import (
 	"strconv"
 
 	"yuno-challenge/acquirer"
+	"yuno-challenge/authorization"
 	"yuno-challenge/country"
-	"yuno-challenge/merchant"
 
 	"github.com/shopspring/decimal"
 )
@@ -119,18 +119,18 @@ var scenarios = []scenario{
 }
 
 // usdRates are approximate local currency units per USD.
-var usdRates = map[merchant.Currency]decimal.Decimal{
-	merchant.CurrencyMXN: decimal.NewFromFloat(18.5),
-	merchant.CurrencyCOP: decimal.NewFromInt(4100),
-	merchant.CurrencyBRL: decimal.NewFromFloat(5.4),
-	merchant.CurrencyCLP: decimal.NewFromInt(940),
+var usdRates = map[authorization.Currency]decimal.Decimal{
+	authorization.CurrencyMXN: decimal.NewFromFloat(18.5),
+	authorization.CurrencyCOP: decimal.NewFromInt(4100),
+	authorization.CurrencyBRL: decimal.NewFromFloat(5.4),
+	authorization.CurrencyCLP: decimal.NewFromInt(940),
 }
 
-var currencies = map[country.Code]merchant.Currency{
-	country.MX: merchant.CurrencyMXN,
-	country.CO: merchant.CurrencyCOP,
-	country.BR: merchant.CurrencyBRL,
-	country.CL: merchant.CurrencyCLP,
+var currencies = map[country.Code]authorization.Currency{
+	country.MX: authorization.CurrencyMXN,
+	country.CO: authorization.CurrencyCOP,
+	country.BR: authorization.CurrencyBRL,
+	country.CL: authorization.CurrencyCLP,
 }
 
 var holderNames = map[country.Code][]string{
@@ -143,10 +143,10 @@ var holderNames = map[country.Code][]string{
 // AuthorizationRequests returns the 50 sample authorization requests, grouped by
 // scenario in the order documented on the package. The output is deterministic
 // for a given seed.
-func AuthorizationRequests(seed uint64) []merchant.CreateAuthorizationRequest {
+func AuthorizationRequests(seed uint64) []authorization.CreateAuthorizationRequest {
 	rng := rand.New(rand.NewPCG(seed, seed))
 
-	var reqs []merchant.CreateAuthorizationRequest
+	var reqs []authorization.CreateAuthorizationRequest
 	for _, s := range scenarios {
 		for i := range s.count {
 			reqs = append(reqs, newRequest(rng, s.profiles[i%len(s.profiles)]))
@@ -155,18 +155,18 @@ func AuthorizationRequests(seed uint64) []merchant.CreateAuthorizationRequest {
 	return reqs
 }
 
-func newRequest(rng *rand.Rand, p profile) merchant.CreateAuthorizationRequest {
+func newRequest(rng *rand.Rand, p profile) authorization.CreateAuthorizationRequest {
 	currency := currencies[p.country]
 	// $50.00 to $2000.00 USD equivalent.
 	usd := decimal.New(5000+rng.Int64N(195001), -2)
 	names := holderNames[p.country]
 
-	return merchant.CreateAuthorizationRequest{
+	return authorization.CreateAuthorizationRequest{
 		MerchantID: MerchantID,
 		Amount:     usd.Mul(usdRates[currency]).Round(currency.Decimals()),
 		Currency:   currency,
 		Country:    p.country,
-		Card: merchant.CardDetails{
+		Card: authorization.CardDetails{
 			Number:     cardNumber(rng, p),
 			HolderName: names[rng.IntN(len(names))],
 			Expiry:     expiry(rng, p.kind),

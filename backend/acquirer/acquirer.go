@@ -5,7 +5,6 @@ import (
 	"errors"
 	"math/rand/v2"
 	"slices"
-	"strings"
 	"time"
 
 	"yuno-challenge/authorization"
@@ -16,7 +15,7 @@ import (
 type Acquirer interface {
 	// Name identifies the acquirer in routing config and attempt logs.
 	Name() string
-	Authorize(ctx context.Context, req AuthorizationRequest) AuthorizationResponse
+	Authorize(ctx context.Context, req authorization.Request) AuthorizationResponse
 }
 
 // Rules define which transactions a mock acquirer approves. Set either
@@ -44,7 +43,7 @@ func (r Rules) Validate() error {
 }
 
 // Check returns the decline reason if the rules reject the request, or false if they accept it.
-func (r Rules) Check(req AuthorizationRequest) (authorization.DeclineReason, bool) {
+func (r Rules) Check(req authorization.Request) (authorization.DeclineReason, bool) {
 	switch {
 	case r.SuccessRate > 0 && rand.Float64() >= r.SuccessRate:
 		return authorization.ReasonGenericDecline, true
@@ -54,34 +53,6 @@ func (r Rules) Check(req AuthorizationRequest) (authorization.DeclineReason, boo
 		return authorization.ReasonSuspectedFraud, true
 	}
 	return "", false
-}
-
-type Card struct {
-	Number      string
-	HolderName  string
-	ExpiryMonth int
-	ExpiryYear  int
-	CVV         string
-}
-
-// HasAnyPrefix reports whether the card's number starts with any of the given BIN prefixes.
-func (c Card) HasAnyPrefix(prefixes []string) bool {
-	for _, p := range prefixes {
-		if strings.HasPrefix(c.Number, p) {
-			return true
-		}
-	}
-	return false
-}
-
-type AuthorizationRequest struct {
-	MerchantID string
-	Card       Card
-	// Amount is in minor units (e.g. centavos).
-	Amount int64
-	// Currency is an ISO 4217 code: MXN, COP, BRL or CLP.
-	Currency string
-	Country  country.Code
 }
 
 type AuthorizationResponse struct {
@@ -107,7 +78,7 @@ const (
 // IssuerDecline simulates the issuing bank's checks, which are the same whichever
 // acquirer routes the transaction. It only returns non-retriable reasons, and
 // returns false if the issuer would approve.
-func IssuerDecline(card Card, now time.Time) (authorization.DeclineReason, bool) {
+func IssuerDecline(card authorization.Card, now time.Time) (authorization.DeclineReason, bool) {
 	switch {
 	case len(card.Number) < 12 || (len(card.CVV) != 3 && len(card.CVV) != 4):
 		return authorization.ReasonInvalidCard, true
