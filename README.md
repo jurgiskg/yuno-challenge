@@ -1,42 +1,31 @@
 # yuno-challenge
 
-A payment authorization API that fails over across acquirers. Each
-authorization request is tried against acquirers in ranked order until one
-approves. The request moves on to the next acquirer only when the decline is
-retriable: `SUSPECTED_FRAUD`, `POLICY_DECLINE`, `TIMEOUT` or `GENERIC_DECLINE`.
-Issuer declines such as `STOLEN_CARD` or `INSUFFICIENT_FUNDS` stop the chain
-right away, because every acquirer would decline them.
+A payment authorization API that fails over across acquirers. A request is
+tried against acquirers in ranked order until one approves. It moves to the
+next acquirer only on a retriable decline (`SUSPECTED_FRAUD`,
+`POLICY_DECLINE`, `TIMEOUT`, `GENERIC_DECLINE`). Issuer declines such as
+`STOLEN_CARD` stop the chain.
 
-**Results:** on the 50 sample transactions, a single acquirer approved 52%.
-Failover across three acquirers approved 86% (+34 pp). See
-[`METRICS.md`](METRICS.md) for the full comparison and example attempt chains,
-and [`evidence/`](evidence/) for the raw logs.
+On the 50 sample transactions, a single acquirer approves 52% and failover
+approves 86%. See [`METRICS.md`](METRICS.md).
 
 ## Running locally
 
-You need Go 1.25+. Everything below runs from `backend/`.
+Requires Go 1.25+.
 
 ```sh
 cd backend
-go run .                 # listens on :8080
-```
-
-In debug mode (the default for `go run`), leaving `API_KEY` unset turns
-authentication off. To require a key locally:
-
-```sh
-API_KEY=dev-key go run .
+go run .                 # listens on :8080, no auth when API_KEY is unset
+API_KEY=dev-key go run . # require X-API-Key
 ```
 
 | Env var | Default | Purpose |
 |---|---|---|
 | `PORT` | `8080` | HTTP port |
-| `API_KEY` | _(empty)_ | Required `X-API-Key` value for `/v1/*` except `/v1/health`. Must be set when `GIN_MODE=release` |
+| `API_KEY` | _(empty)_ | Required `X-API-Key` for `/v1/*` except `/v1/health`. Mandatory when `GIN_MODE=release` |
 | `GIN_MODE` | `debug` | `release` in the Docker image |
-| `ACQUIRER_ORDER` | `AcquirerOne,AcquirerTwo,AcquirerThree` | Initial routing order. A subset such as `AcquirerOne` gives the single-acquirer baseline |
-| `DYNAMIC_RANKING` | `true` | `false` keeps `ACQUIRER_ORDER` fixed instead of reordering acquirers by recent approval rate |
-
-Example request:
+| `ACQUIRER_ORDER` | `AcquirerOne,AcquirerTwo,AcquirerThree` | Initial routing order. `AcquirerOne` alone gives the single-acquirer baseline |
+| `DYNAMIC_RANKING` | `true` | `false` keeps `ACQUIRER_ORDER` fixed |
 
 ```sh
 curl -H 'X-API-Key: dev-key' -X POST localhost:8080/v1/authorizations -d '{
@@ -48,31 +37,22 @@ curl -H 'X-API-Key: dev-key' -X POST localhost:8080/v1/authorizations -d '{
 }'
 ```
 
-AcquirerOne no longer accepts Mexico, so it declines this request with
-`POLICY_DECLINE`. The request then fails over to AcquirerTwo, which approves
-it. Both attempts appear in the response.
-
-### Endpoints
+AcquirerOne declines Mexico with `POLICY_DECLINE`, so this fails over to
+AcquirerTwo, which approves. The response lists both attempts.
 
 | Method | Path | Description |
 |---|---|---|
 | `GET` | `/v1/health` | Liveness check (public) |
-| `POST` | `/v1/authorizations` | Authorize a transaction. Returns `200` if approved, `400` if declined (hard decline, or every acquirer tried declined). An invalid request also returns `400`, with an error body instead of the attempt chain |
-| `GET` | `/v1/authorizations` | Full authorization log with each transaction's attempt chain |
-| `GET` | `/v1/analytics` | Overall and per-acquirer approval rates, average attempts and decline reasons |
+| `POST` | `/v1/authorizations` | Authorize a transaction: `200` approved, `400` declined or invalid |
+| `GET` | `/v1/authorizations` | Authorization log with each attempt chain |
+| `GET` | `/v1/analytics` | Approval rates, average attempts and decline reasons, overall and per acquirer |
 
 ### Tests
 
 ```sh
-make test               # unit tests
-make integration-test   # starts the real server per scenario and writes the
-                        # acceptance report to integration-tests/report.html
-make integration-test OUT=../evidence   # also saves logs and analytics per scenario
+make test                               # unit tests
+make integration-test OUT=../evidence   # single- vs multi-acquirer report and evidence
 ```
-
-The integration test runs three scenarios: a single acquirer, three acquirers
-in fixed order, and three acquirers with dynamic ranking.
-[`METRICS.md`](METRICS.md) summarizes the committed run.
 
 ### Docker
 
@@ -83,193 +63,78 @@ docker run --rm -p 8080:8080 -e API_KEY=dev-key yuno-failover-api
 
 ## Deployment
 
-The service runs on [Render](https://render.com) as a Docker web service at
-**https://yuno-failover-api.onrender.com**. Try
-`curl https://yuno-failover-api.onrender.com/v1/health`. Every other endpoint
-needs the `X-API-Key` header. The key is kept in Render and shared with
-reviewers directly.
-
-Every push to `main` that touches `backend/**` or `infra/**` deploys
-automatically. The service uses Render's free plan, so it sleeps after 15
-minutes without traffic, and the first request after that takes about a
-minute. Storage is in memory, so a restart or redeploy clears the
-authorization log. See [`infra/README.md`](infra/README.md) for the Blueprint
-setup and security notes.
+Deployed on Render at **https://yuno-failover-api.onrender.com**. Endpoints
+other than `/v1/health` need the `X-API-Key` header. The key is shared with
+reviewers directly. Every push to `main` that touches `backend/**` or
+`infra/**` deploys automatically. On the free plan the service sleeps after 15
+idle minutes, so the first request takes about a minute, and a redeploy clears
+the in-memory log. See [`infra/README.md`](infra/README.md).
 
 ## Metrics
 
-The integration test measures how much failover improves the approval rate.
-It builds the real server and runs three scenarios, starting a fresh server
-for each one so the in-memory state starts empty:
-
-| Scenario | Config |
-|---|---|
-| Single acquirer | `ACQUIRER_ORDER=AcquirerOne` |
-| Multi-acquirer, fixed order | `ACQUIRER_ORDER=AcquirerOne,AcquirerTwo,AcquirerThree`, `DYNAMIC_RANKING=false` |
-| Multi-acquirer, dynamic ranking | `ACQUIRER_ORDER=AcquirerOne,AcquirerTwo,AcquirerThree` |
-
-Each scenario submits the same 50 sample transactions (`testdata` seed 1) one
-at a time. It then fetches `GET /v1/authorizations` and `GET /v1/analytics`,
-checks the analytics against its own count of the log, and computes:
-
-- **Approved:** the share of transactions approved in the end, after failover
-- **On first attempt / rescued by failover:** approved by the first acquirer
-  tried, or by a later one after a retriable decline
-- **Hard decline / every acquirer declined:** why the declined transactions
-  failed
-- **Avg attempts per transaction:** the number of acquirer calls, a proxy for
-  latency
-- **Per-acquirer approval rate and decline reasons**
-- **Routing order changes:** where dynamic ranking reordered the acquirers
-
-The committed run:
-
-| | Single acquirer | Multi, fixed order | Multi, dynamic ranking |
-|---|---:|---:|---:|
-| Approved | 26/50 (52%) | 43/50 (86%) | 40/50 (80%) |
-| Rescued by failover | 0 | 17 | 2 |
-| Avg attempts per transaction | 1.00 | 1.58 | 1.20 |
-
-The fixed-order scenario shows the gain from failover alone: 17 of the 24
-transactions a single acquirer declined were approved by AcquirerTwo or
-AcquirerThree. Dynamic ranking needs 24% fewer acquirer calls, because once
-AcquirerOne starts declining, later transactions go to an acquirer that
-approves them first time. AcquirerThree approves 80% at random, so the
-multi-acquirer approval rates move by a few points between runs. The gap
-between 86% and 80% is chance, not an effect of ranking.
-
-The results are in three places:
-
-- [`METRICS.md`](METRICS.md): the full comparison, example attempt chains and
-  the mock acquirer rules
-- [`evidence/`](evidence/): the raw authorization log, analytics and server
-  output for each scenario
-- [`backend/integration-tests/report.html`](backend/integration-tests/report.html)
-  ([rendered](https://htmlpreview.github.io/?https://github.com/jurgiskg/yuno-challenge/blob/main/backend/integration-tests/report.html)):
-  every attempt chain side by side
-
-To reproduce, run `make integration-test OUT=../evidence` from `backend/`.
-That regenerates the report and the evidence. `METRICS.md` is written by hand
-from the committed run, so update it as well if you commit a new run.
+[`METRICS.md`](METRICS.md) compares a single acquirer, three acquirers in a
+fixed order and three with dynamic ranking. It includes example attempt
+chains. The raw logs are in [`evidence/`](evidence/), and every chain is in
+[`report.html`](https://htmlpreview.github.io/?https://github.com/jurgiskg/yuno-challenge/blob/main/backend/integration-tests/report.html).
 
 ## Architecture
 
-The code lives in a single Go module (`backend/`). Packages are grouped by
-domain, not by technical layer. Each domain package holds its own HTTP
-controller, DTOs, models and logic.
+One Go module in `backend/`, with packages grouped by domain.
 
 ```
 backend/
-├── main.go                 wiring: config, acquirers, processor, routes
-├── authorization/          authorization domain
-├── acquirer/               acquirer domain
-│   ├── acquirer.go         Acquirer interface, Rules, simulated issuer checks
-│   ├── acq1/               AcquirerOne
-│   ├── acq2/               AcquirerTwo
-│   └── acq3/               AcquirerThree
-├── processor/              failover engine
-│   └── ranking/            orders acquirers by recent approval rate
-├── shared/                 code shared across domains
-│   ├── country/            ISO 3166-1 alpha-2 codes
-│   └── sharedgin/          Gin middleware (API key) and error responses
-├── testdata/               sample requests and the mock acquirer rules
-└── integration-tests/      acceptance test + HTML report
+├── main.go             wiring: config, acquirers, processor, routes
+├── authorization/      request validation, Transaction/Attempt models, decline reasons,
+│                       in-memory store, analytics, HTTP controller
+├── acquirer/           Acquirer interface, Rules, simulated issuer checks
+│   └── acq1, acq2, acq3/   mock AcquirerOne, AcquirerTwo, AcquirerThree
+├── processor/          failover engine
+│   └── ranking/        orders acquirers by recent approval rate
+├── shared/
+│   ├── country/        ISO 3166-1 alpha-2 codes
+│   └── sharedgin/      API key middleware, error responses
+├── testdata/           sample requests and mock acquirer rules
+└── integration-tests/  acceptance test and HTML report
 ```
 
-At the repo root, `METRICS.md` has the metrics summary, `evidence/` has the
-logs from the committed run, and `infra/` has the Dockerfile and Render
-Blueprint.
-
-### `authorization`: the authorization domain
-
-Holds everything about an authorization request and its outcome:
-
-- request validation (countries MX, CO, BR, CL and their local currencies,
-  card number, expiry)
-- the `Transaction` and `Attempt` models, which record the full attempt chain
-- `DeclineReason` values and which of them are retriable
-- the in-memory `Store`, the analytics summary, and the HTTP controller
-
-The controller depends on a small `Processor` interface rather than on the
-processor package. `authorization` imports neither `acquirer` nor
-`processor`, so both can depend on it without an import cycle.
-
-### `acquirer`: the acquirer domain
-
-Every acquirer implements the `Acquirer` interface:
-
-```go
-type Acquirer interface {
-    // Name identifies the acquirer in routing config and attempt logs.
-    Name() string
-    Authorize(ctx context.Context, req authorization.Request) AuthorizationResponse
-}
-```
-
-`acq1`, `acq2` and `acq3` are the mock implementations. Each one is configured
-with `Rules` that decide which requests it approves: accepted countries,
-accepted BIN prefixes, or a random success rate. Each one also runs the shared
-simulated issuer checks (expired, stolen or invalid card, insufficient funds).
-To add an acquirer, create a new subpackage that implements the interface and
-register it in `main.go`.
-
-### `processor`: the failover engine
-
-`processor.Processor` routes a request across acquirers and implements
-`authorization.Processor`. It only knows acquirers through the `Acquirer`
-interface. For each request it:
-
-1. takes the current acquirer order from `ranking`
-2. calls each acquirer in turn, with a 2 s per-attempt timeout that counts as
-   a retriable `TIMEOUT`
-3. stops at the first approval or the first non-retriable decline
-4. feeds each approval or retriable decline back into the ranking (issuer
-   declines are not counted against the acquirer)
-5. saves the transaction with its attempt chain to the store
-
-`processor/ranking` scores each acquirer with an exponentially weighted moving
-average of its recent outcomes. The score decays back towards 1 over time, so
-an acquirer that starts declining moves down the order automatically and can
-recover once it stops getting traffic. Set `DYNAMIC_RANKING=false` to keep
-the configured order, which measures failover on its own.
-
-The brief also suggests ranking by country and card BIN. Those factors aren't
-implemented: the ranking only uses each acquirer's recent performance across
-all traffic.
-
-### `shared`: cross-domain helpers
-
-`shared/country` holds the ISO 3166-1 alpha-2 country codes used in requests
-and acquirer rules. `shared/sharedgin` holds the Gin API key middleware and
-the common error response format.
+- **`acquirer`:** each mock acquirer applies its `Rules` (accepted countries,
+  accepted BIN prefixes or a random success rate), then the shared issuer
+  checks (expired, stolen or invalid card, insufficient funds).
+- **`processor`:** takes the order from `ranking` and calls each acquirer
+  with a 2 s timeout, which counts as a retriable `TIMEOUT`. It stops at the
+  first approval or non-retriable decline and saves the attempt chain. Only
+  approvals and retriable declines feed the ranking.
+- **`processor/ranking`:** scores each acquirer with an exponentially
+  weighted moving average of recent outcomes. Scores decay back towards 1, so
+  a demoted acquirer recovers once it stops getting traffic.
+- **`authorization`:** imports neither `acquirer` nor `processor`, which
+  avoids an import cycle. Its controller depends on a small `Processor`
+  interface.
 
 ## Tradeoffs
 
-This is an interview task, so a few things are simpler than they would be in
-production.
-
-- **No real database.** Transactions live in the in-memory `Store` and the
-  ranking scores live in memory too. That keeps the service a single binary
-  with nothing to provision, but a restart clears everything and the state
-  can't be shared between instances. A real deployment would put the
-  authorization log in a database behind the same `Store` methods, and keep
-  the ranking in something shared such as Redis.
-- **Layers are kept together inside each domain.** Each domain package holds
-  its controller, DTOs, models, logic and storage side by side. In a bigger
-  project each domain would be split into sublayers, for example
-  `authorization/http` for the controller and DTOs and `authorization/repo`
-  for storage, with the domain logic in between. With only a few files per
-  domain, the extra packages would add indirection without making the code
-  easier to follow.
-- **Shared code has a single consumer.** `shared/` holds code that isn't tied
-  to one domain, such as country codes, the API key middleware and the error
-  response format. In a monorepo with several services, these packages would
-  be reused across them. Here there is only one API, so `shared/` lives inside
-  the `backend` module rather than in its own module.
-- **Smart ranking is incomplete.** `processor/ranking` orders acquirers by one
-  signal: a single global moving average of approvals versus retriable
-  declines. A real router would rank on more criteria, such as approval rate
-  per country, currency, card BIN or card brand, acquirer latency and timeout
-  rate, transaction fees, and merchant-specific agreements. It would also
-  skip acquirers that can't handle a request at all, instead of learning
-  that from declines.
+- **No real database.** The authorization log and the ranking scores are in
+  memory, so a restart clears them and they can't be shared between
+  instances. In production the log would go in a database behind the same
+  `Store` methods, and the ranking in shared storage such as Redis.
+- **Layers are kept together inside each domain.** A bigger project would
+  split each domain, for example into `authorization/http` and
+  `authorization/repo`. With a few files per domain, that would only add
+  indirection.
+- **`shared/` has a single consumer.** In a monorepo it would be its own
+  module reused across services.
+- **Smart ranking is incomplete.** It uses one signal, a global approval
+  rate. A real router would also rank by country, currency, BIN or card
+  brand, latency, fees and merchant agreements. It would skip acquirers that
+  can't handle a request, rather than learning that from declines.
+- **`400` for a declined authorization is debatable** and should be agreed
+  with the merchant. A `500` could also be argued, because the request failed
+  at third parties (the acquirers), not because of a problem in our code.
+  The same `400` is returned for invalid requests, and the response body
+  tells the two apart.
+- **Acquirer rules are hardcoded in `testdata`.** A mock acquirer takes its
+  `Rules` as configuration, so the rules could be loaded from a config file
+  or env vars instead.
+- **`acq1`, `acq2` and `acq3` are redundant.** They differ only in name. A
+  single mock acquirer whose `New()` takes a name along with the `Rules`
+  would be enough.
