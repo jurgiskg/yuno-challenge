@@ -11,7 +11,7 @@ services:
     dockerContext: ./backend
     dockerfilePath: ./infra/Dockerfile
     healthCheckPath: /v1/health
-    # Skip deploys for frontend/docs-only commits.
+    # Skip deploys for docs-only commits.
     buildFilter:
       paths:
         - backend/**
