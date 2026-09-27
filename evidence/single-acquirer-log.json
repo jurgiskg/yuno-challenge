@@ -1,0 +1,1178 @@
+{
+  "transactions": [
+    {
+      "id": "txn_0711f67bba1a876d",
+      "createdAt": "2026-09-27T14:10:21.677846+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "453201",
+      "last4": "1529",
+      "amountMinor": 817794200,
+      "currency": "COP",
+      "country": "CO",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.67785+03:00",
+          "durationMs": 0.006,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_14daf779c5c70100",
+      "createdAt": "2026-09-27T14:10:21.678337+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "636368",
+      "last4": "6716",
+      "amountMinor": 34522,
+      "currency": "BRL",
+      "country": "BR",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.678343+03:00",
+          "durationMs": 0.003,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_6db59297662e04f3",
+      "createdAt": "2026-09-27T14:10:21.678526+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "476134",
+      "last4": "7324",
+      "amountMinor": 1125030,
+      "currency": "CLP",
+      "country": "CL",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.678527+03:00",
+          "durationMs": 0.001,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_83066481f9168338",
+      "createdAt": "2026-09-27T14:10:21.678665+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "606282",
+      "last4": "4687",
+      "amountMinor": 226773,
+      "currency": "BRL",
+      "country": "BR",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.678666+03:00",
+          "durationMs": 0.003,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_a5f0feb7fdfb0163",
+      "createdAt": "2026-09-27T14:10:21.678845+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "522860",
+      "last4": "5378",
+      "amountMinor": 663736700,
+      "currency": "COP",
+      "country": "CO",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.678846+03:00",
+          "durationMs": 0.001,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_9332d1c9475a1dc3",
+      "createdAt": "2026-09-27T14:10:21.678972+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "377752",
+      "last4": "7138",
+      "amountMinor": 1792655,
+      "currency": "CLP",
+      "country": "CL",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.678973+03:00",
+          "durationMs": 0.001,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_b0c1b0bcb33b480f",
+      "createdAt": "2026-09-27T14:10:21.679103+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "453201",
+      "last4": "2462",
+      "amountMinor": 530744,
+      "currency": "BRL",
+      "country": "BR",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.679105+03:00",
+          "durationMs": 0.002,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_d582c5c3361e975c",
+      "createdAt": "2026-09-27T14:10:21.679253+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "476134",
+      "last4": "8342",
+      "amountMinor": 185201100,
+      "currency": "COP",
+      "country": "CO",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.679254+03:00",
+          "durationMs": 0.001,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_1bb33f6f27c4bb0f",
+      "createdAt": "2026-09-27T14:10:21.67938+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "522860",
+      "last4": "3401",
+      "amountMinor": 1614751,
+      "currency": "CLP",
+      "country": "CL",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.679381+03:00",
+          "durationMs": 0.001,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_5454a098dd8769b0",
+      "createdAt": "2026-09-27T14:10:21.679512+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "522860",
+      "last4": "0107",
+      "amountMinor": 622301,
+      "currency": "BRL",
+      "country": "BR",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.679513+03:00",
+          "durationMs": 0.001,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_7167d02179abf41c",
+      "createdAt": "2026-09-27T14:10:21.67967+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "453201",
+      "last4": "1259",
+      "amountMinor": 698123400,
+      "currency": "COP",
+      "country": "CO",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.679672+03:00",
+          "durationMs": 0.001,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_16a224b99a47747e",
+      "createdAt": "2026-09-27T14:10:21.679809+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "636368",
+      "last4": "9769",
+      "amountMinor": 632216,
+      "currency": "BRL",
+      "country": "BR",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.67981+03:00",
+          "durationMs": 0.001,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_ef527985adc1e335",
+      "createdAt": "2026-09-27T14:10:21.679934+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "476134",
+      "last4": "4125",
+      "amountMinor": 998684,
+      "currency": "CLP",
+      "country": "CL",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.679935+03:00",
+          "durationMs": 0.001,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_8f6ef35386867248",
+      "createdAt": "2026-09-27T14:10:21.680058+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "606282",
+      "last4": "3389",
+      "amountMinor": 241061,
+      "currency": "BRL",
+      "country": "BR",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.680059+03:00",
+          "durationMs": 0.001,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_f7fa7eef066327ba",
+      "createdAt": "2026-09-27T14:10:21.680175+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "522860",
+      "last4": "9080",
+      "amountMinor": 207050000,
+      "currency": "COP",
+      "country": "CO",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.680176+03:00",
+          "durationMs": 0.001,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_bed6bb55d15f90d9",
+      "createdAt": "2026-09-27T14:10:21.680294+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "377752",
+      "last4": "8795",
+      "amountMinor": 583514,
+      "currency": "CLP",
+      "country": "CL",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.680295+03:00",
+          "durationMs": 0.001,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_aa3f63b7c9f4f5b5",
+      "createdAt": "2026-09-27T14:10:21.680427+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "453201",
+      "last4": "0676",
+      "amountMinor": 517120,
+      "currency": "BRL",
+      "country": "BR",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.680428+03:00",
+          "durationMs": 0,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_a8a4f40416524414",
+      "createdAt": "2026-09-27T14:10:21.680547+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "476134",
+      "last4": "3205",
+      "amountMinor": 248332900,
+      "currency": "COP",
+      "country": "CO",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.680548+03:00",
+          "durationMs": 0.001,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_757ec6878f1b6cfb",
+      "createdAt": "2026-09-27T14:10:21.680715+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "522860",
+      "last4": "8932",
+      "amountMinor": 1811634,
+      "currency": "CLP",
+      "country": "CL",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.680716+03:00",
+          "durationMs": 0.001,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_52bd4fd488e914b4",
+      "createdAt": "2026-09-27T14:10:21.680853+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "522860",
+      "last4": "7394",
+      "amountMinor": 740918,
+      "currency": "BRL",
+      "country": "BR",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.680854+03:00",
+          "durationMs": 0.001,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_c9e580b5be753acc",
+      "createdAt": "2026-09-27T14:10:21.680976+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "453201",
+      "last4": "0175",
+      "amountMinor": 262047400,
+      "currency": "COP",
+      "country": "CO",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.680977+03:00",
+          "durationMs": 0.001,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_792504bfe588f25a",
+      "createdAt": "2026-09-27T14:10:21.681089+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "636368",
+      "last4": "9206",
+      "amountMinor": 444204,
+      "currency": "BRL",
+      "country": "BR",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.68109+03:00",
+          "durationMs": 0.001,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_0ef38c8aeb97bb4b",
+      "createdAt": "2026-09-27T14:10:21.681217+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "476134",
+      "last4": "9058",
+      "amountMinor": 1812245,
+      "currency": "CLP",
+      "country": "CL",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.681217+03:00",
+          "durationMs": 0.001,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_b57c52b108d70bfb",
+      "createdAt": "2026-09-27T14:10:21.681337+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "606282",
+      "last4": "7824",
+      "amountMinor": 930668,
+      "currency": "BRL",
+      "country": "BR",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.681338+03:00",
+          "durationMs": 0.001,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_13bd125f6ea6dd3b",
+      "createdAt": "2026-09-27T14:10:21.681445+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "522860",
+      "last4": "8773",
+      "amountMinor": 499252900,
+      "currency": "COP",
+      "country": "CO",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.681446+03:00",
+          "durationMs": 0.001,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_71d931d25f327a21",
+      "createdAt": "2026-09-27T14:10:21.681582+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "377752",
+      "last4": "7803",
+      "amountMinor": 1209874,
+      "currency": "CLP",
+      "country": "CL",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "APPROVED",
+      "acquirer": "AcquirerOne",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.681583+03:00",
+          "durationMs": 0.001,
+          "status": "APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "txn_87ddfface0329ebf",
+      "createdAt": "2026-09-27T14:10:21.681718+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "476134",
+      "last4": "1191",
+      "amountMinor": 664446,
+      "currency": "MXN",
+      "country": "MX",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "DECLINED",
+      "declineReason": "POLICY_DECLINE",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.681719+03:00",
+          "durationMs": 0.001,
+          "status": "DECLINED",
+          "declineReason": "POLICY_DECLINE"
+        }
+      ]
+    },
+    {
+      "id": "txn_58c1d002db0d2ac8",
+      "createdAt": "2026-09-27T14:10:21.681906+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "555544",
+      "last4": "8625",
+      "amountMinor": 413452200,
+      "currency": "COP",
+      "country": "CO",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "DECLINED",
+      "declineReason": "SUSPECTED_FRAUD",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.681907+03:00",
+          "durationMs": 0.001,
+          "status": "DECLINED",
+          "declineReason": "SUSPECTED_FRAUD"
+        }
+      ]
+    },
+    {
+      "id": "txn_f648a745acacbf44",
+      "createdAt": "2026-09-27T14:10:21.682053+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "522860",
+      "last4": "2447",
+      "amountMinor": 3093885,
+      "currency": "MXN",
+      "country": "MX",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "DECLINED",
+      "declineReason": "POLICY_DECLINE",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.682054+03:00",
+          "durationMs": 0.001,
+          "status": "DECLINED",
+          "declineReason": "POLICY_DECLINE"
+        }
+      ]
+    },
+    {
+      "id": "txn_c0b7c171e1e1735f",
+      "createdAt": "2026-09-27T14:10:21.682191+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "555544",
+      "last4": "4987",
+      "amountMinor": 719431,
+      "currency": "BRL",
+      "country": "BR",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "DECLINED",
+      "declineReason": "SUSPECTED_FRAUD",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.682192+03:00",
+          "durationMs": 0,
+          "status": "DECLINED",
+          "declineReason": "SUSPECTED_FRAUD"
+        }
+      ]
+    },
+    {
+      "id": "txn_f9d36049f810a3ee",
+      "createdAt": "2026-09-27T14:10:21.682304+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "377752",
+      "last4": "7348",
+      "amountMinor": 2360471,
+      "currency": "MXN",
+      "country": "MX",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "DECLINED",
+      "declineReason": "POLICY_DECLINE",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.682305+03:00",
+          "durationMs": 0.001,
+          "status": "DECLINED",
+          "declineReason": "POLICY_DECLINE"
+        }
+      ]
+    },
+    {
+      "id": "txn_bac882cb4f7c2642",
+      "createdAt": "2026-09-27T14:10:21.682468+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "555544",
+      "last4": "2385",
+      "amountMinor": 3214967,
+      "currency": "MXN",
+      "country": "MX",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "DECLINED",
+      "declineReason": "POLICY_DECLINE",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.682469+03:00",
+          "durationMs": 0.001,
+          "status": "DECLINED",
+          "declineReason": "POLICY_DECLINE"
+        }
+      ]
+    },
+    {
+      "id": "txn_3c6d38aad48f619f",
+      "createdAt": "2026-09-27T14:10:21.682626+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "476134",
+      "last4": "7395",
+      "amountMinor": 136216,
+      "currency": "MXN",
+      "country": "MX",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "DECLINED",
+      "declineReason": "POLICY_DECLINE",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.682627+03:00",
+          "durationMs": 0,
+          "status": "DECLINED",
+          "declineReason": "POLICY_DECLINE"
+        }
+      ]
+    },
+    {
+      "id": "txn_3960ca932ede4da0",
+      "createdAt": "2026-09-27T14:10:21.682748+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "555544",
+      "last4": "5334",
+      "amountMinor": 144541400,
+      "currency": "COP",
+      "country": "CO",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "DECLINED",
+      "declineReason": "SUSPECTED_FRAUD",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.682749+03:00",
+          "durationMs": 0.001,
+          "status": "DECLINED",
+          "declineReason": "SUSPECTED_FRAUD"
+        }
+      ]
+    },
+    {
+      "id": "txn_8a96957709959242",
+      "createdAt": "2026-09-27T14:10:21.682872+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "453201",
+      "last4": "4160",
+      "amountMinor": 2825653,
+      "currency": "MXN",
+      "country": "MX",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "DECLINED",
+      "declineReason": "POLICY_DECLINE",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.682873+03:00",
+          "durationMs": 0.001,
+          "status": "DECLINED",
+          "declineReason": "POLICY_DECLINE"
+        }
+      ]
+    },
+    {
+      "id": "txn_53609b77d161823d",
+      "createdAt": "2026-09-27T14:10:21.682999+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "555544",
+      "last4": "6201",
+      "amountMinor": 437984,
+      "currency": "CLP",
+      "country": "CL",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "DECLINED",
+      "declineReason": "SUSPECTED_FRAUD",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.683+03:00",
+          "durationMs": 0.001,
+          "status": "DECLINED",
+          "declineReason": "SUSPECTED_FRAUD"
+        }
+      ]
+    },
+    {
+      "id": "txn_1a140349b328fe38",
+      "createdAt": "2026-09-27T14:10:21.683135+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "453201",
+      "last4": "0588",
+      "amountMinor": 2466180,
+      "currency": "MXN",
+      "country": "MX",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "DECLINED",
+      "declineReason": "POLICY_DECLINE",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.683136+03:00",
+          "durationMs": 0.001,
+          "status": "DECLINED",
+          "declineReason": "POLICY_DECLINE"
+        }
+      ]
+    },
+    {
+      "id": "txn_01346d8d74f4af92",
+      "createdAt": "2026-09-27T14:10:21.683287+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "555544",
+      "last4": "3420",
+      "amountMinor": 1473394,
+      "currency": "CLP",
+      "country": "CL",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "DECLINED",
+      "declineReason": "SUSPECTED_FRAUD",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.683288+03:00",
+          "durationMs": 0,
+          "status": "DECLINED",
+          "declineReason": "SUSPECTED_FRAUD"
+        }
+      ]
+    },
+    {
+      "id": "txn_18f31dd75bb477e6",
+      "createdAt": "2026-09-27T14:10:21.683412+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "453201",
+      "last4": "5586",
+      "amountMinor": 1697024,
+      "currency": "MXN",
+      "country": "MX",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "DECLINED",
+      "declineReason": "POLICY_DECLINE",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.683412+03:00",
+          "durationMs": 0.001,
+          "status": "DECLINED",
+          "declineReason": "POLICY_DECLINE"
+        }
+      ]
+    },
+    {
+      "id": "txn_2fe43c880c958f66",
+      "createdAt": "2026-09-27T14:10:21.683508+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "555544",
+      "last4": "0821",
+      "amountMinor": 1696239,
+      "currency": "CLP",
+      "country": "CL",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "DECLINED",
+      "declineReason": "SUSPECTED_FRAUD",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.683509+03:00",
+          "durationMs": 0,
+          "status": "DECLINED",
+          "declineReason": "SUSPECTED_FRAUD"
+        }
+      ]
+    },
+    {
+      "id": "txn_c8526ffa8a26df05",
+      "createdAt": "2026-09-27T14:10:21.683656+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "453201",
+      "last4": "0814",
+      "amountMinor": 1922650,
+      "currency": "MXN",
+      "country": "MX",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "DECLINED",
+      "declineReason": "POLICY_DECLINE",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.68366+03:00",
+          "durationMs": 0.001,
+          "status": "DECLINED",
+          "declineReason": "POLICY_DECLINE"
+        }
+      ]
+    },
+    {
+      "id": "txn_2f1a4bab6d5e39e7",
+      "createdAt": "2026-09-27T14:10:21.683805+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "555544",
+      "last4": "8738",
+      "amountMinor": 1264187,
+      "currency": "CLP",
+      "country": "CL",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "DECLINED",
+      "declineReason": "SUSPECTED_FRAUD",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.683806+03:00",
+          "durationMs": 0.001,
+          "status": "DECLINED",
+          "declineReason": "SUSPECTED_FRAUD"
+        }
+      ]
+    },
+    {
+      "id": "txn_045cdb41f7c4ac43",
+      "createdAt": "2026-09-27T14:10:21.68396+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "453201",
+      "last4": "5317",
+      "amountMinor": 2797885,
+      "currency": "MXN",
+      "country": "MX",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "DECLINED",
+      "declineReason": "POLICY_DECLINE",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.683962+03:00",
+          "durationMs": 0,
+          "status": "DECLINED",
+          "declineReason": "POLICY_DECLINE"
+        }
+      ]
+    },
+    {
+      "id": "txn_8d97f3f7c30a8b0b",
+      "createdAt": "2026-09-27T14:10:21.684083+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "400000",
+      "last4": "0119",
+      "amountMinor": 621223800,
+      "currency": "COP",
+      "country": "CO",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "DECLINED",
+      "declineReason": "STOLEN_CARD",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.684083+03:00",
+          "durationMs": 0.002,
+          "status": "DECLINED",
+          "declineReason": "STOLEN_CARD"
+        }
+      ]
+    },
+    {
+      "id": "txn_e6a8aef6f0321b98",
+      "createdAt": "2026-09-27T14:10:21.684189+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "400000",
+      "last4": "9995",
+      "amountMinor": 94381,
+      "currency": "BRL",
+      "country": "BR",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "DECLINED",
+      "declineReason": "INSUFFICIENT_FUNDS",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.684191+03:00",
+          "durationMs": 0.001,
+          "status": "DECLINED",
+          "declineReason": "INSUFFICIENT_FUNDS"
+        }
+      ]
+    },
+    {
+      "id": "txn_58f1ed61903356cf",
+      "createdAt": "2026-09-27T14:10:21.684359+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "476134",
+      "last4": "4178",
+      "amountMinor": 671357,
+      "currency": "CLP",
+      "country": "CL",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "DECLINED",
+      "declineReason": "EXPIRED_CARD",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.68436+03:00",
+          "durationMs": 0.001,
+          "status": "DECLINED",
+          "declineReason": "EXPIRED_CARD"
+        }
+      ]
+    },
+    {
+      "id": "txn_1bd4adbfc8646998",
+      "createdAt": "2026-09-27T14:10:21.684499+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "522860",
+      "last4": "6220",
+      "amountMinor": 775490400,
+      "currency": "COP",
+      "country": "CO",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "DECLINED",
+      "declineReason": "EXPIRED_CARD",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.6845+03:00",
+          "durationMs": 0.001,
+          "status": "DECLINED",
+          "declineReason": "EXPIRED_CARD"
+        }
+      ]
+    },
+    {
+      "id": "txn_57a266895e0cb11a",
+      "createdAt": "2026-09-27T14:10:21.684625+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "400000",
+      "last4": "0119",
+      "amountMinor": 3658005,
+      "currency": "MXN",
+      "country": "MX",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "DECLINED",
+      "declineReason": "POLICY_DECLINE",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.684626+03:00",
+          "durationMs": 0.001,
+          "status": "DECLINED",
+          "declineReason": "POLICY_DECLINE"
+        }
+      ]
+    },
+    {
+      "id": "txn_4e1ccd1723e4ac65",
+      "createdAt": "2026-09-27T14:10:21.684752+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "400000",
+      "last4": "9995",
+      "amountMinor": 3582377,
+      "currency": "MXN",
+      "country": "MX",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "DECLINED",
+      "declineReason": "POLICY_DECLINE",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.684753+03:00",
+          "durationMs": 0.001,
+          "status": "DECLINED",
+          "declineReason": "POLICY_DECLINE"
+        }
+      ]
+    },
+    {
+      "id": "txn_9512fea5da5f5329",
+      "createdAt": "2026-09-27T14:10:21.684904+03:00",
+      "merchantId": "solarbazaar",
+      "bin": "522860",
+      "last4": "3509",
+      "amountMinor": 3493170,
+      "currency": "MXN",
+      "country": "MX",
+      "routingOrder": [
+        "AcquirerOne"
+      ],
+      "status": "DECLINED",
+      "declineReason": "POLICY_DECLINE",
+      "attempts": [
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:10:21.684905+03:00",
+          "durationMs": 0.001,
+          "status": "DECLINED",
+          "declineReason": "POLICY_DECLINE"
+        }
+      ]
+    }
+  ]
+}

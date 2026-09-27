@@ -1,0 +1,104 @@
+2026-09-27T14:10:21.673+0300	INFO	backend/main.go:67	Listening on :57851
+[GIN] 2026/09/27 - 14:10:21 | 200 | 145.75µs |       127.0.0.1 | GET      "/v1/health"
+2026-09-27T14:10:21.677+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_0711f67bba1a876d", "merchantId": "solarbazaar", "country": "CO", "bin": "453201", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(6.333µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 | 694.791µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.678+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_14daf779c5c70100", "merchantId": "solarbazaar", "country": "BR", "bin": "636368", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(3µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 | 59.834µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.678+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_6db59297662e04f3", "merchantId": "solarbazaar", "country": "CL", "bin": "476134", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(1.625µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 | 26.083µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.678+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_83066481f9168338", "merchantId": "solarbazaar", "country": "BR", "bin": "606282", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(3.083µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 | 32.166µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.678+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_a5f0feb7fdfb0163", "merchantId": "solarbazaar", "country": "CO", "bin": "522860", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(1.5µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 | 25.416µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.678+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_9332d1c9475a1dc3", "merchantId": "solarbazaar", "country": "CL", "bin": "377752", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(1.75µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 | 21.917µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.679+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_b0c1b0bcb33b480f", "merchantId": "solarbazaar", "country": "BR", "bin": "453201", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(2.25µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 | 41.083µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.679+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_d582c5c3361e975c", "merchantId": "solarbazaar", "country": "CO", "bin": "476134", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(1.291µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 |  21.25µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.679+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_1bb33f6f27c4bb0f", "merchantId": "solarbazaar", "country": "CL", "bin": "522860", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(1.417µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 |     22µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.679+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_5454a098dd8769b0", "merchantId": "solarbazaar", "country": "BR", "bin": "522860", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(1.667µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 | 28.042µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.679+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_7167d02179abf41c", "merchantId": "solarbazaar", "country": "CO", "bin": "453201", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(1.458µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 | 35.458µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.679+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_16a224b99a47747e", "merchantId": "solarbazaar", "country": "BR", "bin": "636368", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(1.333µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 | 20.125µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.679+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_ef527985adc1e335", "merchantId": "solarbazaar", "country": "CL", "bin": "476134", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(1.375µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 | 26.584µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.680+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_8f6ef35386867248", "merchantId": "solarbazaar", "country": "BR", "bin": "606282", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(1.125µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 |   23.5µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.680+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_f7fa7eef066327ba", "merchantId": "solarbazaar", "country": "CO", "bin": "522860", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(1.125µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 |     21µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.680+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_bed6bb55d15f90d9", "merchantId": "solarbazaar", "country": "CL", "bin": "377752", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(1.208µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 | 23.667µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.680+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_aa3f63b7c9f4f5b5", "merchantId": "solarbazaar", "country": "BR", "bin": "453201", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(958ns)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 |   16.5µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.680+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_a8a4f40416524414", "merchantId": "solarbazaar", "country": "CO", "bin": "476134", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(1µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 | 23.333µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.680+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_757ec6878f1b6cfb", "merchantId": "solarbazaar", "country": "CL", "bin": "522860", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(1.667µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 | 32.459µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.680+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_52bd4fd488e914b4", "merchantId": "solarbazaar", "country": "BR", "bin": "522860", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(1.083µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 | 22.625µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.680+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_c9e580b5be753acc", "merchantId": "solarbazaar", "country": "CO", "bin": "453201", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(1.291µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 | 20.875µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.681+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_792504bfe588f25a", "merchantId": "solarbazaar", "country": "BR", "bin": "636368", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(1.208µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 | 23.875µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.681+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_0ef38c8aeb97bb4b", "merchantId": "solarbazaar", "country": "CL", "bin": "476134", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(1.125µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 | 16.542µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.681+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_b57c52b108d70bfb", "merchantId": "solarbazaar", "country": "BR", "bin": "606282", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(1.125µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 |  21.25µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.681+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_13bd125f6ea6dd3b", "merchantId": "solarbazaar", "country": "CO", "bin": "522860", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(1.208µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 | 33.709µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.681+0300	INFO	processor/processor.go:172	Transaction approved by AcquirerOne	{"transactionId": "txn_71d931d25f327a21", "merchantId": "solarbazaar", "country": "CL", "bin": "377752", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:APPROVED(1.166µs)"]}
+[GIN] 2026/09/27 - 14:10:21 | 200 | 21.125µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.681+0300	INFO	processor/processor.go:175	Transaction declined after 1 attempts	{"transactionId": "txn_87ddfface0329ebf", "merchantId": "solarbazaar", "country": "MX", "bin": "476134", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:POLICY_DECLINE(1.042µs)"], "declineReason": "POLICY_DECLINE"}
+[GIN] 2026/09/27 - 14:10:21 | 402 | 18.917µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.681+0300	INFO	processor/processor.go:175	Transaction declined after 1 attempts	{"transactionId": "txn_58c1d002db0d2ac8", "merchantId": "solarbazaar", "country": "CO", "bin": "555544", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:SUSPECTED_FRAUD(1µs)"], "declineReason": "SUSPECTED_FRAUD"}
+[GIN] 2026/09/27 - 14:10:21 | 402 | 22.292µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.682+0300	INFO	processor/processor.go:175	Transaction declined after 1 attempts	{"transactionId": "txn_f648a745acacbf44", "merchantId": "solarbazaar", "country": "MX", "bin": "522860", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:POLICY_DECLINE(1.125µs)"], "declineReason": "POLICY_DECLINE"}
+[GIN] 2026/09/27 - 14:10:21 | 402 | 25.167µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.682+0300	INFO	processor/processor.go:175	Transaction declined after 1 attempts	{"transactionId": "txn_c0b7c171e1e1735f", "merchantId": "solarbazaar", "country": "BR", "bin": "555544", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:SUSPECTED_FRAUD(917ns)"], "declineReason": "SUSPECTED_FRAUD"}
+[GIN] 2026/09/27 - 14:10:21 | 402 | 25.417µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.682+0300	INFO	processor/processor.go:175	Transaction declined after 1 attempts	{"transactionId": "txn_f9d36049f810a3ee", "merchantId": "solarbazaar", "country": "MX", "bin": "377752", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:POLICY_DECLINE(1.084µs)"], "declineReason": "POLICY_DECLINE"}
+[GIN] 2026/09/27 - 14:10:21 | 402 | 21.125µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.682+0300	INFO	processor/processor.go:175	Transaction declined after 1 attempts	{"transactionId": "txn_bac882cb4f7c2642", "merchantId": "solarbazaar", "country": "MX", "bin": "555544", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:POLICY_DECLINE(1µs)"], "declineReason": "POLICY_DECLINE"}
+[GIN] 2026/09/27 - 14:10:21 | 402 |  26.25µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.682+0300	INFO	processor/processor.go:175	Transaction declined after 1 attempts	{"transactionId": "txn_3c6d38aad48f619f", "merchantId": "solarbazaar", "country": "MX", "bin": "476134", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:POLICY_DECLINE(959ns)"], "declineReason": "POLICY_DECLINE"}
+[GIN] 2026/09/27 - 14:10:21 | 402 | 22.125µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.682+0300	INFO	processor/processor.go:175	Transaction declined after 1 attempts	{"transactionId": "txn_3960ca932ede4da0", "merchantId": "solarbazaar", "country": "CO", "bin": "555544", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:SUSPECTED_FRAUD(1.208µs)"], "declineReason": "SUSPECTED_FRAUD"}
+[GIN] 2026/09/27 - 14:10:21 | 402 | 20.375µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.682+0300	INFO	processor/processor.go:175	Transaction declined after 1 attempts	{"transactionId": "txn_8a96957709959242", "merchantId": "solarbazaar", "country": "MX", "bin": "453201", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:POLICY_DECLINE(1.125µs)"], "declineReason": "POLICY_DECLINE"}
+[GIN] 2026/09/27 - 14:10:21 | 402 | 24.584µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.683+0300	INFO	processor/processor.go:175	Transaction declined after 1 attempts	{"transactionId": "txn_53609b77d161823d", "merchantId": "solarbazaar", "country": "CL", "bin": "555544", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:SUSPECTED_FRAUD(1.125µs)"], "declineReason": "SUSPECTED_FRAUD"}
+[GIN] 2026/09/27 - 14:10:21 | 402 | 16.083µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.683+0300	INFO	processor/processor.go:175	Transaction declined after 1 attempts	{"transactionId": "txn_1a140349b328fe38", "merchantId": "solarbazaar", "country": "MX", "bin": "453201", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:POLICY_DECLINE(1µs)"], "declineReason": "POLICY_DECLINE"}
+[GIN] 2026/09/27 - 14:10:21 | 402 | 23.834µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.683+0300	INFO	processor/processor.go:175	Transaction declined after 1 attempts	{"transactionId": "txn_01346d8d74f4af92", "merchantId": "solarbazaar", "country": "CL", "bin": "555544", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:SUSPECTED_FRAUD(959ns)"], "declineReason": "SUSPECTED_FRAUD"}
+[GIN] 2026/09/27 - 14:10:21 | 402 | 24.125µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.683+0300	INFO	processor/processor.go:175	Transaction declined after 1 attempts	{"transactionId": "txn_18f31dd75bb477e6", "merchantId": "solarbazaar", "country": "MX", "bin": "453201", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:POLICY_DECLINE(1.125µs)"], "declineReason": "POLICY_DECLINE"}
+[GIN] 2026/09/27 - 14:10:21 | 402 | 17.917µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.683+0300	INFO	processor/processor.go:175	Transaction declined after 1 attempts	{"transactionId": "txn_2fe43c880c958f66", "merchantId": "solarbazaar", "country": "CL", "bin": "555544", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:SUSPECTED_FRAUD(958ns)"], "declineReason": "SUSPECTED_FRAUD"}
+[GIN] 2026/09/27 - 14:10:21 | 402 | 18.375µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.683+0300	INFO	processor/processor.go:175	Transaction declined after 1 attempts	{"transactionId": "txn_c8526ffa8a26df05", "merchantId": "solarbazaar", "country": "MX", "bin": "453201", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:POLICY_DECLINE(1.166µs)"], "declineReason": "POLICY_DECLINE"}
+[GIN] 2026/09/27 - 14:10:21 | 402 | 23.709µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.683+0300	INFO	processor/processor.go:175	Transaction declined after 1 attempts	{"transactionId": "txn_2f1a4bab6d5e39e7", "merchantId": "solarbazaar", "country": "CL", "bin": "555544", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:SUSPECTED_FRAUD(1.042µs)"], "declineReason": "SUSPECTED_FRAUD"}
+[GIN] 2026/09/27 - 14:10:21 | 402 | 17.958µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.683+0300	INFO	processor/processor.go:175	Transaction declined after 1 attempts	{"transactionId": "txn_045cdb41f7c4ac43", "merchantId": "solarbazaar", "country": "MX", "bin": "453201", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:POLICY_DECLINE(875ns)"], "declineReason": "POLICY_DECLINE"}
+[GIN] 2026/09/27 - 14:10:21 | 402 | 20.667µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.684+0300	INFO	processor/processor.go:175	Transaction declined after 1 attempts	{"transactionId": "txn_8d97f3f7c30a8b0b", "merchantId": "solarbazaar", "country": "CO", "bin": "400000", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:STOLEN_CARD(2.792µs)"], "declineReason": "STOLEN_CARD"}
+[GIN] 2026/09/27 - 14:10:21 | 402 | 21.167µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.684+0300	INFO	processor/processor.go:175	Transaction declined after 1 attempts	{"transactionId": "txn_e6a8aef6f0321b98", "merchantId": "solarbazaar", "country": "BR", "bin": "400000", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:INSUFFICIENT_FUNDS(1.334µs)"], "declineReason": "INSUFFICIENT_FUNDS"}
+[GIN] 2026/09/27 - 14:10:21 | 402 |   28.5µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.684+0300	INFO	processor/processor.go:175	Transaction declined after 1 attempts	{"transactionId": "txn_58f1ed61903356cf", "merchantId": "solarbazaar", "country": "CL", "bin": "476134", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:EXPIRED_CARD(1.125µs)"], "declineReason": "EXPIRED_CARD"}
+[GIN] 2026/09/27 - 14:10:21 | 402 | 18.875µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.684+0300	INFO	processor/processor.go:175	Transaction declined after 1 attempts	{"transactionId": "txn_1bd4adbfc8646998", "merchantId": "solarbazaar", "country": "CO", "bin": "522860", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:EXPIRED_CARD(1.291µs)"], "declineReason": "EXPIRED_CARD"}
+[GIN] 2026/09/27 - 14:10:21 | 402 | 23.167µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.684+0300	INFO	processor/processor.go:175	Transaction declined after 1 attempts	{"transactionId": "txn_57a266895e0cb11a", "merchantId": "solarbazaar", "country": "MX", "bin": "400000", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:POLICY_DECLINE(1.041µs)"], "declineReason": "POLICY_DECLINE"}
+[GIN] 2026/09/27 - 14:10:21 | 402 |     24µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.684+0300	INFO	processor/processor.go:175	Transaction declined after 1 attempts	{"transactionId": "txn_4e1ccd1723e4ac65", "merchantId": "solarbazaar", "country": "MX", "bin": "400000", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:POLICY_DECLINE(1µs)"], "declineReason": "POLICY_DECLINE"}
+[GIN] 2026/09/27 - 14:10:21 | 402 | 24.166µs |       127.0.0.1 | POST     "/v1/authorizations"
+2026-09-27T14:10:21.684+0300	INFO	processor/processor.go:175	Transaction declined after 1 attempts	{"transactionId": "txn_9512fea5da5f5329", "merchantId": "solarbazaar", "country": "MX", "bin": "522860", "routingOrder": ["AcquirerOne"], "attempts": 1, "chain": ["AcquirerOne:POLICY_DECLINE(1µs)"], "declineReason": "POLICY_DECLINE"}
+[GIN] 2026/09/27 - 14:10:21 | 402 | 17.041µs |       127.0.0.1 | POST     "/v1/authorizations"
+[GIN] 2026/09/27 - 14:10:21 | 200 | 146.541µs |       127.0.0.1 | GET      "/v1/authorizations"
+[GIN] 2026/09/27 - 14:10:21 | 200 | 33.291µs |       127.0.0.1 | GET      "/v1/analytics"

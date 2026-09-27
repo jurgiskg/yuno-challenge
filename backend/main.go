@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strconv"
 	"strings"
 	"syscall"
 	"time"
@@ -52,7 +53,11 @@ func main() {
 		logger.Fatalf("Invalid ACQUIRER_ORDER: %v", err)
 	}
 	store := authorization.NewStore()
-	proc, err := processor.New(acquirers, store, logger)
+	dynamicRanking, err := envBool("DYNAMIC_RANKING", true)
+	if err != nil {
+		logger.Fatalf("Invalid DYNAMIC_RANKING: %v", err)
+	}
+	proc, err := processor.New(acquirers, dynamicRanking, store, logger)
 	if err != nil {
 		logger.Fatalf("Failed to create processor: %v", err)
 	}
@@ -126,6 +131,15 @@ func routedAcquirers(order string) ([]acquirer.Acquirer, error) {
 		routed = append(routed, a)
 	}
 	return routed, nil
+}
+
+// envBool parses the named env var as a bool, returning def when it is unset.
+func envBool(name string, def bool) (bool, error) {
+	v := strings.TrimSpace(os.Getenv(name))
+	if v == "" {
+		return def, nil
+	}
+	return strconv.ParseBool(v)
 }
 
 func newLogger() *zap.SugaredLogger {

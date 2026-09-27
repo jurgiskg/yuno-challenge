@@ -1,0 +1,59 @@
+{
+  "transactions": 50,
+  "approved": 26,
+  "approvalRate": 0.52,
+  "approvedAfterFailover": 0,
+  "averageAttempts": 1,
+  "declineReasons": [
+    {
+      "reason": "POLICY_DECLINE",
+      "count": 13
+    },
+    {
+      "reason": "SUSPECTED_FRAUD",
+      "count": 7
+    },
+    {
+      "reason": "EXPIRED_CARD",
+      "count": 2
+    },
+    {
+      "reason": "INSUFFICIENT_FUNDS",
+      "count": 1
+    },
+    {
+      "reason": "STOLEN_CARD",
+      "count": 1
+    }
+  ],
+  "acquirers": [
+    {
+      "acquirer": "AcquirerOne",
+      "attempts": 50,
+      "approved": 26,
+      "approvalRate": 0.52,
+      "declineReasons": [
+        {
+          "reason": "POLICY_DECLINE",
+          "count": 13
+        },
+        {
+          "reason": "SUSPECTED_FRAUD",
+          "count": 7
+        },
+        {
+          "reason": "EXPIRED_CARD",
+          "count": 2
+        },
+        {
+          "reason": "INSUFFICIENT_FUNDS",
+          "count": 1
+        },
+        {
+          "reason": "STOLEN_CARD",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

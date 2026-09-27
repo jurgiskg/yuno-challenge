@@ -11,7 +11,7 @@ import (
 )
 
 // Processor authorizes a transaction across the acquirers; implemented by
-// *acquirer.Processor.
+// *processor.Processor.
 type Processor interface {
 	Process(ctx context.Context, req Request) Transaction
 }
@@ -34,7 +34,7 @@ func NewController(processor Processor, store *Store) Controller {
 // @Param request body CreateAuthorizationRequest true "Authorization request"
 // @Success 200 {object} AuthorizationResponse "Approved"
 // @Failure 400 {object} sharedgin.ErrorResponse
-// @Failure 500 {object} AuthorizationResponse "Declined by every acquirer tried"
+// @Failure 402 {object} AuthorizationResponse "Declined: a hard decline, or every acquirer tried declined"
 // @Router /authorizations [post]
 func (ctrl Controller) CreateAuthorization(ctx *gin.Context) {
 	var req CreateAuthorizationRequest
@@ -51,7 +51,7 @@ func (ctrl Controller) CreateAuthorization(ctx *gin.Context) {
 	txn := ctrl.processor.Process(ctx.Request.Context(), req.ToRequest())
 	status := http.StatusOK
 	if !txn.Approved {
-		status = http.StatusInternalServerError
+		status = http.StatusPaymentRequired
 	}
 	ctx.JSON(status, NewAuthorizationResponse(txn))
 }

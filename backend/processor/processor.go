@@ -24,8 +24,11 @@ const DefaultAttemptTimeout = 2 * time.Second
 // Processor authorizes transactions by trying acquirers in ranking order until
 // one approves, failing over only on retriable declines.
 type Processor struct {
-	acquirers      map[string]acquirer.Acquirer
-	ranking        *ranking.Ranking
+	acquirers map[string]acquirer.Acquirer
+	ranking   *ranking.Ranking
+	// dynamicRanking feeds outcomes into the ranking. When false the configured
+	// order is always used, which isolates the effect of failover alone.
+	dynamicRanking bool
 	store          *authorization.Store
 	attemptTimeout time.Duration
 	logger         *zap.SugaredLogger
@@ -33,9 +36,9 @@ type Processor struct {
 }
 
 // New returns a processor over the given acquirers. Their order is the
-// configured routing order: it is used as-is until the ranking has recorded
-// enough outcomes to reorder them.
-func New(acquirers []acquirer.Acquirer, store *authorization.Store, logger *zap.SugaredLogger) (*Processor, error) {
+// configured routing order. With dynamicRanking it is used as-is until the
+// ranking has recorded enough outcomes to reorder them; without, it never changes.
+func New(acquirers []acquirer.Acquirer, dynamicRanking bool, store *authorization.Store, logger *zap.SugaredLogger) (*Processor, error) {
 	names := make([]string, len(acquirers))
 	byName := make(map[string]acquirer.Acquirer, len(acquirers))
 	for i, a := range acquirers {
@@ -52,6 +55,7 @@ func New(acquirers []acquirer.Acquirer, store *authorization.Store, logger *zap.
 	return &Processor{
 		acquirers:      byName,
 		ranking:        rank,
+		dynamicRanking: dynamicRanking,
 		store:          store,
 		attemptTimeout: DefaultAttemptTimeout,
 		logger:         logger,
@@ -138,6 +142,9 @@ func (p *Processor) attempt(ctx context.Context, acq acquirer.Acquirer, req auth
 }
 
 func (p *Processor) record(name string, approved bool) {
+	if !p.dynamicRanking {
+		return
+	}
 	if err := p.ranking.Record(name, approved); err != nil {
 		p.logger.Errorw("Failed to record acquirer outcome", "acquirer", name, "error", err)
 	}

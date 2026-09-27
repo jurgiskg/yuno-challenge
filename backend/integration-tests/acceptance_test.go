@@ -4,7 +4,7 @@
 // much multi-acquirer failover improves the approval rate over a single acquirer.
 //
 // Each scenario builds and starts the real server with its own ACQUIRER_ORDER
-// (so in-memory state starts fresh), submits the sample authorization requests,
+// and DYNAMIC_RANKING (so in-memory state starts fresh), submits the sample authorization requests,
 // then fetches the full authorization log and the analytics summary. The test
 // analyzes the log itself, cross-checks it against the server's summary, and
 // writes an HTML comparison report once every scenario has run (overwritten on
@@ -63,6 +63,8 @@ type scenario struct {
 	name          string
 	description   string
 	acquirerOrder string
+	// fixedOrder turns dynamic ranking off, so failover alone is measured.
+	fixedOrder bool
 }
 
 // scenarios run in order; the first is the baseline the others are compared to.
@@ -71,6 +73,12 @@ var scenarios = []scenario{
 		name:          "single-acquirer",
 		description:   "Single acquirer",
 		acquirerOrder: "AcquirerOne",
+	},
+	{
+		name:          "multi-acquirer-fixed",
+		description:   "Multi-acquirer, fixed order",
+		acquirerOrder: "AcquirerOne,AcquirerTwo,AcquirerThree",
+		fixedOrder:    true,
 	},
 	{
 		name:          "multi-acquirer",
@@ -219,6 +227,7 @@ func startServer(t *testing.T, binary string, sc scenario) *server {
 		"PORT="+port,
 		"API_KEY="+localAPIKey,
 		"ACQUIRER_ORDER="+sc.acquirerOrder,
+		fmt.Sprintf("DYNAMIC_RANKING=%t", !sc.fixedOrder),
 		"GIN_MODE=release",
 	)
 	cmd.Stdout = srv.output
@@ -319,7 +328,7 @@ func (s *server) get(t *testing.T, path string, into any) {
 }
 
 // submit sends the requests one at a time, in order, so the ranking sees them
-// in sequence. The service answers 200 when approved and 500 when declined.
+// in sequence. The service answers 200 when approved and 402 when declined.
 func submit(t *testing.T, srv *server, reqs []authorization.CreateAuthorizationRequest) []authorization.AuthorizationResponse {
 	t.Helper()
 	responses := make([]authorization.AuthorizationResponse, len(reqs))
@@ -329,7 +338,7 @@ func submit(t *testing.T, srv *server, reqs []authorization.CreateAuthorizationR
 		if err := json.Unmarshal(body, &resp); err != nil {
 			t.Fatalf("request %d: status %d, undecodable body: %s", i, status, body)
 		}
-		wantStatus := http.StatusInternalServerError
+		wantStatus := http.StatusPaymentRequired
 		if resp.Status == authorization.StatusApproved {
 			wantStatus = http.StatusOK
 		}

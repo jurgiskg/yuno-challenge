@@ -7,6 +7,11 @@ retriable: `SUSPECTED_FRAUD`, `POLICY_DECLINE`, `TIMEOUT` or `GENERIC_DECLINE`.
 Issuer declines such as `STOLEN_CARD` or `INSUFFICIENT_FUNDS` stop the chain
 right away, because every acquirer would decline them.
 
+**Results:** on the 50 sample transactions, a single acquirer approves 52%.
+Failover across three acquirers approves 80% (+28 pp). See
+[`METRICS.md`](METRICS.md) for the full comparison and example attempt chains,
+and [`evidence/`](evidence/) for the raw logs.
+
 ## Running locally
 
 You need Go 1.25+. Everything below runs from `backend/`.
@@ -29,6 +34,7 @@ API_KEY=dev-key go run .
 | `API_KEY` | _(empty)_ | Required `X-API-Key` value for `/v1/*` except `/v1/health`. Must be set when `GIN_MODE=release` |
 | `GIN_MODE` | `debug` | `release` in the Docker image |
 | `ACQUIRER_ORDER` | `AcquirerOne,AcquirerTwo,AcquirerThree` | Initial routing order. A subset such as `AcquirerOne` gives the single-acquirer baseline |
+| `DYNAMIC_RANKING` | `true` | `false` keeps `ACQUIRER_ORDER` fixed instead of reordering acquirers by recent approval rate |
 
 Example request:
 
@@ -51,7 +57,7 @@ it. Both attempts appear in the response.
 | Method | Path | Description |
 |---|---|---|
 | `GET` | `/v1/health` | Liveness check (public) |
-| `POST` | `/v1/authorizations` | Authorize a transaction. Returns `200` if approved, `500` if every acquirer tried declined it |
+| `POST` | `/v1/authorizations` | Authorize a transaction. Returns `200` if approved, `402` if declined (hard decline, or every acquirer tried declined) |
 | `GET` | `/v1/authorizations` | Full authorization log with each transaction's attempt chain |
 | `GET` | `/v1/analytics` | Overall and per-acquirer approval rates, average attempts and decline reasons |
 
@@ -59,9 +65,14 @@ it. Both attempts appear in the response.
 
 ```sh
 make test               # unit tests
-make integration-test   # starts the real server per scenario and prints the
-                        # single- vs multi-acquirer acceptance report
+make integration-test   # starts the real server per scenario and writes the
+                        # acceptance report to integration-tests/report.html
+make integration-test OUT=../evidence   # also saves logs and analytics per scenario
 ```
+
+The integration test runs three scenarios: a single acquirer, three acquirers
+in fixed order, and three acquirers with dynamic ranking.
+[`METRICS.md`](METRICS.md) summarizes the committed run.
 
 ### Docker
 
@@ -108,6 +119,10 @@ backend/
 ├── testdata/               sample requests and the mock acquirer rules
 └── integration-tests/      acceptance test + HTML report
 ```
+
+At the repo root, `METRICS.md` has the metrics summary, `evidence/` has the
+logs from the committed run, and `infra/` has the Dockerfile and Render
+Blueprint.
 
 ### `authorization`: the authorization domain
 
@@ -159,7 +174,12 @@ interface. For each request it:
 `processor/ranking` scores each acquirer with an exponentially weighted moving
 average of its recent outcomes. The score decays back towards 1 over time, so
 an acquirer that starts declining moves down the order automatically and can
-recover once it stops getting traffic.
+recover once it stops getting traffic. Set `DYNAMIC_RANKING=false` to keep
+the configured order, which measures failover on its own.
+
+The brief also suggests ranking by country and card BIN. Those factors aren't
+implemented: the ranking only uses each acquirer's recent performance across
+all traffic.
 
 ### `shared`: cross-domain helpers
 

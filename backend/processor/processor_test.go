@@ -36,12 +36,17 @@ func (s *stubAcquirer) Authorize(ctx context.Context, _ authorization.Request) a
 
 func newTestProcessor(t *testing.T, acquirers ...*stubAcquirer) (*Processor, *authorization.Store) {
 	t.Helper()
+	return newTestProcessorWithRanking(t, true, acquirers...)
+}
+
+func newTestProcessorWithRanking(t *testing.T, dynamicRanking bool, acquirers ...*stubAcquirer) (*Processor, *authorization.Store) {
+	t.Helper()
 	list := make([]acquirer.Acquirer, len(acquirers))
 	for i, a := range acquirers {
 		list[i] = a
 	}
 	store := authorization.NewStore()
-	p, err := New(list, store, zap.NewNop().Sugar())
+	p, err := New(list, dynamicRanking, store, zap.NewNop().Sugar())
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
@@ -198,5 +203,18 @@ func TestProcessor_HardDeclinesDontAffectRanking(t *testing.T) {
 
 	if got, want := p.ranking.Order(), []string{"One", "Two"}; !slices.Equal(got, want) {
 		t.Fatalf("order = %v, want %v", got, want)
+	}
+}
+
+func TestProcessor_FixedOrderIgnoresOutcomes(t *testing.T) {
+	one := &stubAcquirer{name: "One", resp: acquirer.Declined(authorization.ReasonPolicyDecline)}
+	two := &stubAcquirer{name: "Two", resp: acquirer.Approved()}
+	p, _ := newTestProcessorWithRanking(t, false, one, two)
+
+	for range 5 {
+		txn := p.Process(context.Background(), testRequest)
+		if got, want := attemptSummary(txn), []string{"One:POLICY_DECLINE", "Two:"}; !slices.Equal(got, want) {
+			t.Fatalf("attempts = %v, want %v (configured order kept)", got, want)
+		}
 	}
 }
