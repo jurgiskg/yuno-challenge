@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Failover acceptance report</title>
+<style>
+  :root {
+    --surface: #fcfcfb; --surface-2: #f3f3f1; --border: #e2e1dd;
+    --text-primary: #0b0b0b; --text-secondary: #52514e;
+    --good: #0ca30c; --critical: #d03b3b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --surface: #1a1a19; --surface-2: #242423; --border: #383835;
+      --text-primary: #ffffff; --text-secondary: #c3c2b7;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0 auto; max-width: 1100px; padding: 32px 24px 64px;
+    background: var(--surface); color: var(--text-primary);
+    font: 14px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  h2 { font-size: 17px; margin: 40px 0 12px; }
+  h3 { font-size: 14px; margin: 20px 0 8px; }
+  .muted { color: var(--text-secondary); }
+  .hero { margin: 28px 0 8px; }
+  .hero .value { font-size: 56px; font-weight: 600; line-height: 1.1; }
+  .tiles { display: flex; gap: 12px; flex-wrap: wrap; margin: 20px 0; }
+  .tile { flex: 1 1 240px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+  .tile .label { color: var(--text-secondary); }
+  .tile .value { font-size: 28px; font-weight: 600; }
+  .delta { font-weight: 600; }
+  .up::before { content: "▲ "; color: var(--good); }
+  .down::before { content: "▼ "; color: var(--critical); }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--text-secondary); font-weight: 600; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  td.nowrap { white-space: nowrap; }
+  table.compact { width: auto; min-width: 50%; }
+  td.indent { padding-left: 28px; color: var(--text-secondary); }
+  .status::before { display: inline-block; width: 1.2em; font-weight: 700; }
+  .status.ok::before { content: "✓"; color: var(--good); }
+  .status.fail::before { content: "✗"; color: var(--critical); }
+  .chain { display: flex; flex-wrap: wrap; gap: 4px 6px; }
+  .attempt { white-space: nowrap; }
+  .attempt + .attempt::before { content: "→ "; color: var(--text-secondary); }
+  code { font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; }
+  details { margin-top: 16px; }
+  summary { cursor: pointer; font-weight: 600; }
+  ol.orders { margin: 0; padding-left: 0; list-style: none; }
+</style>
+</head>
+<body>
+<h1>Multi-acquirer failover: acceptance report</h1>
+<div class="muted">{{.Submitted}} sample transactions (testdata seed {{.Seed}}) per scenario · generated {{.GeneratedAt}}</div>
+
+{{with .Uplift}}
+<div class="hero">
+  <div class="muted">Approval rate uplift from failover</div>
+  <div class="value">{{.Points}}</div>
+  <div>{{.Summary}}</div>
+</div>
+{{end}}
+
+<div class="tiles">
+{{range .Scenarios}}
+  <div class="tile">
+    <div class="label">{{.Description}}</div>
+    <div class="value">{{.ApprovalRate}}</div>
+    <div class="muted">{{.Approved}} of {{.Total}} approved · {{.AcquirerOrder}}</div>
+    {{if .Delta}}<div class="delta {{if .DeltaPositive}}up{{else}}down{{end}}">{{.Delta}}</div>{{end}}
+  </div>
+{{end}}
+</div>
+
+<h2>Comparison</h2>
+<table>
+  <thead><tr><th></th>{{range .Scenarios}}<th class="num">{{.Description}}</th>{{end}}</tr></thead>
+  <tbody>
+  {{range .Compare}}
+    <tr><td{{if .Indent}} class="indent"{{end}}>{{.Label}}</td>{{range .Values}}<td class="num">{{.}}</td>{{end}}</tr>
+  {{end}}
+  </tbody>
+</table>
+
+{{range .Scenarios}}
+<h2>{{.Description}}</h2>
+<div class="muted">Acquirers (configured order): {{.AcquirerOrder}}</div>
+
+<h3>Per-acquirer performance</h3>
+<table>
+  <thead><tr><th>Acquirer</th><th class="num">Tried</th><th class="num">Approved</th><th class="num">Rate</th><th>Decline reasons</th></tr></thead>
+  <tbody>
+  {{range .Acquirers}}
+    <tr><td>{{.Name}}</td><td class="num">{{.Tried}}</td><td class="num">{{.Approved}}</td><td class="num">{{.Rate}}</td><td><code>{{.Reasons}}</code></td></tr>
+  {{end}}
+  </tbody>
+</table>
+<p><span class="muted">Final decline reasons:</span> <code>{{.FinalReasons}}</code></p>
+
+{{if .OrderChanges}}
+<h3>Routing order changes (dynamic ranking)</h3>
+<table class="compact">
+  <thead><tr><th class="num">From transaction</th><th>Routing order</th></tr></thead>
+  <tbody>
+  {{range .OrderChanges}}<tr><td class="num">#{{.Transaction}}</td><td>{{.Order}}</td></tr>{{end}}
+  </tbody>
+</table>
+{{end}}
+
+<details>
+  <summary>Attempt chain for all {{len .Transactions}} transactions</summary>
+  <table>
+    <thead><tr><th class="num">#</th><th>Country</th><th>BIN</th><th class="num">Amount</th><th>Attempts</th><th>Outcome</th></tr></thead>
+    <tbody>
+    {{range .Transactions}}
+      <tr>
+        <td class="num">{{.N}}</td><td>{{.Country}}</td><td><code>{{.BIN}}</code></td><td class="num nowrap">{{.Amount}}</td>
+        <td><div class="chain">{{range .Attempts}}<span class="attempt">{{.Acquirer}}: <span class="status {{if .Approved}}ok{{else}}fail{{end}}">{{.Outcome}}</span> <span class="muted">({{.Duration}})</span></span>{{end}}</div></td>
+        <td class="nowrap"><span class="status {{if .Approved}}ok{{else}}fail{{end}}">{{.Outcome}}</span></td>
+      </tr>
+    {{end}}
+    </tbody>
+  </table>
+</details>
+{{end}}
+</body>
+</html>

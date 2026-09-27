@@ -7,13 +7,15 @@
 // (so in-memory state starts fresh), submits the sample authorization requests,
 // then fetches the full authorization log and the analytics summary. The test
 // analyzes the log itself, cross-checks it against the server's summary, and
-// prints a comparison report once every scenario has run:
+// writes an HTML comparison report once every scenario has run (overwritten on
+// each run, integration-tests/report.html by default):
 //
 //	go test -tags integration -count=1 -v ./integration-tests/
 //
-// Pass -out <dir> to also save each scenario's log, analytics and server output
-// as demo evidence. The report never fails the test: AcquirerThree approves at
-// random, so the multi-acquirer numbers vary slightly between runs.
+// Pass -report <file> to write the report elsewhere, and -out <dir> to also save
+// each scenario's log, analytics and server output as demo evidence. The report
+// never fails the test: AcquirerThree approves at random, so the multi-acquirer
+// numbers vary slightly between runs.
 package integrationtests
 
 import (
@@ -42,7 +44,10 @@ const (
 	seed = 1
 )
 
-var outDir = flag.String("out", "", "directory to save each scenario's log, analytics and server output")
+var (
+	reportPath = flag.String("report", "report.html", "file to write the HTML acceptance report to, overwritten on each run")
+	outDir     = flag.String("out", "", "directory to save each scenario's log, analytics and server output")
+)
 
 type scenario struct {
 	name          string
@@ -67,6 +72,7 @@ var scenarios = []scenario{
 type result struct {
 	scenario scenario
 	analysis analysis
+	log      []authorization.TransactionResponse
 }
 
 func TestAcceptance(t *testing.T) {
@@ -89,11 +95,21 @@ func TestAcceptance(t *testing.T) {
 			checkSummary(t, a, summary)
 			saveEvidence(t, sc, log, summary, srv)
 
-			results = append(results, result{scenario: sc, analysis: a})
+			results = append(results, result{scenario: sc, analysis: a, log: log.Transactions})
 		})
 	}
 
-	printReport(os.Stdout, len(reqs), results)
+	if len(results) == 0 {
+		return
+	}
+	path, err := filepath.Abs(*reportPath)
+	if err != nil {
+		t.Fatalf("invalid -report path: %v", err)
+	}
+	if err := writeReport(path, len(reqs), results); err != nil {
+		t.Fatalf("failed to write report: %v", err)
+	}
+	fmt.Printf("\nAcceptance report: file://%s\n\n", path)
 }
 
 // buildServer compiles the backend into a temporary binary.

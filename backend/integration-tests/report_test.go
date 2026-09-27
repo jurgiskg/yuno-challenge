@@ -3,14 +3,19 @@
 package integrationtests
 
 import (
+	"bytes"
+	_ "embed"
 	"fmt"
-	"io"
+	"html/template"
 	"maps"
+	"os"
 	"slices"
 	"strings"
-	"text/tabwriter"
+	"time"
 
 	"yuno-challenge/authorization"
+
+	"github.com/shopspring/decimal"
 )
 
 // analysis is the test's own reading of an authorization log, independent of
@@ -90,63 +95,185 @@ func analyze(log []authorization.TransactionResponse) analysis {
 
 func (a analysis) approvalRate() float64 { return rate(a.approved, a.total) }
 
-func printReport(w io.Writer, submitted int, results []result) {
-	if len(results) == 0 {
-		return
-	}
-	fmt.Fprintf(w, "\n=== Acceptance report: %d sample transactions (testdata seed %d) per scenario ===\n\n", submitted, seed)
+//go:embed report.html.tmpl
+var reportTemplate string
 
-	tw := tabwriter.NewWriter(w, 0, 0, 3, ' ', 0)
-	row := func(label string, value func(r result) string) {
-		cells := []string{label}
-		for _, r := range results {
-			cells = append(cells, value(r))
+var reportTmpl = template.Must(template.New("report").Parse(reportTemplate))
+
+type reportView struct {
+	GeneratedAt string
+	Seed        int
+	Submitted   int
+	// Uplift compares the last scenario with the baseline; nil with one scenario.
+	Uplift    *upliftView
+	Compare   []compareRow
+	Scenarios []scenarioView
+}
+
+type upliftView struct {
+	Points   string
+	Summary  string
+	Positive bool
+}
+
+type compareRow struct {
+	Label  string
+	Indent bool
+	Values []string
+}
+
+type scenarioView struct {
+	Name          string
+	Description   string
+	AcquirerOrder string
+	Approved      int
+	Total         int
+	ApprovalRate  string
+	// Delta is the approval rate change vs the baseline, empty for the baseline.
+	Delta         string
+	DeltaPositive bool
+	Acquirers     []acquirerRow
+	FinalReasons  string
+	OrderChanges  []orderChangeView
+	Transactions  []transactionRow
+}
+
+type acquirerRow struct {
+	Name, Rate, Reasons string
+	Tried, Approved     int
+}
+
+type orderChangeView struct {
+	Transaction int
+	Order       string
+}
+
+type transactionRow struct {
+	N            int
+	Country, BIN string
+	Amount       string
+	Routing      string
+	Attempts     []attemptView
+	Approved     bool
+	Outcome      string
+}
+
+type attemptView struct {
+	Acquirer, Outcome, Duration string
+	Approved                    bool
+}
+
+// writeReport renders the HTML acceptance report to path, replacing any
+// previous report.
+func writeReport(path string, submitted int, results []result) error {
+	view := reportView{
+		GeneratedAt: time.Now().Format("2006-01-02 15:04:05 MST"),
+		Seed:        seed,
+		Submitted:   submitted,
+		Compare:     compareRows(results),
+	}
+	baseline := results[0].analysis
+	for i, r := range results {
+		sv := newScenarioView(r)
+		if i > 0 {
+			diff := (r.analysis.approvalRate() - baseline.approvalRate()) * 100
+			sv.Delta = fmt.Sprintf("%+.1f pp vs %s", diff, strings.ToLower(results[0].scenario.description))
+			sv.DeltaPositive = diff > 0
 		}
-		fmt.Fprintln(tw, strings.Join(cells, "\t"))
+		view.Scenarios = append(view.Scenarios, sv)
 	}
-	row("", func(r result) string { return r.scenario.description })
-	row("Acquirers (configured order)", func(r result) string { return r.scenario.acquirerOrder })
-	row("Approved", func(r result) string {
-		return fmt.Sprintf("%d/%d (%s)", r.analysis.approved, r.analysis.total, pct(r.analysis.approvalRate()))
-	})
-	row("  on first attempt", func(r result) string { return fmt.Sprint(r.analysis.approvedFirst) })
-	row("  rescued by failover", func(r result) string { return fmt.Sprint(r.analysis.rescued) })
-	row("Declined", func(r result) string { return fmt.Sprint(r.analysis.total - r.analysis.approved) })
-	row("  hard decline (not retried)", func(r result) string { return fmt.Sprint(r.analysis.hardDeclined) })
-	row("  every acquirer declined", func(r result) string { return fmt.Sprint(r.analysis.exhausted) })
-	row("Avg attempts per transaction", func(r result) string {
-		return fmt.Sprintf("%.2f", float64(r.analysis.attempts)/float64(max(r.analysis.total, 1)))
-	})
-	row("Routing order changes", func(r result) string { return fmt.Sprint(len(r.analysis.orderChanges) - 1) })
-	tw.Flush()
-
-	baseline := results[0]
-	for _, r := range results[1:] {
-		diff := r.analysis.approvalRate() - baseline.analysis.approvalRate()
-		fmt.Fprintf(w, "\n%s: %s approved vs %s with %s (%+.1f pp, %+d transactions).\n",
-			r.scenario.description, pct(r.analysis.approvalRate()), pct(baseline.analysis.approvalRate()),
-			strings.ToLower(baseline.scenario.description), diff*100, r.analysis.approved-baseline.analysis.approved)
-	}
-
-	for _, r := range results {
-		fmt.Fprintf(w, "\n--- %s: per-acquirer performance ---\n", r.scenario.description)
-		tw := tabwriter.NewWriter(w, 0, 0, 3, ' ', 0)
-		fmt.Fprintln(tw, "Acquirer\tTried\tApproved\tRate\tDecline reasons")
-		for _, name := range slices.Sorted(maps.Keys(r.analysis.acquirers)) {
-			st := r.analysis.acquirers[name]
-			fmt.Fprintf(tw, "%s\t%d\t%d\t%s\t%s\n", name, st.tried, st.approved, pct(rate(st.approved, st.tried)), formatReasons(st.reasons))
+	if len(results) > 1 {
+		last := results[len(results)-1]
+		diff := (last.analysis.approvalRate() - baseline.approvalRate()) * 100
+		view.Uplift = &upliftView{
+			Points:   fmt.Sprintf("%+.1f pp", diff),
+			Positive: diff > 0,
+			Summary: fmt.Sprintf("%s approved %s of transactions vs %s with %s (%+d transactions).",
+				last.scenario.description, pct(last.analysis.approvalRate()), pct(baseline.approvalRate()),
+				strings.ToLower(results[0].scenario.description), last.analysis.approved-baseline.approved),
 		}
-		tw.Flush()
-		fmt.Fprintf(w, "Final decline reasons: %s\n", formatReasons(r.analysis.finalReasons))
+	}
 
-		if len(r.analysis.orderChanges) > 1 {
-			fmt.Fprintf(w, "Routing order (dynamic ranking), by first transaction routed that way:\n")
-			for _, c := range r.analysis.orderChanges {
-				fmt.Fprintf(w, "  #%-3d %s\n", c.transaction, strings.Join(c.order, " > "))
+	var buf bytes.Buffer
+	if err := reportTmpl.Execute(&buf, view); err != nil {
+		return err
+	}
+	return os.WriteFile(path, buf.Bytes(), 0o644)
+}
+
+func compareRows(results []result) []compareRow {
+	row := func(label string, indent bool, value func(a analysis) string) compareRow {
+		r := compareRow{Label: label, Indent: indent}
+		for _, res := range results {
+			r.Values = append(r.Values, value(res.analysis))
+		}
+		return r
+	}
+	return []compareRow{
+		row("Approved", false, func(a analysis) string {
+			return fmt.Sprintf("%d/%d (%s)", a.approved, a.total, pct(a.approvalRate()))
+		}),
+		row("on first attempt", true, func(a analysis) string { return fmt.Sprint(a.approvedFirst) }),
+		row("rescued by failover", true, func(a analysis) string { return fmt.Sprint(a.rescued) }),
+		row("Declined", false, func(a analysis) string { return fmt.Sprint(a.total - a.approved) }),
+		row("hard decline (not retried)", true, func(a analysis) string { return fmt.Sprint(a.hardDeclined) }),
+		row("every acquirer declined", true, func(a analysis) string { return fmt.Sprint(a.exhausted) }),
+		row("Avg attempts per transaction", false, func(a analysis) string {
+			return fmt.Sprintf("%.2f", float64(a.attempts)/float64(max(a.total, 1)))
+		}),
+		row("Routing order changes", false, func(a analysis) string { return fmt.Sprint(max(len(a.orderChanges)-1, 0)) }),
+	}
+}
+
+func newScenarioView(r result) scenarioView {
+	a := r.analysis
+	sv := scenarioView{
+		Name:          r.scenario.name,
+		Description:   r.scenario.description,
+		AcquirerOrder: strings.ReplaceAll(r.scenario.acquirerOrder, ",", " > "),
+		Approved:      a.approved,
+		Total:         a.total,
+		ApprovalRate:  pct(a.approvalRate()),
+		FinalReasons:  formatReasons(a.finalReasons),
+	}
+	for _, name := range slices.Sorted(maps.Keys(a.acquirers)) {
+		st := a.acquirers[name]
+		sv.Acquirers = append(sv.Acquirers, acquirerRow{
+			Name: name, Tried: st.tried, Approved: st.approved,
+			Rate: pct(rate(st.approved, st.tried)), Reasons: formatReasons(st.reasons),
+		})
+	}
+	if len(a.orderChanges) > 1 {
+		for _, c := range a.orderChanges {
+			sv.OrderChanges = append(sv.OrderChanges, orderChangeView{Transaction: c.transaction, Order: strings.Join(c.order, " > ")})
+		}
+	}
+	for i, txn := range r.log {
+		row := transactionRow{
+			N:        i + 1,
+			Country:  string(txn.Country),
+			BIN:      txn.BIN,
+			Amount:   formatAmount(txn.AmountMinor, txn.Currency),
+			Routing:  strings.Join(txn.RoutingOrder, " > "),
+			Approved: txn.Status == authorization.StatusApproved,
+			Outcome:  "Approved by " + txn.Acquirer,
+		}
+		if !row.Approved {
+			row.Outcome = "Declined: " + string(txn.DeclineReason)
+		}
+		for _, at := range txn.Attempts {
+			outcome := "approved"
+			if at.Status != authorization.StatusApproved {
+				outcome = string(at.DeclineReason)
 			}
+			row.Attempts = append(row.Attempts, attemptView{
+				Acquirer: at.Acquirer, Outcome: outcome, Approved: at.Status == authorization.StatusApproved,
+				Duration: formatDuration(at.DurationMs),
+			})
 		}
+		sv.Transactions = append(sv.Transactions, row)
 	}
-	fmt.Fprintln(w)
+	return sv
 }
 
 // formatReasons renders counts most common first, e.g. "POLICY_DECLINE 12, STOLEN_CARD 2".
@@ -166,6 +293,21 @@ func formatReasons(counts map[authorization.DeclineReason]int) string {
 		parts[i] = fmt.Sprintf("%s %d", reason, counts[reason])
 	}
 	return strings.Join(parts, ", ")
+}
+
+// formatDuration renders sub-millisecond attempts (the mocks answer in
+// microseconds) in µs, anything slower in ms.
+func formatDuration(ms float64) string {
+	if ms < 1 {
+		return fmt.Sprintf("%.0f µs", ms*1000)
+	}
+	return fmt.Sprintf("%.1f ms", ms)
+}
+
+// formatAmount renders minor units in major units, e.g. 1450000 MXN as "14500.00 MXN".
+func formatAmount(minor int64, currency string) string {
+	decimals := authorization.Currency(currency).Decimals()
+	return decimal.New(minor, -decimals).StringFixed(decimals) + " " + currency
 }
 
 func rate(n, total int) float64 {
