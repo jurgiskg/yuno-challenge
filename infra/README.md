@@ -42,4 +42,6 @@ curl localhost:8080/v1/health
 curl -H 'X-API-Key: dev-key' -X POST localhost:8080/v1/authorizations -d @request.json
 ```
 
-Running with `go run .` (debug mode) and no `API_KEY` disables auth, for local development only.
+To run without Docker, copy `backend/.env.example` to `backend/.env` (gitignored)
+and run `make run` from `backend/`. It loads `PORT`, `API_KEY`, `ACQUIRER_ORDER` and
+`GIN_MODE` from that file. An empty `API_KEY` disables auth, for local development only.

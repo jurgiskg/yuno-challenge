@@ -1,3 +1,4 @@
 .context/
 /backend/bin/
 /backend/integration-tests/report.html
+.env

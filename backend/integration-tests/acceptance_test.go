@@ -16,6 +16,11 @@
 // each scenario's log, analytics and server output as demo evidence. The report
 // never fails the test: AcquirerThree approves at random, so the multi-acquirer
 // numbers vary slightly between runs.
+//
+// To test an already deployed service instead, set INTEGRATION_BASE_URL and
+// INTEGRATION_API_KEY. That runs a single "deployed" scenario with whatever
+// routing the service is configured with; since its store holds other traffic
+// too, only the transactions this run submitted are analyzed.
 package integrationtests
 
 import (
@@ -29,6 +34,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 	"sync"
 	"testing"
 	"time"
@@ -39,10 +45,14 @@ import (
 )
 
 const (
-	apiKey = "integration-test-key"
+	// localAPIKey is the key the locally started servers are given.
+	localAPIKey = "integration-test-key"
 	// seed selects the sample dataset; 1 matches acquirer/scenarios_test.go.
 	seed = 1
 )
+
+// httpClient allows for a deployed service waking from sleep.
+var httpClient = &http.Client{Timeout: 90 * time.Second}
 
 var (
 	reportPath = flag.String("report", "report.html", "file to write the HTML acceptance report to, overwritten on each run")
@@ -76,27 +86,28 @@ type result struct {
 }
 
 func TestAcceptance(t *testing.T) {
-	binary := buildServer(t)
 	reqs := testdata.AuthorizationRequests(seed)
 
 	var results []result
-	for _, sc := range scenarios {
+	if baseURL := strings.TrimRight(os.Getenv("INTEGRATION_BASE_URL"), "/"); baseURL != "" {
+		sc := scenario{name: "deployed", description: "Deployed service"}
 		t.Run(sc.name, func(t *testing.T) {
-			srv := startServer(t, binary, sc)
-			responses := submit(t, srv, reqs)
-
-			var log authorization.ListAuthorizationsResponse
-			srv.get(t, "/v1/authorizations", &log)
-			var summary authorization.Summary
-			srv.get(t, "/v1/analytics", &summary)
-
-			a := analyze(log.Transactions)
-			checkLog(t, responses, log.Transactions)
-			checkSummary(t, a, summary)
-			saveEvidence(t, sc, log, summary, srv)
-
-			results = append(results, result{scenario: sc, analysis: a, log: log.Transactions})
+			srv := &server{baseURL: baseURL, apiKey: os.Getenv("INTEGRATION_API_KEY"), output: &syncBuffer{}}
+			srv.waitHealthy(t, 2*time.Minute, nil)
+			if r, ok := runScenario(t, sc, srv, reqs, true); ok {
+				results = append(results, r)
+			}
 		})
+	} else {
+		binary := buildServer(t)
+		for _, sc := range scenarios {
+			t.Run(sc.name, func(t *testing.T) {
+				srv := startServer(t, binary, sc)
+				if r, ok := runScenario(t, sc, srv, reqs, false); ok {
+					results = append(results, r)
+				}
+			})
+		}
 	}
 
 	if len(results) == 0 {
@@ -112,6 +123,54 @@ func TestAcceptance(t *testing.T) {
 	fmt.Printf("\nAcceptance report: file://%s\n\n", path)
 }
 
+// runScenario submits reqs to srv, then fetches and checks the log and analytics.
+// A shared server also holds other traffic, so only this run's transactions are
+// analyzed and the analytics can only be checked to cover them.
+func runScenario(t *testing.T, sc scenario, srv *server, reqs []authorization.CreateAuthorizationRequest, shared bool) (result, bool) {
+	t.Helper()
+	responses := submit(t, srv, reqs)
+
+	var log authorization.ListAuthorizationsResponse
+	srv.get(t, "/v1/authorizations", &log)
+	var summary authorization.Summary
+	srv.get(t, "/v1/analytics", &summary)
+
+	txns := log.Transactions
+	if shared {
+		txns = submitted(responses, txns)
+	}
+	checkLog(t, responses, txns)
+	a := analyze(txns)
+	if shared {
+		if summary.Transactions < a.total {
+			t.Errorf("analytics covers %d transactions, fewer than the %d this run submitted", summary.Transactions, a.total)
+		}
+	} else {
+		checkSummary(t, a, summary)
+	}
+	saveEvidence(t, sc, log, summary, srv)
+
+	if sc.acquirerOrder == "" && len(txns) > 0 {
+		sc.acquirerOrder = strings.Join(txns[0].RoutingOrder, ",")
+	}
+	return result{scenario: sc, analysis: a, log: txns}, !t.Failed()
+}
+
+// submitted returns the log entries for responses, in log order.
+func submitted(responses []authorization.AuthorizationResponse, log []authorization.TransactionResponse) []authorization.TransactionResponse {
+	ids := make(map[string]bool, len(responses))
+	for _, r := range responses {
+		ids[r.ID] = true
+	}
+	var out []authorization.TransactionResponse
+	for _, txn := range log {
+		if ids[txn.ID] {
+			out = append(out, txn)
+		}
+	}
+	return out
+}
+
 // buildServer compiles the backend into a temporary binary.
 func buildServer(t *testing.T) string {
 	t.Helper()
@@ -125,7 +184,9 @@ func buildServer(t *testing.T) string {
 
 type server struct {
 	baseURL string
-	output  *syncBuffer
+	apiKey  string
+	// output is the server's stdout and stderr; empty for a deployed service.
+	output *syncBuffer
 }
 
 // syncBuffer is a bytes.Buffer that can be read while the server writes to it.
@@ -151,12 +212,12 @@ func (b *syncBuffer) String() string {
 func startServer(t *testing.T, binary string, sc scenario) *server {
 	t.Helper()
 	port := freePort(t)
-	srv := &server{baseURL: "http://127.0.0.1:" + port, output: &syncBuffer{}}
+	srv := &server{baseURL: "http://127.0.0.1:" + port, apiKey: localAPIKey, output: &syncBuffer{}}
 
 	cmd := exec.Command(binary)
 	cmd.Env = append(os.Environ(),
 		"PORT="+port,
-		"API_KEY="+apiKey,
+		"API_KEY="+localAPIKey,
 		"ACQUIRER_ORDER="+sc.acquirerOrder,
 		"GIN_MODE=release",
 	)
@@ -181,21 +242,29 @@ func startServer(t *testing.T, binary string, sc scenario) *server {
 		}
 	})
 
-	deadline := time.After(10 * time.Second)
+	srv.waitHealthy(t, 10*time.Second, exited)
+	return srv
+}
+
+// waitHealthy polls /v1/health until it answers 200. exited, if not nil, reports
+// the local server process exiting early.
+func (s *server) waitHealthy(t *testing.T, timeout time.Duration, exited chan error) {
+	t.Helper()
+	deadline := time.After(timeout)
 	for {
+		if resp, err := httpClient.Get(s.baseURL + "/v1/health"); err == nil {
+			resp.Body.Close()
+			if resp.StatusCode == http.StatusOK {
+				return
+			}
+		}
 		select {
 		case err := <-exited:
 			exited <- err // let the cleanup see it too
 			t.Fatalf("server exited before becoming healthy: %v", err)
 		case <-deadline:
-			t.Fatal("server did not become healthy within 10s")
+			t.Fatalf("%s did not become healthy within %s", s.baseURL, timeout)
 		case <-time.After(50 * time.Millisecond):
-		}
-		if resp, err := http.Get(srv.baseURL + "/v1/health"); err == nil {
-			resp.Body.Close()
-			if resp.StatusCode == http.StatusOK {
-				return srv
-			}
 		}
 	}
 }
@@ -225,8 +294,8 @@ func (s *server) do(t *testing.T, method, path string, body any) (int, []byte) {
 		t.Fatalf("failed to create request: %v", err)
 	}
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set(sharedgin.APIKeyHeader, apiKey)
-	resp, err := http.DefaultClient.Do(req)
+	req.Header.Set(sharedgin.APIKeyHeader, s.apiKey)
+	resp, err := httpClient.Do(req)
 	if err != nil {
 		t.Fatalf("%s %s failed: %v", method, path, err)
 	}
@@ -327,5 +396,7 @@ func saveEvidence(t *testing.T, sc scenario, log authorization.ListAuthorization
 		}
 		write(name, b)
 	}
-	write("server.log", []byte(srv.output.String()))
+	if out := srv.output.String(); out != "" {
+		write("server.log", []byte(out))
+	}
 }
