@@ -64,11 +64,13 @@ docker run --rm -p 8080:8080 -e API_KEY=dev-key yuno-failover-api
 ## Deployment
 
 Deployed on Render at **https://yuno-failover-api.onrender.com**. Endpoints
-other than `/v1/health` need the `X-API-Key` header. The key is shared with
-reviewers directly. Every push to `main` that touches `backend/**` or
-`infra/**` deploys automatically. On the free plan the service sleeps after 15
-idle minutes, so the first request takes about a minute, and a redeploy clears
-the in-memory log. See [`infra/README.md`](infra/README.md).
+other than `/v1/health` need the `X-API-Key` header. The key was shared with
+Alejandro Serafin Lopez Perez; contact him to get it.
+
+Every push to `main` that touches `backend/**` or `infra/**` deploys
+automatically. On the free plan the service sleeps after 15 idle minutes, so
+the first request takes about a minute, and a redeploy clears the in-memory
+log. See [`infra/README.md`](infra/README.md).
 
 ## Metrics
 
@@ -136,3 +138,6 @@ backend/
 - **Acquirer rules are hardcoded in `testdata`.** A mock acquirer takes its
   name and `Rules` as configuration, so the acquirers could be loaded from a
   config file or env vars instead.
+- **Render for deployment.** It deploys automatically on every push to
+  `main` with little setup. A real deployment would manage infrastructure as
+  code with Terraform, which is more flexible and easier to maintain.
