@@ -3,20 +3,32 @@ package main
 import (
 	"context"
 	"errors"
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
+	"yuno-challenge/acquirer"
+	"yuno-challenge/acquirer/acq1"
+	"yuno-challenge/acquirer/acq2"
+	"yuno-challenge/acquirer/acq3"
+	"yuno-challenge/authorization"
 	"yuno-challenge/merchant"
 	"yuno-challenge/sharedgin"
+	"yuno-challenge/testdata"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
 
-const defaultPort = "8080"
+const (
+	defaultPort = "8080"
+	// defaultAcquirerOrder is the routing order used when ACQUIRER_ORDER is unset.
+	defaultAcquirerOrder = "AcquirerOne,AcquirerTwo,AcquirerThree"
+)
 
 func main() {
 	logger := newLogger()
@@ -35,7 +47,16 @@ func main() {
 		logger.Warn("API_KEY is not set; /v1 endpoints are unauthenticated")
 	}
 
-	srv := &http.Server{Addr: ":" + port, Handler: newEngine(apiKey)}
+	acquirers, err := routedAcquirers(os.Getenv("ACQUIRER_ORDER"))
+	if err != nil {
+		logger.Fatalf("Invalid ACQUIRER_ORDER: %v", err)
+	}
+	processor, err := acquirer.NewProcessor(acquirers, authorization.NewStore(), logger)
+	if err != nil {
+		logger.Fatalf("Failed to create processor: %v", err)
+	}
+
+	srv := &http.Server{Addr: ":" + port, Handler: newEngine(apiKey, processor)}
 	go func() {
 		logger.Infof("Listening on :%s", port)
 		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
@@ -54,7 +75,7 @@ func main() {
 	}
 }
 
-func newEngine(apiKey string) *gin.Engine {
+func newEngine(apiKey string, processor merchant.Processor) *gin.Engine {
 	engine := gin.New()
 	engine.Use(gin.Logger(), gin.Recovery())
 
@@ -66,10 +87,42 @@ func newEngine(apiKey string) *gin.Engine {
 	// Health stays public for Render's health checks; everything else needs the key.
 	authed := v1.Group("", sharedgin.RequireAPIKey(apiKey))
 
-	merchantController := merchant.NewController()
+	merchantController := merchant.NewController(processor)
 	authed.POST("/authorizations", merchantController.CreateAuthorization)
 
 	return engine
+}
+
+// routedAcquirers returns the mock acquirers named in order, a comma-separated
+// list such as "AcquirerTwo,AcquirerOne". A subset is allowed, e.g. a single
+// acquirer to measure the no-failover baseline. Empty uses defaultAcquirerOrder.
+func routedAcquirers(order string) ([]acquirer.Acquirer, error) {
+	if strings.TrimSpace(order) == "" {
+		order = defaultAcquirerOrder
+	}
+	one, err := acq1.New(testdata.AcquirerOneRules)
+	if err != nil {
+		return nil, err
+	}
+	two, err := acq2.New(testdata.AcquirerTwoRules)
+	if err != nil {
+		return nil, err
+	}
+	three, err := acq3.New(testdata.AcquirerThreeRules)
+	if err != nil {
+		return nil, err
+	}
+	available := map[string]acquirer.Acquirer{one.Name(): one, two.Name(): two, three.Name(): three}
+
+	var routed []acquirer.Acquirer
+	for _, name := range strings.Split(order, ",") {
+		a, ok := available[strings.TrimSpace(name)]
+		if !ok {
+			return nil, fmt.Errorf("unknown acquirer %q, must be one of AcquirerOne, AcquirerTwo, AcquirerThree", name)
+		}
+		routed = append(routed, a)
+	}
+	return routed, nil
 }
 
 func newLogger() *zap.SugaredLogger {

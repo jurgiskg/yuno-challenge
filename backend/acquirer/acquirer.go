@@ -7,6 +7,9 @@ import (
 	"slices"
 	"strings"
 	"time"
+
+	"yuno-challenge/authorization"
+	"yuno-challenge/country"
 )
 
 // Acquirer is implemented by every mock acquirer (see the acq* subpackages).
@@ -21,7 +24,7 @@ type Acquirer interface {
 type Rules struct {
 	// AcceptedCountries lists the country codes the acquirer approves; others get
 	// POLICY_DECLINE. Empty accepts every country.
-	AcceptedCountries []string
+	AcceptedCountries []country.Code
 	// AcceptedBINPrefixes lists the card number prefixes the acquirer approves;
 	// others get SUSPECTED_FRAUD. Empty accepts every card.
 	AcceptedBINPrefixes []string
@@ -41,41 +44,16 @@ func (r Rules) Validate() error {
 }
 
 // Check returns the decline reason if the rules reject the request, or false if they accept it.
-func (r Rules) Check(req AuthorizationRequest) (DeclineReason, bool) {
+func (r Rules) Check(req AuthorizationRequest) (authorization.DeclineReason, bool) {
 	switch {
 	case r.SuccessRate > 0 && rand.Float64() >= r.SuccessRate:
-		return ReasonGenericDecline, true
+		return authorization.ReasonGenericDecline, true
 	case len(r.AcceptedCountries) > 0 && !slices.Contains(r.AcceptedCountries, req.Country):
-		return ReasonPolicyDecline, true
+		return authorization.ReasonPolicyDecline, true
 	case len(r.AcceptedBINPrefixes) > 0 && !req.Card.HasAnyPrefix(r.AcceptedBINPrefixes):
-		return ReasonSuspectedFraud, true
+		return authorization.ReasonSuspectedFraud, true
 	}
 	return "", false
-}
-
-type DeclineReason string
-
-const (
-	// Retriable: another acquirer may approve the same transaction.
-	ReasonSuspectedFraud DeclineReason = "SUSPECTED_FRAUD" // acquirer's fraud filter, not the issuer's
-	ReasonPolicyDecline  DeclineReason = "POLICY_DECLINE"  // acquirer's risk policy
-	ReasonTimeout        DeclineReason = "TIMEOUT"
-	ReasonGenericDecline DeclineReason = "GENERIC_DECLINE"
-
-	// Non-retriable: the card itself is the problem, so every acquirer will decline.
-	ReasonInsufficientFunds DeclineReason = "INSUFFICIENT_FUNDS"
-	ReasonStolenCard        DeclineReason = "STOLEN_CARD"
-	ReasonInvalidCard       DeclineReason = "INVALID_CARD"
-	ReasonExpiredCard       DeclineReason = "EXPIRED_CARD"
-)
-
-// Retriable reports whether the transaction should fail over to the next acquirer.
-func (r DeclineReason) Retriable() bool {
-	switch r {
-	case ReasonSuspectedFraud, ReasonPolicyDecline, ReasonTimeout, ReasonGenericDecline:
-		return true
-	}
-	return false
 }
 
 type Card struct {
@@ -103,21 +81,20 @@ type AuthorizationRequest struct {
 	Amount int64
 	// Currency is an ISO 4217 code: MXN, COP, BRL or CLP.
 	Currency string
-	// Country is an ISO 3166-1 alpha-2 code: MX, CO, BR or CL.
-	Country string
+	Country  country.Code
 }
 
 type AuthorizationResponse struct {
 	Approved bool
 	// DeclineReason is empty when Approved is true.
-	DeclineReason DeclineReason
+	DeclineReason authorization.DeclineReason
 }
 
 func Approved() AuthorizationResponse {
 	return AuthorizationResponse{Approved: true}
 }
 
-func Declined(reason DeclineReason) AuthorizationResponse {
+func Declined(reason authorization.DeclineReason) AuthorizationResponse {
 	return AuthorizationResponse{DeclineReason: reason}
 }
 
@@ -130,16 +107,16 @@ const (
 // IssuerDecline simulates the issuing bank's checks, which are the same whichever
 // acquirer routes the transaction. It only returns non-retriable reasons, and
 // returns false if the issuer would approve.
-func IssuerDecline(card Card, now time.Time) (DeclineReason, bool) {
+func IssuerDecline(card Card, now time.Time) (authorization.DeclineReason, bool) {
 	switch {
 	case len(card.Number) < 12 || (len(card.CVV) != 3 && len(card.CVV) != 4):
-		return ReasonInvalidCard, true
+		return authorization.ReasonInvalidCard, true
 	case !now.Before(time.Date(card.ExpiryYear, time.Month(card.ExpiryMonth)+1, 1, 0, 0, 0, 0, time.UTC)):
-		return ReasonExpiredCard, true
+		return authorization.ReasonExpiredCard, true
 	case card.Number == CardStolen:
-		return ReasonStolenCard, true
+		return authorization.ReasonStolenCard, true
 	case card.Number == CardInsufficientFunds:
-		return ReasonInsufficientFunds, true
+		return authorization.ReasonInsufficientFunds, true
 	}
 	return "", false
 }

@@ -3,14 +3,13 @@ package acquirer_test
 import (
 	"context"
 	"reflect"
-	"strconv"
 	"testing"
 
 	"yuno-challenge/acquirer"
 	"yuno-challenge/acquirer/acq1"
 	"yuno-challenge/acquirer/acq2"
 	"yuno-challenge/acquirer/acq3"
-	"yuno-challenge/merchant"
+	"yuno-challenge/country"
 	"yuno-challenge/testdata"
 )
 
@@ -30,7 +29,7 @@ func TestAuthorizationRequests_Scenarios(t *testing.T) {
 
 	var primaryApproved, primaryRetriable, primaryHard, secondaryApproved, reachedTertiary, secondaryHard int
 	bins := map[string]bool{}
-	countries := map[merchant.Country]bool{}
+	countries := map[country.Code]bool{}
 	for i, req := range reqs {
 		if code, err := req.Validate(); err != nil {
 			t.Fatalf("request %d fails validation (%s): %v", i, code, err)
@@ -38,7 +37,7 @@ func TestAuthorizationRequests_Scenarios(t *testing.T) {
 		bins[req.Card.Number[:6]] = true
 		countries[req.Country] = true
 
-		authReq := toAuthorizationRequest(t, req)
+		authReq := req.ToAuthorizationRequest()
 		resp := primary.Authorize(context.Background(), authReq)
 		switch {
 		case resp.Approved:
@@ -91,29 +90,4 @@ func mustNew[A acquirer.Acquirer](t *testing.T, newFn func(acquirer.Rules) (A, e
 		t.Fatalf("failed to create acquirer: %v", err)
 	}
 	return a
-}
-
-func toAuthorizationRequest(t *testing.T, req merchant.CreateAuthorizationRequest) acquirer.AuthorizationRequest {
-	t.Helper()
-	year, err := strconv.Atoi(req.Card.Expiry[:4])
-	if err != nil {
-		t.Fatalf("invalid expiry year: %v", err)
-	}
-	month, err := strconv.Atoi(req.Card.Expiry[4:])
-	if err != nil {
-		t.Fatalf("invalid expiry month: %v", err)
-	}
-	return acquirer.AuthorizationRequest{
-		MerchantID: req.MerchantID,
-		Card: acquirer.Card{
-			Number:      req.Card.Number,
-			HolderName:  req.Card.HolderName,
-			ExpiryMonth: month,
-			ExpiryYear:  year,
-			CVV:         req.Card.CVV,
-		},
-		Amount:   req.Amount.Shift(req.Currency.Decimals()).IntPart(),
-		Currency: string(req.Currency),
-		Country:  string(req.Country),
-	}
 }

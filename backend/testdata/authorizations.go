@@ -16,6 +16,7 @@ import (
 	"strconv"
 
 	"yuno-challenge/acquirer"
+	"yuno-challenge/country"
 	"yuno-challenge/merchant"
 
 	"github.com/shopspring/decimal"
@@ -40,12 +41,12 @@ const (
 var (
 	// AcquirerOne has stopped accepting Mexico and flagged the 5555 BIN range.
 	AcquirerOneRules = acquirer.Rules{
-		AcceptedCountries:   []string{"CO", "BR", "CL"},
+		AcceptedCountries:   []country.Code{country.CO, country.BR, country.CL},
 		AcceptedBINPrefixes: []string{"4532", "4761", "5228", "3777", "6363", "6062", binTestIssuer},
 	}
 	// AcquirerTwo has no Chilean license and blocks the 4532 BIN range.
 	AcquirerTwoRules = acquirer.Rules{
-		AcceptedCountries:   []string{"MX", "CO", "BR"},
+		AcceptedCountries:   []country.Code{country.MX, country.CO, country.BR},
 		AcceptedBINPrefixes: []string{"4761", "5228", "5555", "3777", "6363", "6062", binTestIssuer},
 	}
 	// AcquirerThree approves 80% of requests at random.
@@ -62,7 +63,7 @@ const (
 )
 
 type profile struct {
-	country merchant.Country
+	country country.Code
 	bin     string
 	kind    cardKind
 }
@@ -77,43 +78,43 @@ type scenario struct {
 var scenarios = []scenario{
 	// Approved by AcquirerOne.
 	{26, []profile{
-		{merchant.CountryColombia, BINVisaBanorte, cardValid},
-		{merchant.CountryBrazil, BINElo, cardValid},
-		{merchant.CountryChile, BINVisaBancolombia, cardValid},
-		{merchant.CountryBrazil, BINHipercard, cardValid},
-		{merchant.CountryColombia, BINMastercardItau, cardValid},
-		{merchant.CountryChile, BINAmex, cardValid},
-		{merchant.CountryBrazil, BINVisaBanorte, cardValid},
-		{merchant.CountryColombia, BINVisaBancolombia, cardValid},
-		{merchant.CountryChile, BINMastercardItau, cardValid},
-		{merchant.CountryBrazil, BINMastercardItau, cardValid},
+		{country.CO, BINVisaBanorte, cardValid},
+		{country.BR, BINElo, cardValid},
+		{country.CL, BINVisaBancolombia, cardValid},
+		{country.BR, BINHipercard, cardValid},
+		{country.CO, BINMastercardItau, cardValid},
+		{country.CL, BINAmex, cardValid},
+		{country.BR, BINVisaBanorte, cardValid},
+		{country.CO, BINVisaBancolombia, cardValid},
+		{country.CL, BINMastercardItau, cardValid},
+		{country.BR, BINMastercardItau, cardValid},
 	}},
 	// AcquirerOne declines (POLICY_DECLINE for MX, SUSPECTED_FRAUD for 5555), AcquirerTwo approves.
 	{8, []profile{
-		{merchant.CountryMexico, BINVisaBancolombia, cardValid},
-		{merchant.CountryColombia, BINMastercardRisky, cardValid},
-		{merchant.CountryMexico, BINMastercardItau, cardValid},
-		{merchant.CountryBrazil, BINMastercardRisky, cardValid},
-		{merchant.CountryMexico, BINAmex, cardValid},
-		{merchant.CountryMexico, BINMastercardRisky, cardValid},
+		{country.MX, BINVisaBancolombia, cardValid},
+		{country.CO, BINMastercardRisky, cardValid},
+		{country.MX, BINMastercardItau, cardValid},
+		{country.BR, BINMastercardRisky, cardValid},
+		{country.MX, BINAmex, cardValid},
+		{country.MX, BINMastercardRisky, cardValid},
 	}},
 	// AcquirerOne and AcquirerTwo both decline with retriable reasons; AcquirerThree decides.
 	{9, []profile{
-		{merchant.CountryMexico, BINVisaBanorte, cardValid},
-		{merchant.CountryChile, BINMastercardRisky, cardValid},
+		{country.MX, BINVisaBanorte, cardValid},
+		{country.CL, BINMastercardRisky, cardValid},
 	}},
 	// Hard-declined by AcquirerOne, so no failover.
 	{4, []profile{
-		{merchant.CountryColombia, binTestIssuer, cardStolen},
-		{merchant.CountryBrazil, binTestIssuer, cardInsufficientFunds},
-		{merchant.CountryChile, BINVisaBancolombia, cardExpired},
-		{merchant.CountryColombia, BINMastercardItau, cardExpired},
+		{country.CO, binTestIssuer, cardStolen},
+		{country.BR, binTestIssuer, cardInsufficientFunds},
+		{country.CL, BINVisaBancolombia, cardExpired},
+		{country.CO, BINMastercardItau, cardExpired},
 	}},
 	// AcquirerOne declines Mexico, then AcquirerTwo hard-declines, so failover stops before AcquirerThree.
 	{3, []profile{
-		{merchant.CountryMexico, binTestIssuer, cardStolen},
-		{merchant.CountryMexico, binTestIssuer, cardInsufficientFunds},
-		{merchant.CountryMexico, BINMastercardItau, cardExpired},
+		{country.MX, binTestIssuer, cardStolen},
+		{country.MX, binTestIssuer, cardInsufficientFunds},
+		{country.MX, BINMastercardItau, cardExpired},
 	}},
 }
 
@@ -125,18 +126,18 @@ var usdRates = map[merchant.Currency]decimal.Decimal{
 	merchant.CurrencyCLP: decimal.NewFromInt(940),
 }
 
-var currencies = map[merchant.Country]merchant.Currency{
-	merchant.CountryMexico:   merchant.CurrencyMXN,
-	merchant.CountryColombia: merchant.CurrencyCOP,
-	merchant.CountryBrazil:   merchant.CurrencyBRL,
-	merchant.CountryChile:    merchant.CurrencyCLP,
+var currencies = map[country.Code]merchant.Currency{
+	country.MX: merchant.CurrencyMXN,
+	country.CO: merchant.CurrencyCOP,
+	country.BR: merchant.CurrencyBRL,
+	country.CL: merchant.CurrencyCLP,
 }
 
-var holderNames = map[merchant.Country][]string{
-	merchant.CountryMexico:   {"Maria Lopez", "Jose Hernandez", "Guadalupe Martinez", "Luis Ramirez"},
-	merchant.CountryColombia: {"Andres Gomez", "Valentina Rodriguez", "Camilo Restrepo", "Daniela Ospina"},
-	merchant.CountryBrazil:   {"Joao Silva", "Ana Souza", "Pedro Oliveira", "Beatriz Santos"},
-	merchant.CountryChile:    {"Matias Gonzalez", "Catalina Munoz", "Benjamin Rojas", "Sofia Diaz"},
+var holderNames = map[country.Code][]string{
+	country.MX: {"Maria Lopez", "Jose Hernandez", "Guadalupe Martinez", "Luis Ramirez"},
+	country.CO: {"Andres Gomez", "Valentina Rodriguez", "Camilo Restrepo", "Daniela Ospina"},
+	country.BR: {"Joao Silva", "Ana Souza", "Pedro Oliveira", "Beatriz Santos"},
+	country.CL: {"Matias Gonzalez", "Catalina Munoz", "Benjamin Rojas", "Sofia Diaz"},
 }
 
 // AuthorizationRequests returns the 50 sample authorization requests, grouped by

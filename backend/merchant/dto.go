@@ -5,7 +5,11 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 
+	"yuno-challenge/acquirer"
+	"yuno-challenge/authorization"
+	"yuno-challenge/country"
 	"yuno-challenge/sharedgin"
 
 	"github.com/shopspring/decimal"
@@ -17,38 +21,32 @@ const (
 	ErrorCodeInvalidExpiry   = "invalid-expiry"
 )
 
-type (
-	Country  string
-	Currency string
-)
+type Currency string
 
 const (
-	CountryMexico   Country = "MX"
-	CountryColombia Country = "CO"
-	CountryBrazil   Country = "BR"
-	CountryChile    Country = "CL"
-
 	CurrencyMXN Currency = "MXN"
 	CurrencyCOP Currency = "COP"
 	CurrencyBRL Currency = "BRL"
 	CurrencyCLP Currency = "CLP"
 )
 
-// countryCurrency is the local currency SolarBazaar charges in for each country.
-var countryCurrency = map[Country]Currency{
-	CountryMexico:   CurrencyMXN,
-	CountryColombia: CurrencyCOP,
-	CountryBrazil:   CurrencyBRL,
-	CountryChile:    CurrencyCLP,
+// countryCurrency is the local currency SolarBazaar charges in for each country
+// it operates in. Requests from any other country are rejected.
+var countryCurrency = map[country.Code]Currency{
+	country.MX: CurrencyMXN,
+	country.CO: CurrencyCOP,
+	country.BR: CurrencyBRL,
+	country.CL: CurrencyCLP,
 }
 
-func (c Country) Validate() error {
-	switch c {
-	case CountryMexico, CountryColombia, CountryBrazil, CountryChile:
-		return nil
-	default:
-		return fmt.Errorf("invalid country: %s. Country must be one of MX, CO, BR, CL", c)
+func validateCountry(c country.Code) error {
+	if !c.Valid() {
+		return fmt.Errorf("invalid country: %s. Country must be an ISO 3166-1 alpha-2 code", c)
 	}
+	if _, ok := countryCurrency[c]; !ok {
+		return fmt.Errorf("unsupported country: %s. Country must be one of MX, CO, BR, CL", c)
+	}
+	return nil
 }
 
 // Decimals is the number of minor unit digits of the currency (ISO 4217).
@@ -87,7 +85,7 @@ type CreateAuthorizationRequest struct {
 	// Transaction currency. Must be the local currency of country.
 	Currency Currency `json:"currency" example:"MXN"`
 	// ISO 3166-1 alpha-2 country of the transaction.
-	Country Country `json:"country" example:"MX"`
+	Country country.Code `json:"country" swaggertype:"string" example:"MX"`
 	// Customer card details.
 	Card CardDetails `json:"card"`
 } // @name CreateAuthorizationRequest
@@ -105,13 +103,91 @@ func (r CreateAuthorizationRequest) Validate() (string, error) {
 	if decimals := r.Currency.Decimals(); !r.Amount.Equal(r.Amount.Truncate(decimals)) {
 		return ErrorCodeValidationError, fmt.Errorf("amount %s has more than %d decimal places allowed for %s", r.Amount, decimals, r.Currency)
 	}
-	if err := r.Country.Validate(); err != nil {
+	if err := validateCountry(r.Country); err != nil {
 		return ErrorCodeValidationError, err
 	}
 	if expected := countryCurrency[r.Country]; r.Currency != expected {
 		return ErrorCodeValidationError, fmt.Errorf("currency %s does not match country %s, expected %s", r.Currency, r.Country, expected)
 	}
 	return r.Card.Validate()
+}
+
+// ToAuthorizationRequest converts the request to the acquirer's format, with the
+// amount in minor units. Call it only after Validate has passed.
+func (r CreateAuthorizationRequest) ToAuthorizationRequest() acquirer.AuthorizationRequest {
+	year, _ := strconv.Atoi(r.Card.Expiry[:4])
+	month, _ := strconv.Atoi(r.Card.Expiry[4:6])
+	return acquirer.AuthorizationRequest{
+		MerchantID: r.MerchantID,
+		Card: acquirer.Card{
+			Number:      r.Card.Number,
+			HolderName:  r.Card.HolderName,
+			ExpiryMonth: month,
+			ExpiryYear:  year,
+			CVV:         r.Card.CVV,
+		},
+		Amount:   r.Amount.Shift(r.Currency.Decimals()).IntPart(),
+		Currency: string(r.Currency),
+		Country:  r.Country,
+	}
+}
+
+type AuthorizationStatus string
+
+const (
+	StatusApproved AuthorizationStatus = "APPROVED"
+	StatusDeclined AuthorizationStatus = "DECLINED"
+)
+
+type AttemptResponse struct {
+	// Acquirer that was tried.
+	Acquirer string `json:"acquirer" example:"AcquirerOne"`
+	// When the attempt started.
+	StartedAt time.Time `json:"startedAt" example:"2026-09-27T12:00:00Z"`
+	// How long the acquirer took to respond, in milliseconds.
+	DurationMs float64             `json:"durationMs" example:"1.25"`
+	Status     AuthorizationStatus `json:"status" example:"DECLINED"`
+	// Acquirer's decline reason, omitted when approved.
+	DeclineReason authorization.DeclineReason `json:"declineReason,omitempty" swaggertype:"string" example:"POLICY_DECLINE"`
+} // @name AttemptResponse
+
+type AuthorizationResponse struct {
+	// Transaction ID.
+	ID     string              `json:"id" example:"txn_3f9a1c2b4d5e6f70"`
+	Status AuthorizationStatus `json:"status" example:"APPROVED"`
+	// Acquirer that approved the transaction, omitted when declined.
+	Acquirer string `json:"acquirer,omitempty" example:"AcquirerTwo"`
+	// Final decline reason, omitted when approved.
+	DeclineReason authorization.DeclineReason `json:"declineReason,omitempty" swaggertype:"string" example:"STOLEN_CARD"`
+	// Every acquirer attempt, in the order they were tried.
+	Attempts []AttemptResponse `json:"attempts"`
+} // @name AuthorizationResponse
+
+func NewAuthorizationResponse(txn authorization.Transaction) AuthorizationResponse {
+	attempts := make([]AttemptResponse, len(txn.Attempts))
+	for i, a := range txn.Attempts {
+		attempts[i] = AttemptResponse{
+			Acquirer:      a.Acquirer,
+			StartedAt:     a.StartedAt,
+			DurationMs:    float64(a.Duration.Microseconds()) / 1000,
+			Status:        statusOf(a.Approved),
+			DeclineReason: a.DeclineReason,
+		}
+	}
+	return AuthorizationResponse{
+		ID:            txn.ID,
+		Status:        statusOf(txn.Approved),
+		Acquirer:      txn.Acquirer,
+		DeclineReason: txn.DeclineReason,
+		Attempts:      attempts,
+	}
+}
+
+func statusOf(approved bool) AuthorizationStatus {
+	if approved {
+		return StatusApproved
+	}
+	return StatusDeclined
 }
 
 var (

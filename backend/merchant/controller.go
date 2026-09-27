@@ -2,18 +2,29 @@
 package merchant
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 
+	"yuno-challenge/acquirer"
+	"yuno-challenge/authorization"
 	"yuno-challenge/sharedgin"
 
 	"github.com/gin-gonic/gin"
 )
 
-type Controller struct{}
+// Processor authorizes a transaction across the acquirers; implemented by
+// *acquirer.Processor.
+type Processor interface {
+	Process(ctx context.Context, req acquirer.AuthorizationRequest) authorization.Transaction
+}
 
-func NewController() Controller {
-	return Controller{}
+type Controller struct {
+	processor Processor
+}
+
+func NewController(processor Processor) Controller {
+	return Controller{processor: processor}
 }
 
 // CreateAuthorization godoc
@@ -23,7 +34,9 @@ func NewController() Controller {
 // @Accept json
 // @Produce json
 // @Param request body CreateAuthorizationRequest true "Authorization request"
+// @Success 200 {object} AuthorizationResponse "Approved"
 // @Failure 400 {object} sharedgin.ErrorResponse
+// @Failure 500 {object} AuthorizationResponse "Declined by every acquirer tried"
 // @Router /authorizations [post]
 func (ctrl Controller) CreateAuthorization(ctx *gin.Context) {
 	var req CreateAuthorizationRequest
@@ -37,9 +50,10 @@ func (ctrl Controller) CreateAuthorization(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: hand the request to the acquirer failover engine and return its result.
-	ctx.JSON(http.StatusNotImplemented, sharedgin.ErrorResponse{
-		Code:    "not-implemented",
-		Message: "acquirer failover is not wired up yet",
-	})
+	txn := ctrl.processor.Process(ctx.Request.Context(), req.ToAuthorizationRequest())
+	status := http.StatusOK
+	if !txn.Approved {
+		status = http.StatusInternalServerError
+	}
+	ctx.JSON(status, NewAuthorizationResponse(txn))
 }
