@@ -70,7 +70,9 @@ func (p *Processor) Process(ctx context.Context, req AuthorizationRequest) autho
 		Amount:     req.Amount,
 		Currency:   req.Currency,
 		Country:    req.Country,
-		Attempts:   make([]authorization.Attempt, 0, len(order)),
+		// Order is a fresh slice per call, so the transaction can keep it.
+		RoutingOrder: order,
+		Attempts:     make([]authorization.Attempt, 0, len(order)),
 	}
 
 	for _, name := range order {

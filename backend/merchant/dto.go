@@ -5,7 +5,6 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
-	"time"
 
 	"yuno-challenge/acquirer"
 	"yuno-challenge/authorization"
@@ -132,62 +131,26 @@ func (r CreateAuthorizationRequest) ToAuthorizationRequest() acquirer.Authorizat
 	}
 }
 
-type AuthorizationStatus string
-
-const (
-	StatusApproved AuthorizationStatus = "APPROVED"
-	StatusDeclined AuthorizationStatus = "DECLINED"
-)
-
-type AttemptResponse struct {
-	// Acquirer that was tried.
-	Acquirer string `json:"acquirer" example:"AcquirerOne"`
-	// When the attempt started.
-	StartedAt time.Time `json:"startedAt" example:"2026-09-27T12:00:00Z"`
-	// How long the acquirer took to respond, in milliseconds.
-	DurationMs float64             `json:"durationMs" example:"1.25"`
-	Status     AuthorizationStatus `json:"status" example:"DECLINED"`
-	// Acquirer's decline reason, omitted when approved.
-	DeclineReason authorization.DeclineReason `json:"declineReason,omitempty" swaggertype:"string" example:"POLICY_DECLINE"`
-} // @name AttemptResponse
-
 type AuthorizationResponse struct {
 	// Transaction ID.
-	ID     string              `json:"id" example:"txn_3f9a1c2b4d5e6f70"`
-	Status AuthorizationStatus `json:"status" example:"APPROVED"`
+	ID     string               `json:"id" example:"txn_3f9a1c2b4d5e6f70"`
+	Status authorization.Status `json:"status" example:"APPROVED"`
 	// Acquirer that approved the transaction, omitted when declined.
 	Acquirer string `json:"acquirer,omitempty" example:"AcquirerTwo"`
 	// Final decline reason, omitted when approved.
 	DeclineReason authorization.DeclineReason `json:"declineReason,omitempty" swaggertype:"string" example:"STOLEN_CARD"`
 	// Every acquirer attempt, in the order they were tried.
-	Attempts []AttemptResponse `json:"attempts"`
+	Attempts []authorization.AttemptResponse `json:"attempts"`
 } // @name AuthorizationResponse
 
 func NewAuthorizationResponse(txn authorization.Transaction) AuthorizationResponse {
-	attempts := make([]AttemptResponse, len(txn.Attempts))
-	for i, a := range txn.Attempts {
-		attempts[i] = AttemptResponse{
-			Acquirer:      a.Acquirer,
-			StartedAt:     a.StartedAt,
-			DurationMs:    float64(a.Duration.Microseconds()) / 1000,
-			Status:        statusOf(a.Approved),
-			DeclineReason: a.DeclineReason,
-		}
-	}
 	return AuthorizationResponse{
 		ID:            txn.ID,
-		Status:        statusOf(txn.Approved),
+		Status:        authorization.StatusOf(txn.Approved),
 		Acquirer:      txn.Acquirer,
 		DeclineReason: txn.DeclineReason,
-		Attempts:      attempts,
+		Attempts:      authorization.NewAttemptResponses(txn.Attempts),
 	}
-}
-
-func statusOf(approved bool) AuthorizationStatus {
-	if approved {
-		return StatusApproved
-	}
-	return StatusDeclined
 }
 
 var (

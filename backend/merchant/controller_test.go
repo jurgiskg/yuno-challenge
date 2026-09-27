@@ -127,10 +127,10 @@ func TestCreateAuthorization_Outcome(t *testing.T) {
 			},
 			wantStatus: http.StatusOK,
 			want: AuthorizationResponse{
-				ID: "txn_1", Status: StatusApproved, Acquirer: "AcquirerTwo",
-				Attempts: []AttemptResponse{
-					{Acquirer: "AcquirerOne", StartedAt: started, DurationMs: 1.5, Status: StatusDeclined, DeclineReason: authorization.ReasonPolicyDecline},
-					{Acquirer: "AcquirerTwo", StartedAt: started, DurationMs: 1, Status: StatusApproved},
+				ID: "txn_1", Status: authorization.StatusApproved, Acquirer: "AcquirerTwo",
+				Attempts: []authorization.AttemptResponse{
+					{Acquirer: "AcquirerOne", StartedAt: started, DurationMs: 1.5, Status: authorization.StatusDeclined, DeclineReason: authorization.ReasonPolicyDecline},
+					{Acquirer: "AcquirerTwo", StartedAt: started, DurationMs: 1, Status: authorization.StatusApproved},
 				},
 			},
 		},
@@ -144,9 +144,9 @@ func TestCreateAuthorization_Outcome(t *testing.T) {
 			},
 			wantStatus: http.StatusInternalServerError,
 			want: AuthorizationResponse{
-				ID: "txn_2", Status: StatusDeclined, DeclineReason: authorization.ReasonStolenCard,
-				Attempts: []AttemptResponse{
-					{Acquirer: "AcquirerOne", StartedAt: started, DurationMs: 1, Status: StatusDeclined, DeclineReason: authorization.ReasonStolenCard},
+				ID: "txn_2", Status: authorization.StatusDeclined, DeclineReason: authorization.ReasonStolenCard,
+				Attempts: []authorization.AttemptResponse{
+					{Acquirer: "AcquirerOne", StartedAt: started, DurationMs: 1, Status: authorization.StatusDeclined, DeclineReason: authorization.ReasonStolenCard},
 				},
 			},
 		},

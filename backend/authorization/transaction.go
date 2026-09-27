@@ -28,6 +28,8 @@ type Transaction struct {
 	Amount   int64
 	Currency string
 	Country  country.Code
+	// RoutingOrder is the acquirer ranking when the transaction arrived, best first.
+	RoutingOrder []string
 	// Attempts is in the order the acquirers were tried.
 	Attempts []Attempt
 	Approved bool

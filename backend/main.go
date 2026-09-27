@@ -51,12 +51,13 @@ func main() {
 	if err != nil {
 		logger.Fatalf("Invalid ACQUIRER_ORDER: %v", err)
 	}
-	processor, err := acquirer.NewProcessor(acquirers, authorization.NewStore(), logger)
+	store := authorization.NewStore()
+	processor, err := acquirer.NewProcessor(acquirers, store, logger)
 	if err != nil {
 		logger.Fatalf("Failed to create processor: %v", err)
 	}
 
-	srv := &http.Server{Addr: ":" + port, Handler: newEngine(apiKey, processor)}
+	srv := &http.Server{Addr: ":" + port, Handler: newEngine(apiKey, processor, store)}
 	go func() {
 		logger.Infof("Listening on :%s", port)
 		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
@@ -75,7 +76,7 @@ func main() {
 	}
 }
 
-func newEngine(apiKey string, processor merchant.Processor) *gin.Engine {
+func newEngine(apiKey string, processor merchant.Processor, store *authorization.Store) *gin.Engine {
 	engine := gin.New()
 	engine.Use(gin.Logger(), gin.Recovery())
 
@@ -89,6 +90,10 @@ func newEngine(apiKey string, processor merchant.Processor) *gin.Engine {
 
 	merchantController := merchant.NewController(processor)
 	authed.POST("/authorizations", merchantController.CreateAuthorization)
+
+	authorizationController := authorization.NewController(store)
+	authed.GET("/authorizations", authorizationController.ListAuthorizations)
+	authed.GET("/analytics", authorizationController.GetAnalytics)
 
 	return engine
 }
