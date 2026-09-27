@@ -9,6 +9,7 @@ import (
 	"yuno-challenge/acquirer"
 	"yuno-challenge/authorization"
 	"yuno-challenge/shared/country"
+	"yuno-challenge/shared/currency"
 
 	"go.uber.org/zap"
 )
@@ -57,7 +58,7 @@ var testRequest = authorization.Request{
 	MerchantID: "solarbazaar",
 	Card:       authorization.Card{Number: "4532015112830366", HolderName: "Maria Lopez", ExpiryMonth: 12, ExpiryYear: 2028, CVV: "123"},
 	Amount:     1450000,
-	Currency:   "MXN",
+	Currency:   currency.MXN,
 	Country:    country.MX,
 }
 

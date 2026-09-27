@@ -8,8 +8,9 @@ include .env
 export $(shell sed -n 's/^\([A-Za-z_][A-Za-z0-9_]*\)=.*/\1/p' .env)
 endif
 
+# ./... skips directories named testdata, so list it explicitly.
 test:
-	go test ./...
+	go test ./... ./testdata/
 
 # Runs the service with the settings from .env.
 run:

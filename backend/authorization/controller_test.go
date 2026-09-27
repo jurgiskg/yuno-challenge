@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"yuno-challenge/shared/country"
+	"yuno-challenge/shared/currency"
 	"yuno-challenge/shared/sharedgin"
 
 	"github.com/gin-gonic/gin"
@@ -170,7 +171,7 @@ func TestCreateAuthorization_Outcome(t *testing.T) {
 				MerchantID: "solarbazaar",
 				Card:       Card{Number: "4532015112830366", HolderName: "Maria Lopez", ExpiryMonth: 12, ExpiryYear: 2028, CVV: "123"},
 				Amount:     1450000,
-				Currency:   "MXN",
+				Currency:   currency.MXN,
 				Country:    country.MX,
 			}
 			if processor.last != wantReq {

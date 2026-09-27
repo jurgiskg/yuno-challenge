@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"yuno-challenge/shared/country"
+	"yuno-challenge/shared/currency"
 )
 
 // Attempt is one call to one acquirer within a transaction's attempt chain.
@@ -26,7 +27,7 @@ type Transaction struct {
 	BIN      string
 	Last4    string
 	Amount   int64
-	Currency string
+	Currency currency.Code
 	Country  country.Code
 	// RoutingOrder is the acquirer ranking when the transaction arrived, best first.
 	RoutingOrder []string

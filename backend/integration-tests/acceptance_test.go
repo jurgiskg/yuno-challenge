@@ -48,7 +48,7 @@ import (
 const (
 	// localAPIKey is the key the locally started servers are given.
 	localAPIKey = "integration-test-key"
-	// seed selects the sample dataset; 1 matches acquirer/scenarios_test.go.
+	// seed selects the sample dataset; 1 matches testdata/scenarios_test.go.
 	seed = 1
 	// acquirerSeed makes the mock acquirers' random approvals reproducible.
 	acquirerSeed = 1

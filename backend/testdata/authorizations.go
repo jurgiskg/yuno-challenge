@@ -15,9 +15,10 @@ import (
 	"math/rand/v2"
 	"strconv"
 
-	"yuno-challenge/acquirer"
+	"yuno-challenge/acquirer/mock"
 	"yuno-challenge/authorization"
 	"yuno-challenge/shared/country"
+	"yuno-challenge/shared/currency"
 
 	"github.com/shopspring/decimal"
 )
@@ -33,24 +34,24 @@ const (
 	BINAmex            = "377752" // 15-digit PAN, 4-digit CVV
 	BINElo             = "636368"
 	BINHipercard       = "606282"
-	// binTestIssuer covers the acquirer.Card* test cards the issuer hard-declines.
+	// binTestIssuer covers the mock.Card* test cards the issuer hard-declines.
 	binTestIssuer = "4000"
 )
 
 // Mock acquirer rules the generated requests are designed against.
 var (
 	// AcquirerOne has stopped accepting Mexico and flagged the 5555 BIN range.
-	AcquirerOneRules = acquirer.Rules{
+	AcquirerOneRules = mock.Rules{
 		AcceptedCountries:   []country.Code{country.CO, country.BR, country.CL},
 		AcceptedBINPrefixes: []string{"4532", "4761", "5228", "3777", "6363", "6062", binTestIssuer},
 	}
 	// AcquirerTwo has no Chilean license and blocks the 4532 BIN range.
-	AcquirerTwoRules = acquirer.Rules{
+	AcquirerTwoRules = mock.Rules{
 		AcceptedCountries:   []country.Code{country.MX, country.CO, country.BR},
 		AcceptedBINPrefixes: []string{"4761", "5228", "5555", "3777", "6363", "6062", binTestIssuer},
 	}
 	// AcquirerThree approves 80% of requests at random.
-	AcquirerThreeRules = acquirer.Rules{SuccessRate: 0.8}
+	AcquirerThreeRules = mock.Rules{SuccessRate: 0.8}
 )
 
 type cardKind int
@@ -119,18 +120,18 @@ var scenarios = []scenario{
 }
 
 // usdRates are approximate local currency units per USD.
-var usdRates = map[authorization.Currency]decimal.Decimal{
-	authorization.CurrencyMXN: decimal.NewFromFloat(18.5),
-	authorization.CurrencyCOP: decimal.NewFromInt(4100),
-	authorization.CurrencyBRL: decimal.NewFromFloat(5.4),
-	authorization.CurrencyCLP: decimal.NewFromInt(940),
+var usdRates = map[currency.Code]decimal.Decimal{
+	currency.MXN: decimal.NewFromFloat(18.5),
+	currency.COP: decimal.NewFromInt(4100),
+	currency.BRL: decimal.NewFromFloat(5.4),
+	currency.CLP: decimal.NewFromInt(940),
 }
 
-var currencies = map[country.Code]authorization.Currency{
-	country.MX: authorization.CurrencyMXN,
-	country.CO: authorization.CurrencyCOP,
-	country.BR: authorization.CurrencyBRL,
-	country.CL: authorization.CurrencyCLP,
+var currencies = map[country.Code]currency.Code{
+	country.MX: currency.MXN,
+	country.CO: currency.COP,
+	country.BR: currency.BRL,
+	country.CL: currency.CLP,
 }
 
 var holderNames = map[country.Code][]string{
@@ -156,15 +157,15 @@ func AuthorizationRequests(seed uint64) []authorization.CreateAuthorizationReque
 }
 
 func newRequest(rng *rand.Rand, p profile) authorization.CreateAuthorizationRequest {
-	currency := currencies[p.country]
+	cur := currencies[p.country]
 	// $50.00 to $2000.00 USD equivalent.
 	usd := decimal.New(5000+rng.Int64N(195001), -2)
 	names := holderNames[p.country]
 
 	return authorization.CreateAuthorizationRequest{
 		MerchantID: MerchantID,
-		Amount:     usd.Mul(usdRates[currency]).Round(currency.Decimals()),
-		Currency:   currency,
+		Amount:     usd.Mul(usdRates[cur]).Round(cur.Decimals()),
+		Currency:   cur,
 		Country:    p.country,
 		Card: authorization.CardDetails{
 			Number:     cardNumber(rng, p),
@@ -178,9 +179,9 @@ func newRequest(rng *rand.Rand, p profile) authorization.CreateAuthorizationRequ
 func cardNumber(rng *rand.Rand, p profile) string {
 	switch p.kind {
 	case cardStolen:
-		return acquirer.CardStolen
+		return mock.CardStolen
 	case cardInsufficientFunds:
-		return acquirer.CardInsufficientFunds
+		return mock.CardInsufficientFunds
 	}
 	length := 16
 	if p.bin == BINAmex {

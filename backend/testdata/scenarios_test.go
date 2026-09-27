@@ -1,11 +1,10 @@
-package acquirer_test
+package testdata_test
 
 import (
 	"context"
 	"reflect"
 	"testing"
 
-	"yuno-challenge/acquirer"
 	"yuno-challenge/acquirer/mock"
 	"yuno-challenge/shared/country"
 	"yuno-challenge/testdata"
@@ -18,7 +17,7 @@ func TestAuthorizationRequests_Scenarios(t *testing.T) {
 	secondary := mustNew(t, "AcquirerTwo", testdata.AcquirerTwoRules)
 	// AcquirerThree's 80% success rate is random, so check the tertiary path
 	// without it: requests reaching it must only be declined by chance.
-	tertiary := mustNew(t, "AcquirerThree", acquirer.Rules{})
+	tertiary := mustNew(t, "AcquirerThree", mock.Rules{})
 
 	reqs := testdata.AuthorizationRequests(1)
 	if len(reqs) != 50 {
@@ -81,7 +80,7 @@ func TestAuthorizationRequests_Deterministic(t *testing.T) {
 	}
 }
 
-func mustNew(t *testing.T, name string, rules acquirer.Rules) *mock.Acquirer {
+func mustNew(t *testing.T, name string, rules mock.Rules) *mock.Acquirer {
 	t.Helper()
 	a, err := mock.New(name, rules)
 	if err != nil {

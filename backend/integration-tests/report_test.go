@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"yuno-challenge/authorization"
+	"yuno-challenge/shared/currency"
 
 	"github.com/shopspring/decimal"
 )
@@ -305,9 +306,9 @@ func formatDuration(ms float64) string {
 }
 
 // formatAmount renders minor units in major units, e.g. 1450000 MXN as "14500.00 MXN".
-func formatAmount(minor int64, currency string) string {
-	decimals := authorization.Currency(currency).Decimals()
-	return decimal.New(minor, -decimals).StringFixed(decimals) + " " + currency
+func formatAmount(minor int64, cur currency.Code) string {
+	decimals := cur.Decimals()
+	return decimal.New(minor, -decimals).StringFixed(decimals) + " " + string(cur)
 }
 
 func rate(n, total int) float64 {

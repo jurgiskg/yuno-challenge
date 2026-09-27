@@ -1,0 +1,345 @@
+// Package currency defines ISO 4217 currency codes.
+package currency
+
+// Code is an ISO 4217 alphabetic currency code, e.g. "MXN".
+type Code string
+
+// Valid reports whether c is an active ISO 4217 currency code.
+func (c Code) Valid() bool {
+	_, ok := currencies[c]
+	return ok
+}
+
+// Name returns the currency's English name, or "" if c isn't valid.
+func (c Code) Name() string {
+	return currencies[c].name
+}
+
+// Decimals returns the number of minor unit digits of the currency, e.g. 2
+// for MXN (centavos) and 0 for CLP, or 0 if c isn't valid.
+func (c Code) Decimals() int32 {
+	return currencies[c].decimals
+}
+
+type info struct {
+	name     string
+	decimals int32
+}
+
+// Every active ISO 4217 currency, excluding fund codes (e.g. MXV, CLF) and the
+// X-prefixed precious metal, bond market and testing codes.
+const (
+	AED Code = "AED" // United Arab Emirates Dirham
+	AFN Code = "AFN" // Afghani
+	ALL Code = "ALL" // Lek
+	AMD Code = "AMD" // Armenian Dram
+	AOA Code = "AOA" // Kwanza
+	ARS Code = "ARS" // Argentine Peso
+	AUD Code = "AUD" // Australian Dollar
+	AWG Code = "AWG" // Aruban Florin
+	AZN Code = "AZN" // Azerbaijan Manat
+	BAM Code = "BAM" // Convertible Mark
+	BBD Code = "BBD" // Barbados Dollar
+	BDT Code = "BDT" // Taka
+	BHD Code = "BHD" // Bahraini Dinar
+	BIF Code = "BIF" // Burundi Franc
+	BMD Code = "BMD" // Bermudian Dollar
+	BND Code = "BND" // Brunei Dollar
+	BOB Code = "BOB" // Boliviano
+	BRL Code = "BRL" // Brazilian Real
+	BSD Code = "BSD" // Bahamian Dollar
+	BTN Code = "BTN" // Ngultrum
+	BWP Code = "BWP" // Pula
+	BYN Code = "BYN" // Belarusian Ruble
+	BZD Code = "BZD" // Belize Dollar
+	CAD Code = "CAD" // Canadian Dollar
+	CDF Code = "CDF" // Congolese Franc
+	CHF Code = "CHF" // Swiss Franc
+	CLP Code = "CLP" // Chilean Peso
+	CNY Code = "CNY" // Yuan Renminbi
+	COP Code = "COP" // Colombian Peso
+	CRC Code = "CRC" // Costa Rican Colon
+	CUP Code = "CUP" // Cuban Peso
+	CVE Code = "CVE" // Cabo Verde Escudo
+	CZK Code = "CZK" // Czech Koruna
+	DJF Code = "DJF" // Djibouti Franc
+	DKK Code = "DKK" // Danish Krone
+	DOP Code = "DOP" // Dominican Peso
+	DZD Code = "DZD" // Algerian Dinar
+	EGP Code = "EGP" // Egyptian Pound
+	ERN Code = "ERN" // Nakfa
+	ETB Code = "ETB" // Ethiopian Birr
+	EUR Code = "EUR" // Euro
+	FJD Code = "FJD" // Fiji Dollar
+	FKP Code = "FKP" // Falkland Islands Pound
+	GBP Code = "GBP" // Pound Sterling
+	GEL Code = "GEL" // Lari
+	GHS Code = "GHS" // Ghana Cedi
+	GIP Code = "GIP" // Gibraltar Pound
+	GMD Code = "GMD" // Dalasi
+	GNF Code = "GNF" // Guinean Franc
+	GTQ Code = "GTQ" // Quetzal
+	GYD Code = "GYD" // Guyana Dollar
+	HKD Code = "HKD" // Hong Kong Dollar
+	HNL Code = "HNL" // Lempira
+	HTG Code = "HTG" // Gourde
+	HUF Code = "HUF" // Forint
+	IDR Code = "IDR" // Rupiah
+	ILS Code = "ILS" // New Israeli Sheqel
+	INR Code = "INR" // Indian Rupee
+	IQD Code = "IQD" // Iraqi Dinar
+	IRR Code = "IRR" // Iranian Rial
+	ISK Code = "ISK" // Iceland Krona
+	JMD Code = "JMD" // Jamaican Dollar
+	JOD Code = "JOD" // Jordanian Dinar
+	JPY Code = "JPY" // Yen
+	KES Code = "KES" // Kenyan Shilling
+	KGS Code = "KGS" // Som
+	KHR Code = "KHR" // Riel
+	KMF Code = "KMF" // Comorian Franc
+	KPW Code = "KPW" // North Korean Won
+	KRW Code = "KRW" // Won
+	KWD Code = "KWD" // Kuwaiti Dinar
+	KYD Code = "KYD" // Cayman Islands Dollar
+	KZT Code = "KZT" // Tenge
+	LAK Code = "LAK" // Lao Kip
+	LBP Code = "LBP" // Lebanese Pound
+	LKR Code = "LKR" // Sri Lanka Rupee
+	LRD Code = "LRD" // Liberian Dollar
+	LSL Code = "LSL" // Loti
+	LYD Code = "LYD" // Libyan Dinar
+	MAD Code = "MAD" // Moroccan Dirham
+	MDL Code = "MDL" // Moldovan Leu
+	MGA Code = "MGA" // Malagasy Ariary
+	MKD Code = "MKD" // Denar
+	MMK Code = "MMK" // Kyat
+	MNT Code = "MNT" // Tugrik
+	MOP Code = "MOP" // Pataca
+	MRU Code = "MRU" // Ouguiya
+	MUR Code = "MUR" // Mauritius Rupee
+	MVR Code = "MVR" // Rufiyaa
+	MWK Code = "MWK" // Malawi Kwacha
+	MXN Code = "MXN" // Mexican Peso
+	MYR Code = "MYR" // Malaysian Ringgit
+	MZN Code = "MZN" // Mozambique Metical
+	NAD Code = "NAD" // Namibia Dollar
+	NGN Code = "NGN" // Naira
+	NIO Code = "NIO" // Cordoba Oro
+	NOK Code = "NOK" // Norwegian Krone
+	NPR Code = "NPR" // Nepalese Rupee
+	NZD Code = "NZD" // New Zealand Dollar
+	OMR Code = "OMR" // Rial Omani
+	PAB Code = "PAB" // Balboa
+	PEN Code = "PEN" // Sol
+	PGK Code = "PGK" // Kina
+	PHP Code = "PHP" // Philippine Peso
+	PKR Code = "PKR" // Pakistan Rupee
+	PLN Code = "PLN" // Zloty
+	PYG Code = "PYG" // Guarani
+	QAR Code = "QAR" // Qatari Rial
+	RON Code = "RON" // Romanian Leu
+	RSD Code = "RSD" // Serbian Dinar
+	RUB Code = "RUB" // Russian Ruble
+	RWF Code = "RWF" // Rwanda Franc
+	SAR Code = "SAR" // Saudi Riyal
+	SBD Code = "SBD" // Solomon Islands Dollar
+	SCR Code = "SCR" // Seychelles Rupee
+	SDG Code = "SDG" // Sudanese Pound
+	SEK Code = "SEK" // Swedish Krona
+	SGD Code = "SGD" // Singapore Dollar
+	SHP Code = "SHP" // Saint Helena Pound
+	SLE Code = "SLE" // Leone
+	SOS Code = "SOS" // Somali Shilling
+	SRD Code = "SRD" // Surinam Dollar
+	SSP Code = "SSP" // South Sudanese Pound
+	STN Code = "STN" // Dobra
+	SVC Code = "SVC" // El Salvador Colon
+	SYP Code = "SYP" // Syrian Pound
+	SZL Code = "SZL" // Lilangeni
+	THB Code = "THB" // Baht
+	TJS Code = "TJS" // Somoni
+	TMT Code = "TMT" // Turkmenistan New Manat
+	TND Code = "TND" // Tunisian Dinar
+	TOP Code = "TOP" // Pa'anga
+	TRY Code = "TRY" // Turkish Lira
+	TTD Code = "TTD" // Trinidad and Tobago Dollar
+	TWD Code = "TWD" // New Taiwan Dollar
+	TZS Code = "TZS" // Tanzanian Shilling
+	UAH Code = "UAH" // Hryvnia
+	UGX Code = "UGX" // Uganda Shilling
+	USD Code = "USD" // US Dollar
+	UYU Code = "UYU" // Peso Uruguayo
+	UZS Code = "UZS" // Uzbekistan Sum
+	VED Code = "VED" // Bolívar Soberano
+	VES Code = "VES" // Bolívar Soberano
+	VND Code = "VND" // Dong
+	VUV Code = "VUV" // Vatu
+	WST Code = "WST" // Tala
+	XAF Code = "XAF" // CFA Franc BEAC
+	XCD Code = "XCD" // East Caribbean Dollar
+	XCG Code = "XCG" // Caribbean Guilder
+	XOF Code = "XOF" // CFA Franc BCEAO
+	XPF Code = "XPF" // CFP Franc
+	YER Code = "YER" // Yemeni Rial
+	ZAR Code = "ZAR" // Rand
+	ZMW Code = "ZMW" // Zambian Kwacha
+	ZWG Code = "ZWG" // Zimbabwe Gold
+)
+
+var currencies = map[Code]info{
+	AED: {"United Arab Emirates Dirham", 2},
+	AFN: {"Afghani", 2},
+	ALL: {"Lek", 2},
+	AMD: {"Armenian Dram", 2},
+	AOA: {"Kwanza", 2},
+	ARS: {"Argentine Peso", 2},
+	AUD: {"Australian Dollar", 2},
+	AWG: {"Aruban Florin", 2},
+	AZN: {"Azerbaijan Manat", 2},
+	BAM: {"Convertible Mark", 2},
+	BBD: {"Barbados Dollar", 2},
+	BDT: {"Taka", 2},
+	BHD: {"Bahraini Dinar", 3},
+	BIF: {"Burundi Franc", 0},
+	BMD: {"Bermudian Dollar", 2},
+	BND: {"Brunei Dollar", 2},
+	BOB: {"Boliviano", 2},
+	BRL: {"Brazilian Real", 2},
+	BSD: {"Bahamian Dollar", 2},
+	BTN: {"Ngultrum", 2},
+	BWP: {"Pula", 2},
+	BYN: {"Belarusian Ruble", 2},
+	BZD: {"Belize Dollar", 2},
+	CAD: {"Canadian Dollar", 2},
+	CDF: {"Congolese Franc", 2},
+	CHF: {"Swiss Franc", 2},
+	CLP: {"Chilean Peso", 0},
+	CNY: {"Yuan Renminbi", 2},
+	COP: {"Colombian Peso", 2},
+	CRC: {"Costa Rican Colon", 2},
+	CUP: {"Cuban Peso", 2},
+	CVE: {"Cabo Verde Escudo", 2},
+	CZK: {"Czech Koruna", 2},
+	DJF: {"Djibouti Franc", 0},
+	DKK: {"Danish Krone", 2},
+	DOP: {"Dominican Peso", 2},
+	DZD: {"Algerian Dinar", 2},
+	EGP: {"Egyptian Pound", 2},
+	ERN: {"Nakfa", 2},
+	ETB: {"Ethiopian Birr", 2},
+	EUR: {"Euro", 2},
+	FJD: {"Fiji Dollar", 2},
+	FKP: {"Falkland Islands Pound", 2},
+	GBP: {"Pound Sterling", 2},
+	GEL: {"Lari", 2},
+	GHS: {"Ghana Cedi", 2},
+	GIP: {"Gibraltar Pound", 2},
+	GMD: {"Dalasi", 2},
+	GNF: {"Guinean Franc", 0},
+	GTQ: {"Quetzal", 2},
+	GYD: {"Guyana Dollar", 2},
+	HKD: {"Hong Kong Dollar", 2},
+	HNL: {"Lempira", 2},
+	HTG: {"Gourde", 2},
+	HUF: {"Forint", 2},
+	IDR: {"Rupiah", 2},
+	ILS: {"New Israeli Sheqel", 2},
+	INR: {"Indian Rupee", 2},
+	IQD: {"Iraqi Dinar", 3},
+	IRR: {"Iranian Rial", 2},
+	ISK: {"Iceland Krona", 0},
+	JMD: {"Jamaican Dollar", 2},
+	JOD: {"Jordanian Dinar", 3},
+	JPY: {"Yen", 0},
+	KES: {"Kenyan Shilling", 2},
+	KGS: {"Som", 2},
+	KHR: {"Riel", 2},
+	KMF: {"Comorian Franc", 0},
+	KPW: {"North Korean Won", 2},
+	KRW: {"Won", 0},
+	KWD: {"Kuwaiti Dinar", 3},
+	KYD: {"Cayman Islands Dollar", 2},
+	KZT: {"Tenge", 2},
+	LAK: {"Lao Kip", 2},
+	LBP: {"Lebanese Pound", 2},
+	LKR: {"Sri Lanka Rupee", 2},
+	LRD: {"Liberian Dollar", 2},
+	LSL: {"Loti", 2},
+	LYD: {"Libyan Dinar", 3},
+	MAD: {"Moroccan Dirham", 2},
+	MDL: {"Moldovan Leu", 2},
+	MGA: {"Malagasy Ariary", 2},
+	MKD: {"Denar", 2},
+	MMK: {"Kyat", 2},
+	MNT: {"Tugrik", 2},
+	MOP: {"Pataca", 2},
+	MRU: {"Ouguiya", 2},
+	MUR: {"Mauritius Rupee", 2},
+	MVR: {"Rufiyaa", 2},
+	MWK: {"Malawi Kwacha", 2},
+	MXN: {"Mexican Peso", 2},
+	MYR: {"Malaysian Ringgit", 2},
+	MZN: {"Mozambique Metical", 2},
+	NAD: {"Namibia Dollar", 2},
+	NGN: {"Naira", 2},
+	NIO: {"Cordoba Oro", 2},
+	NOK: {"Norwegian Krone", 2},
+	NPR: {"Nepalese Rupee", 2},
+	NZD: {"New Zealand Dollar", 2},
+	OMR: {"Rial Omani", 3},
+	PAB: {"Balboa", 2},
+	PEN: {"Sol", 2},
+	PGK: {"Kina", 2},
+	PHP: {"Philippine Peso", 2},
+	PKR: {"Pakistan Rupee", 2},
+	PLN: {"Zloty", 2},
+	PYG: {"Guarani", 0},
+	QAR: {"Qatari Rial", 2},
+	RON: {"Romanian Leu", 2},
+	RSD: {"Serbian Dinar", 2},
+	RUB: {"Russian Ruble", 2},
+	RWF: {"Rwanda Franc", 0},
+	SAR: {"Saudi Riyal", 2},
+	SBD: {"Solomon Islands Dollar", 2},
+	SCR: {"Seychelles Rupee", 2},
+	SDG: {"Sudanese Pound", 2},
+	SEK: {"Swedish Krona", 2},
+	SGD: {"Singapore Dollar", 2},
+	SHP: {"Saint Helena Pound", 2},
+	SLE: {"Leone", 2},
+	SOS: {"Somali Shilling", 2},
+	SRD: {"Surinam Dollar", 2},
+	SSP: {"South Sudanese Pound", 2},
+	STN: {"Dobra", 2},
+	SVC: {"El Salvador Colon", 2},
+	SYP: {"Syrian Pound", 2},
+	SZL: {"Lilangeni", 2},
+	THB: {"Baht", 2},
+	TJS: {"Somoni", 2},
+	TMT: {"Turkmenistan New Manat", 2},
+	TND: {"Tunisian Dinar", 3},
+	TOP: {"Pa'anga", 2},
+	TRY: {"Turkish Lira", 2},
+	TTD: {"Trinidad and Tobago Dollar", 2},
+	TWD: {"New Taiwan Dollar", 2},
+	TZS: {"Tanzanian Shilling", 2},
+	UAH: {"Hryvnia", 2},
+	UGX: {"Uganda Shilling", 0},
+	USD: {"US Dollar", 2},
+	UYU: {"Peso Uruguayo", 2},
+	UZS: {"Uzbekistan Sum", 2},
+	VED: {"Bolívar Soberano", 2},
+	VES: {"Bolívar Soberano", 2},
+	VND: {"Dong", 0},
+	VUV: {"Vatu", 0},
+	WST: {"Tala", 2},
+	XAF: {"CFA Franc BEAC", 0},
+	XCD: {"East Caribbean Dollar", 2},
+	XCG: {"Caribbean Guilder", 2},
+	XOF: {"CFA Franc BCEAO", 0},
+	XPF: {"CFP Franc", 0},
+	YER: {"Yemeni Rial", 2},
+	ZAR: {"Rand", 2},
+	ZMW: {"Zambian Kwacha", 2},
+	ZWG: {"Zimbabwe Gold", 2},
+}

@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"yuno-challenge/shared/country"
+	"yuno-challenge/shared/currency"
 )
 
 // Card is the customer's card as sent to the acquirers.
@@ -30,8 +31,7 @@ type Request struct {
 	MerchantID string
 	Card       Card
 	// Amount is in minor units (e.g. centavos).
-	Amount int64
-	// Currency is an ISO 4217 code: MXN, COP, BRL or CLP.
-	Currency string
+	Amount   int64
+	Currency currency.Code
 	Country  country.Code
 }

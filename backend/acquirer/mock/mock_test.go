@@ -1,15 +1,16 @@
-package acquirer_test
+package mock_test
 
 import (
 	"testing"
 
-	"yuno-challenge/acquirer"
+	"yuno-challenge/acquirer/mock"
 	"yuno-challenge/authorization"
 	"yuno-challenge/shared/country"
+	"yuno-challenge/shared/currency"
 )
 
 func TestRules_SeededSuccessRate(t *testing.T) {
-	rules := acquirer.Rules{SuccessRate: 0.8, Seed: 42}
+	rules := mock.Rules{SuccessRate: 0.8, Seed: 42}
 	approved := 0
 	const n = 2000
 	for i := range n {
@@ -17,7 +18,7 @@ func TestRules_SeededSuccessRate(t *testing.T) {
 			MerchantID: "solarbazaar",
 			Card:       authorization.Card{Number: "4532015112830366"},
 			Amount:     int64(100000 + i),
-			Currency:   "MXN",
+			Currency:   currency.MXN,
 			Country:    country.MX,
 		}
 		reason, declined := rules.Check(req)

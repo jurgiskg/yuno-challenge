@@ -46,7 +46,7 @@ transactions).**
 The rules are in `backend/testdata/authorizations.go`. The dataset has 40%
 retriable declines from the primary, 18% declined by the secondary and
 approved by the tertiary, and 8% hard declines from the primary.
-The brief asked for at least 30%, 10% and 5%. `acquirer/scenarios_test.go`
+The brief asked for at least 30%, 10% and 5%. `testdata/scenarios_test.go`
 enforces those minimums.
 
 ## Failover in action

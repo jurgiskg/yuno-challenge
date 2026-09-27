@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"yuno-challenge/shared/country"
+	"yuno-challenge/shared/currency"
 )
 
 type Status string
@@ -79,9 +80,9 @@ type TransactionResponse struct {
 	// Last 4 digits of the card number.
 	Last4 string `json:"last4" example:"0366"`
 	// Amount in minor units of the currency (e.g. centavos).
-	AmountMinor int64        `json:"amountMinor" example:"1450000"`
-	Currency    string       `json:"currency" example:"MXN"`
-	Country     country.Code `json:"country" swaggertype:"string" example:"MX"`
+	AmountMinor int64         `json:"amountMinor" example:"1450000"`
+	Currency    currency.Code `json:"currency" swaggertype:"string" example:"MXN"`
+	Country     country.Code  `json:"country" swaggertype:"string" example:"MX"`
 	// Acquirer order as ranked when the transaction arrived, best first.
 	RoutingOrder []string `json:"routingOrder" example:"AcquirerOne,AcquirerTwo,AcquirerThree"`
 	Status       Status   `json:"status" example:"APPROVED"`

@@ -89,8 +89,8 @@ backend/
 ├── main.go             wiring: config, acquirers, processor, routes
 ├── authorization/      request validation, Transaction/Attempt models, decline reasons,
 │                       in-memory store, analytics, HTTP controller
-├── acquirer/           Acquirer interface, Rules, simulated issuer checks
-│   └── mock/           mock acquirer, configured with a name and Rules
+├── acquirer/           Acquirer interface and AuthorizationResponse
+│   └── mock/           mock acquirer, its Rules and simulated issuer checks
 ├── processor/          failover engine
 │   └── ranking/        orders acquirers by recent approval rate
 ├── shared/

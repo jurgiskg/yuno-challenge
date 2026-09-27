@@ -113,7 +113,7 @@ func routedAcquirers(order string, seed uint64) ([]acquirer.Acquirer, error) {
 	}
 	mocks := []struct {
 		name  string
-		rules acquirer.Rules
+		rules mock.Rules
 	}{
 		{"AcquirerOne", testdata.AcquirerOneRules},
 		{"AcquirerTwo", testdata.AcquirerTwoRules},

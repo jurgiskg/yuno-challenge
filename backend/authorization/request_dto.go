@@ -2,11 +2,14 @@ package authorization
 
 import (
 	"fmt"
+	"maps"
 	"regexp"
+	"slices"
 	"strconv"
 	"strings"
 
 	"yuno-challenge/shared/country"
+	"yuno-challenge/shared/currency"
 	"yuno-challenge/shared/sharedgin"
 
 	"github.com/shopspring/decimal"
@@ -18,22 +21,13 @@ const (
 	ErrorCodeInvalidExpiry   = "invalid-expiry"
 )
 
-type Currency string
-
-const (
-	CurrencyMXN Currency = "MXN"
-	CurrencyCOP Currency = "COP"
-	CurrencyBRL Currency = "BRL"
-	CurrencyCLP Currency = "CLP"
-)
-
 // countryCurrency is the local currency SolarBazaar charges in for each country
 // it operates in. Requests from any other country are rejected.
-var countryCurrency = map[country.Code]Currency{
-	country.MX: CurrencyMXN,
-	country.CO: CurrencyCOP,
-	country.BR: CurrencyBRL,
-	country.CL: CurrencyCLP,
+var countryCurrency = map[country.Code]currency.Code{
+	country.MX: currency.MXN,
+	country.CO: currency.COP,
+	country.BR: currency.BRL,
+	country.CL: currency.CLP,
 }
 
 func validateCountry(c country.Code) error {
@@ -46,21 +40,14 @@ func validateCountry(c country.Code) error {
 	return nil
 }
 
-// Decimals is the number of minor unit digits of the currency (ISO 4217).
-func (c Currency) Decimals() int32 {
-	if c == CurrencyCLP {
-		return 0
+func validateCurrency(c currency.Code) error {
+	if !c.Valid() {
+		return fmt.Errorf("invalid currency: %s. Currency must be an ISO 4217 code", c)
 	}
-	return 2
-}
-
-func (c Currency) Validate() error {
-	switch c {
-	case CurrencyMXN, CurrencyCOP, CurrencyBRL, CurrencyCLP:
-		return nil
-	default:
-		return fmt.Errorf("invalid currency: %s. Currency must be one of MXN, COP, BRL, CLP", c)
+	if !slices.Contains(slices.Collect(maps.Values(countryCurrency)), c) {
+		return fmt.Errorf("unsupported currency: %s. Currency must be one of MXN, COP, BRL, CLP", c)
 	}
+	return nil
 }
 
 type CardDetails struct {
@@ -80,7 +67,7 @@ type CreateAuthorizationRequest struct {
 	// Amount in major units of the currency. Accepts a JSON string or number, e.g. "14500.00" MXN or "850000" CLP.
 	Amount decimal.Decimal `json:"amount" swaggertype:"string" example:"14500.00"`
 	// Transaction currency. Must be the local currency of country.
-	Currency Currency `json:"currency" example:"MXN"`
+	Currency currency.Code `json:"currency" swaggertype:"string" example:"MXN"`
 	// ISO 3166-1 alpha-2 country of the transaction.
 	Country country.Code `json:"country" swaggertype:"string" example:"MX"`
 	// Customer card details.
@@ -94,7 +81,7 @@ func (r CreateAuthorizationRequest) Validate() (string, error) {
 	if r.Amount.LessThanOrEqual(decimal.Zero) {
 		return ErrorCodeValidationError, fmt.Errorf("amount must be greater than 0")
 	}
-	if err := r.Currency.Validate(); err != nil {
+	if err := validateCurrency(r.Currency); err != nil {
 		return ErrorCodeValidationError, err
 	}
 	if decimals := r.Currency.Decimals(); !r.Amount.Equal(r.Amount.Truncate(decimals)) {
@@ -124,7 +111,7 @@ func (r CreateAuthorizationRequest) ToRequest() Request {
 			CVV:         r.Card.CVV,
 		},
 		Amount:   r.Amount.Shift(r.Currency.Decimals()).IntPart(),
-		Currency: string(r.Currency),
+		Currency: r.Currency,
 		Country:  r.Country,
 	}
 }
