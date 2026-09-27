@@ -1,8 +1,11 @@
-// Package acq3 mocks AcquirerThree.
-package acq3
+// Package mock provides a mock acquirer that approves or declines by
+// configurable rules, standing in for a real acquirer integration.
+package mock
 
 import (
 	"context"
+	"errors"
+	"strings"
 	"time"
 
 	"yuno-challenge/acquirer"
@@ -10,23 +13,29 @@ import (
 )
 
 type Acquirer struct {
+	name  string
 	rules acquirer.Rules
 }
 
 var _ acquirer.Acquirer = (*Acquirer)(nil)
 
-// New returns AcquirerThree, which approves or declines according to rules.
-func New(rules acquirer.Rules) (*Acquirer, error) {
+// New returns a mock acquirer called name, which approves or declines according
+// to rules.
+func New(name string, rules acquirer.Rules) (*Acquirer, error) {
+	if strings.TrimSpace(name) == "" {
+		return nil, errors.New("acquirer name must not be blank")
+	}
 	if err := rules.Validate(); err != nil {
 		return nil, err
 	}
-	return &Acquirer{rules: rules}, nil
+	return &Acquirer{name: name, rules: rules}, nil
 }
 
 func (a *Acquirer) Name() string {
-	return "AcquirerThree"
+	return a.name
 }
 
+// Authorize applies the acquirer's rules first, then the simulated issuer checks.
 func (a *Acquirer) Authorize(_ context.Context, req authorization.Request) acquirer.AuthorizationResponse {
 	if reason, declined := a.rules.Check(req); declined {
 		return acquirer.Declined(reason)

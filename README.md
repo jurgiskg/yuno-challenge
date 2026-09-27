@@ -87,7 +87,7 @@ backend/
 ├── authorization/      request validation, Transaction/Attempt models, decline reasons,
 │                       in-memory store, analytics, HTTP controller
 ├── acquirer/           Acquirer interface, Rules, simulated issuer checks
-│   └── acq1, acq2, acq3/   mock AcquirerOne, AcquirerTwo, AcquirerThree
+│   └── mock/           mock acquirer, configured with a name and Rules
 ├── processor/          failover engine
 │   └── ranking/        orders acquirers by recent approval rate
 ├── shared/
@@ -97,7 +97,8 @@ backend/
 └── integration-tests/  acceptance test and HTML report
 ```
 
-- **`acquirer`:** each mock acquirer applies its `Rules` (accepted countries,
+- **`acquirer`:** `main.go` creates AcquirerOne, AcquirerTwo and AcquirerThree
+  with `mock.New(name, rules)`. Each applies its `Rules` (accepted countries,
   accepted BIN prefixes or a random success rate), then the shared issuer
   checks (expired, stolen or invalid card, insufficient funds).
 - **`processor`:** takes the order from `ranking` and calls each acquirer
@@ -133,8 +134,5 @@ backend/
   The same `400` is returned for invalid requests, and the response body
   tells the two apart.
 - **Acquirer rules are hardcoded in `testdata`.** A mock acquirer takes its
-  `Rules` as configuration, so the rules could be loaded from a config file
-  or env vars instead.
-- **`acq1`, `acq2` and `acq3` are redundant.** They differ only in name. A
-  single mock acquirer whose `New()` takes a name along with the `Rules`
-  would be enough.
+  name and `Rules` as configuration, so the acquirers could be loaded from a
+  config file or env vars instead.

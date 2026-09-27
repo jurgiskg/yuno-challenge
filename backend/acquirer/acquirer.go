@@ -14,7 +14,7 @@ import (
 	"yuno-challenge/shared/country"
 )
 
-// Acquirer is implemented by every mock acquirer (see the acq* subpackages).
+// Acquirer is implemented by every acquirer; see the mock subpackage.
 type Acquirer interface {
 	// Name identifies the acquirer in routing config and attempt logs.
 	Name() string

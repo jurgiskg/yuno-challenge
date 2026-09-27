@@ -6,9 +6,7 @@ import (
 	"testing"
 
 	"yuno-challenge/acquirer"
-	"yuno-challenge/acquirer/acq1"
-	"yuno-challenge/acquirer/acq2"
-	"yuno-challenge/acquirer/acq3"
+	"yuno-challenge/acquirer/mock"
 	"yuno-challenge/shared/country"
 	"yuno-challenge/testdata"
 )
@@ -16,11 +14,11 @@ import (
 // TestAuthorizationRequests_Scenarios checks the generated test data meets the
 // challenge's distribution requirements against the mock acquirer rules.
 func TestAuthorizationRequests_Scenarios(t *testing.T) {
-	primary := mustNew(t, acq1.New, testdata.AcquirerOneRules)
-	secondary := mustNew(t, acq2.New, testdata.AcquirerTwoRules)
+	primary := mustNew(t, "AcquirerOne", testdata.AcquirerOneRules)
+	secondary := mustNew(t, "AcquirerTwo", testdata.AcquirerTwoRules)
 	// AcquirerThree's 80% success rate is random, so check the tertiary path
 	// without it: requests reaching it must only be declined by chance.
-	tertiary := mustNew(t, acq3.New, acquirer.Rules{})
+	tertiary := mustNew(t, "AcquirerThree", acquirer.Rules{})
 
 	reqs := testdata.AuthorizationRequests(1)
 	if len(reqs) != 50 {
@@ -83,9 +81,9 @@ func TestAuthorizationRequests_Deterministic(t *testing.T) {
 	}
 }
 
-func mustNew[A acquirer.Acquirer](t *testing.T, newFn func(acquirer.Rules) (A, error), rules acquirer.Rules) A {
+func mustNew(t *testing.T, name string, rules acquirer.Rules) *mock.Acquirer {
 	t.Helper()
-	a, err := newFn(rules)
+	a, err := mock.New(name, rules)
 	if err != nil {
 		t.Fatalf("failed to create acquirer: %v", err)
 	}

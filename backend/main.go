@@ -13,9 +13,7 @@ import (
 	"time"
 
 	"yuno-challenge/acquirer"
-	"yuno-challenge/acquirer/acq1"
-	"yuno-challenge/acquirer/acq2"
-	"yuno-challenge/acquirer/acq3"
+	"yuno-challenge/acquirer/mock"
 	"yuno-challenge/authorization"
 	"yuno-challenge/processor"
 	"yuno-challenge/shared/sharedgin"
@@ -108,19 +106,22 @@ func routedAcquirers(order string) ([]acquirer.Acquirer, error) {
 	if strings.TrimSpace(order) == "" {
 		order = defaultAcquirerOrder
 	}
-	one, err := acq1.New(testdata.AcquirerOneRules)
-	if err != nil {
-		return nil, err
+	mocks := []struct {
+		name  string
+		rules acquirer.Rules
+	}{
+		{"AcquirerOne", testdata.AcquirerOneRules},
+		{"AcquirerTwo", testdata.AcquirerTwoRules},
+		{"AcquirerThree", testdata.AcquirerThreeRules},
 	}
-	two, err := acq2.New(testdata.AcquirerTwoRules)
-	if err != nil {
-		return nil, err
+	available := make(map[string]acquirer.Acquirer, len(mocks))
+	for _, m := range mocks {
+		a, err := mock.New(m.name, m.rules)
+		if err != nil {
+			return nil, fmt.Errorf("invalid %s rules: %w", m.name, err)
+		}
+		available[m.name] = a
 	}
-	three, err := acq3.New(testdata.AcquirerThreeRules)
-	if err != nil {
-		return nil, err
-	}
-	available := map[string]acquirer.Acquirer{one.Name(): one, two.Name(): two, three.Name(): three}
 
 	var routed []acquirer.Acquirer
 	for _, name := range strings.Split(order, ",") {
