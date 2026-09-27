@@ -138,6 +138,9 @@ backend/
 - **Acquirer rules are hardcoded in `testdata`.** A mock acquirer takes its
   name and `Rules` as configuration, so the acquirers could be loaded from a
   config file or env vars instead.
+- **Integration tests are written in Go** as a test package inside the
+  service module, for simplicity. A real project would use a dedicated
+  integration test framework in a separate Nx package in the monorepo.
 - **Render for deployment.** It deploys automatically on every push to
   `main` with little setup. A real deployment would manage infrastructure as
   code with Terraform, which is more flexible and easier to maintain.
