@@ -1,0 +1,5 @@
+# BuildKit picks this up for infra/Dockerfile; paths are relative to the
+# build context (./backend).
+bin/
+**/*_test.go
+.env*

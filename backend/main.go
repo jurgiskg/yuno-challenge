@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"yuno-challenge/merchant"
+	"yuno-challenge/sharedgin"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -26,7 +27,15 @@ func main() {
 		port = defaultPort
 	}
 
-	srv := &http.Server{Addr: ":" + port, Handler: newEngine()}
+	apiKey := os.Getenv("API_KEY")
+	if apiKey == "" {
+		if gin.Mode() == gin.ReleaseMode {
+			logger.Fatal("API_KEY must be set when GIN_MODE=release")
+		}
+		logger.Warn("API_KEY is not set; /v1 endpoints are unauthenticated")
+	}
+
+	srv := &http.Server{Addr: ":" + port, Handler: newEngine(apiKey)}
 	go func() {
 		logger.Infof("Listening on :%s", port)
 		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
@@ -45,7 +54,7 @@ func main() {
 	}
 }
 
-func newEngine() *gin.Engine {
+func newEngine(apiKey string) *gin.Engine {
 	engine := gin.New()
 	engine.Use(gin.Logger(), gin.Recovery())
 
@@ -54,8 +63,11 @@ func newEngine() *gin.Engine {
 		c.JSON(http.StatusOK, gin.H{"status": "ok"})
 	})
 
+	// Health stays public for Render's health checks; everything else needs the key.
+	authed := v1.Group("", sharedgin.RequireAPIKey(apiKey))
+
 	merchantController := merchant.NewController()
-	v1.POST("/authorizations", merchantController.CreateAuthorization)
+	authed.POST("/authorizations", merchantController.CreateAuthorization)
 
 	return engine
 }

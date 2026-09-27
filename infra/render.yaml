@@ -1,0 +1,25 @@
+# Render Blueprint for the failover API. When creating the Blueprint in the
+# Render dashboard, set "Blueprint Path" to infra/render.yaml.
+services:
+  - type: web
+    name: yuno-failover-api
+    runtime: docker
+    plan: free
+    region: virginia
+    branch: main
+    autoDeployTrigger: commit
+    dockerContext: ./backend
+    dockerfilePath: ./infra/Dockerfile
+    healthCheckPath: /v1/health
+    # Skip deploys for frontend/docs-only commits.
+    buildFilter:
+      paths:
+        - backend/**
+        - infra/**
+    envVars:
+      - key: GIN_MODE
+        value: release
+      # Render generates a random 256-bit value on first sync; it never lives
+      # in git. Read it from the service's Environment tab.
+      - key: API_KEY
+        generateValue: true
