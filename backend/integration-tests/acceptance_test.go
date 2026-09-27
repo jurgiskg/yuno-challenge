@@ -14,8 +14,9 @@
 //
 // Pass -report <file> to write the report elsewhere, and -out <dir> to also save
 // each scenario's log, analytics and server output as demo evidence. The report
-// never fails the test: AcquirerThree approves at random, so the multi-acquirer
-// numbers vary slightly between runs.
+// never fails the test. Every local server gets the same MOCK_ACQUIRER_SEED, so
+// AcquirerThree's random approvals are the same for a given request in every
+// scenario and every run.
 //
 // To test an already deployed service instead, set INTEGRATION_BASE_URL and
 // INTEGRATION_API_KEY. That runs a single "deployed" scenario with whatever
@@ -49,6 +50,8 @@ const (
 	localAPIKey = "integration-test-key"
 	// seed selects the sample dataset; 1 matches acquirer/scenarios_test.go.
 	seed = 1
+	// acquirerSeed makes the mock acquirers' random approvals reproducible.
+	acquirerSeed = 1
 )
 
 // httpClient allows for a deployed service waking from sleep.
@@ -228,6 +231,7 @@ func startServer(t *testing.T, binary string, sc scenario) *server {
 		"API_KEY="+localAPIKey,
 		"ACQUIRER_ORDER="+sc.acquirerOrder,
 		fmt.Sprintf("DYNAMIC_RANKING=%t", !sc.fixedOrder),
+		fmt.Sprintf("MOCK_ACQUIRER_SEED=%d", acquirerSeed),
 		"GIN_MODE=release",
 	)
 	cmd.Stdout = srv.output

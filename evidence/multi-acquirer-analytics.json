@@ -1,9 +1,9 @@
 {
   "transactions": 50,
-  "approved": 40,
-  "approvalRate": 0.8,
+  "approved": 43,
+  "approvalRate": 0.86,
   "approvedAfterFailover": 2,
-  "averageAttempts": 1.2,
+  "averageAttempts": 1.08,
   "declineReasons": [
     {
       "reason": "EXPIRED_CARD",
@@ -16,54 +16,34 @@
     {
       "reason": "STOLEN_CARD",
       "count": 2
-    },
-    {
-      "reason": "SUSPECTED_FRAUD",
-      "count": 2
-    },
-    {
-      "reason": "POLICY_DECLINE",
-      "count": 1
     }
   ],
   "acquirers": [
     {
       "acquirer": "AcquirerOne",
-      "attempts": 32,
+      "attempts": 30,
       "approved": 26,
-      "approvalRate": 0.8125,
+      "approvalRate": 0.8666666666666667,
       "declineReasons": [
         {
+          "reason": "EXPIRED_CARD",
+          "count": 2
+        },
+        {
           "reason": "POLICY_DECLINE",
-          "count": 3
-        },
-        {
-          "reason": "INSUFFICIENT_FUNDS",
-          "count": 1
-        },
-        {
-          "reason": "STOLEN_CARD",
-          "count": 1
-        },
-        {
-          "reason": "SUSPECTED_FRAUD",
-          "count": 1
+          "count": 2
         }
       ]
     },
     {
       "acquirer": "AcquirerThree",
-      "attempts": 16,
-      "approved": 6,
-      "approvalRate": 0.375,
+      "attempts": 12,
+      "approved": 9,
+      "approvalRate": 0.75,
       "declineReasons": [
         {
           "reason": "GENERIC_DECLINE",
-          "count": 5
-        },
-        {
-          "reason": "EXPIRED_CARD",
-          "count": 3
+          "count": 1
         },
         {
           "reason": "INSUFFICIENT_FUNDS",
@@ -82,11 +62,19 @@
       "approvalRate": 0.6666666666666666,
       "declineReasons": [
         {
-          "reason": "SUSPECTED_FRAUD",
-          "count": 3
+          "reason": "EXPIRED_CARD",
+          "count": 1
         },
         {
-          "reason": "POLICY_DECLINE",
+          "reason": "INSUFFICIENT_FUNDS",
+          "count": 1
+        },
+        {
+          "reason": "STOLEN_CARD",
+          "count": 1
+        },
+        {
+          "reason": "SUSPECTED_FRAUD",
           "count": 1
         }
       ]

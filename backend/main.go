@@ -46,7 +46,11 @@ func main() {
 		logger.Warn("API_KEY is not set; /v1 endpoints are unauthenticated")
 	}
 
-	acquirers, err := routedAcquirers(os.Getenv("ACQUIRER_ORDER"))
+	seed, err := envUint("MOCK_ACQUIRER_SEED")
+	if err != nil {
+		logger.Fatalf("Invalid MOCK_ACQUIRER_SEED: %v", err)
+	}
+	acquirers, err := routedAcquirers(os.Getenv("ACQUIRER_ORDER"), seed)
 	if err != nil {
 		logger.Fatalf("Invalid ACQUIRER_ORDER: %v", err)
 	}
@@ -102,7 +106,8 @@ func newEngine(apiKey string, processor authorization.Processor, store *authoriz
 // routedAcquirers returns the mock acquirers named in order, a comma-separated
 // list such as "AcquirerTwo,AcquirerOne". A subset is allowed, e.g. a single
 // acquirer to measure the no-failover baseline. Empty uses defaultAcquirerOrder.
-func routedAcquirers(order string) ([]acquirer.Acquirer, error) {
+// A non-zero seed makes the mocks' random approvals deterministic per request.
+func routedAcquirers(order string, seed uint64) ([]acquirer.Acquirer, error) {
 	if strings.TrimSpace(order) == "" {
 		order = defaultAcquirerOrder
 	}
@@ -116,6 +121,7 @@ func routedAcquirers(order string) ([]acquirer.Acquirer, error) {
 	}
 	available := make(map[string]acquirer.Acquirer, len(mocks))
 	for _, m := range mocks {
+		m.rules.Seed = seed
 		a, err := mock.New(m.name, m.rules)
 		if err != nil {
 			return nil, fmt.Errorf("invalid %s rules: %w", m.name, err)
@@ -141,6 +147,16 @@ func envBool(name string, def bool) (bool, error) {
 		return def, nil
 	}
 	return strconv.ParseBool(v)
+}
+
+// envUint parses the named env var as an unsigned integer, returning 0 when it
+// is unset.
+func envUint(name string) (uint64, error) {
+	v := strings.TrimSpace(os.Getenv(name))
+	if v == "" {
+		return 0, nil
+	}
+	return strconv.ParseUint(v, 10, 64)
 }
 
 func newLogger() *zap.SugaredLogger {

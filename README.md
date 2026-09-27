@@ -26,6 +26,7 @@ API_KEY=dev-key go run . # require X-API-Key
 | `GIN_MODE` | `debug` | `release` in the Docker image |
 | `ACQUIRER_ORDER` | `AcquirerOne,AcquirerTwo,AcquirerThree` | Initial routing order. `AcquirerOne` alone gives the single-acquirer baseline |
 | `DYNAMIC_RANKING` | `true` | `false` keeps `ACQUIRER_ORDER` fixed |
+| `MOCK_ACQUIRER_SEED` | _(empty)_ | Makes AcquirerThree's random approvals reproducible per request |
 
 ```sh
 curl -H 'X-API-Key: dev-key' -X POST localhost:8080/v1/authorizations -d '{

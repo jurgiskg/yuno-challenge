@@ -1,8 +1,8 @@
 {
   "transactions": [
     {
-      "id": "txn_e4a2ce4139d32640",
-      "createdAt": "2026-09-27T14:14:29.12878+03:00",
+      "id": "txn_d72a3acb98d0c40e",
+      "createdAt": "2026-09-27T14:42:10.872422+03:00",
       "merchantId": "solarbazaar",
       "bin": "453201",
       "last4": "1529",
@@ -19,15 +19,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.128786+03:00",
-          "durationMs": 0.009,
+          "startedAt": "2026-09-27T14:42:10.872432+03:00",
+          "durationMs": 0.005,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_4ab1729ec7992775",
-      "createdAt": "2026-09-27T14:14:29.12904+03:00",
+      "id": "txn_ed4fc8b4395a31f9",
+      "createdAt": "2026-09-27T14:42:10.872737+03:00",
       "merchantId": "solarbazaar",
       "bin": "636368",
       "last4": "6716",
@@ -44,15 +44,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.129041+03:00",
+          "startedAt": "2026-09-27T14:42:10.872738+03:00",
           "durationMs": 0.003,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_a28375776f700ccd",
-      "createdAt": "2026-09-27T14:14:29.129228+03:00",
+      "id": "txn_4ff593375069ec24",
+      "createdAt": "2026-09-27T14:42:10.872934+03:00",
       "merchantId": "solarbazaar",
       "bin": "476134",
       "last4": "7324",
@@ -69,15 +69,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.129233+03:00",
-          "durationMs": 0.002,
+          "startedAt": "2026-09-27T14:42:10.872935+03:00",
+          "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_fb973329128e436c",
-      "createdAt": "2026-09-27T14:14:29.129553+03:00",
+      "id": "txn_d126228776726f94",
+      "createdAt": "2026-09-27T14:42:10.873107+03:00",
       "merchantId": "solarbazaar",
       "bin": "606282",
       "last4": "4687",
@@ -94,15 +94,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.129558+03:00",
-          "durationMs": 0.01,
+          "startedAt": "2026-09-27T14:42:10.873109+03:00",
+          "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_ab379e348c0598cf",
-      "createdAt": "2026-09-27T14:14:29.129827+03:00",
+      "id": "txn_1b531c701fda5c66",
+      "createdAt": "2026-09-27T14:42:10.873264+03:00",
       "merchantId": "solarbazaar",
       "bin": "522860",
       "last4": "5378",
@@ -119,15 +119,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.129828+03:00",
-          "durationMs": 0.002,
+          "startedAt": "2026-09-27T14:42:10.873265+03:00",
+          "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_986116f9da8f3373",
-      "createdAt": "2026-09-27T14:14:29.130178+03:00",
+      "id": "txn_728e8689ddd5fc1d",
+      "createdAt": "2026-09-27T14:42:10.873423+03:00",
       "merchantId": "solarbazaar",
       "bin": "377752",
       "last4": "7138",
@@ -144,15 +144,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.13018+03:00",
-          "durationMs": 0.002,
+          "startedAt": "2026-09-27T14:42:10.873424+03:00",
+          "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_e792879fa3a9610c",
-      "createdAt": "2026-09-27T14:14:29.130365+03:00",
+      "id": "txn_d5d1a2694bb94d93",
+      "createdAt": "2026-09-27T14:42:10.873574+03:00",
       "merchantId": "solarbazaar",
       "bin": "453201",
       "last4": "2462",
@@ -169,15 +169,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.130371+03:00",
-          "durationMs": 0.002,
+          "startedAt": "2026-09-27T14:42:10.873575+03:00",
+          "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_c94d4fa54751183d",
-      "createdAt": "2026-09-27T14:14:29.130609+03:00",
+      "id": "txn_39cb9d167e4585dc",
+      "createdAt": "2026-09-27T14:42:10.873782+03:00",
       "merchantId": "solarbazaar",
       "bin": "476134",
       "last4": "8342",
@@ -194,15 +194,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.130612+03:00",
-          "durationMs": 0.01,
+          "startedAt": "2026-09-27T14:42:10.873787+03:00",
+          "durationMs": 0.003,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_446d095f59fd5f5d",
-      "createdAt": "2026-09-27T14:14:29.130801+03:00",
+      "id": "txn_3cbc06676424f950",
+      "createdAt": "2026-09-27T14:42:10.873983+03:00",
       "merchantId": "solarbazaar",
       "bin": "522860",
       "last4": "3401",
@@ -219,15 +219,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.130802+03:00",
+          "startedAt": "2026-09-27T14:42:10.873984+03:00",
           "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_31fb9f0ef1c6d703",
-      "createdAt": "2026-09-27T14:14:29.131232+03:00",
+      "id": "txn_2e56184a80151776",
+      "createdAt": "2026-09-27T14:42:10.874136+03:00",
       "merchantId": "solarbazaar",
       "bin": "522860",
       "last4": "0107",
@@ -244,15 +244,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.131234+03:00",
+          "startedAt": "2026-09-27T14:42:10.874137+03:00",
           "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_fcdbd8a6707565df",
-      "createdAt": "2026-09-27T14:14:29.131523+03:00",
+      "id": "txn_f122d53674e4aba3",
+      "createdAt": "2026-09-27T14:42:10.874273+03:00",
       "merchantId": "solarbazaar",
       "bin": "453201",
       "last4": "1259",
@@ -269,15 +269,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.131524+03:00",
+          "startedAt": "2026-09-27T14:42:10.874277+03:00",
           "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_6e7b106c90a2ac2e",
-      "createdAt": "2026-09-27T14:14:29.131808+03:00",
+      "id": "txn_981453cedc507b40",
+      "createdAt": "2026-09-27T14:42:10.87443+03:00",
       "merchantId": "solarbazaar",
       "bin": "636368",
       "last4": "9769",
@@ -294,15 +294,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.131809+03:00",
+          "startedAt": "2026-09-27T14:42:10.874431+03:00",
           "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_960e6add17cd2d8e",
-      "createdAt": "2026-09-27T14:14:29.132006+03:00",
+      "id": "txn_6cefdba85ffdddfd",
+      "createdAt": "2026-09-27T14:42:10.874569+03:00",
       "merchantId": "solarbazaar",
       "bin": "476134",
       "last4": "4125",
@@ -319,15 +319,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.132008+03:00",
-          "durationMs": 0.002,
+          "startedAt": "2026-09-27T14:42:10.87457+03:00",
+          "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_48fb03fa0fb562bf",
-      "createdAt": "2026-09-27T14:14:29.132289+03:00",
+      "id": "txn_b15e563a0ff5aabd",
+      "createdAt": "2026-09-27T14:42:10.874692+03:00",
       "merchantId": "solarbazaar",
       "bin": "606282",
       "last4": "3389",
@@ -344,15 +344,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.13229+03:00",
-          "durationMs": 0.002,
+          "startedAt": "2026-09-27T14:42:10.874693+03:00",
+          "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_e211d93d75116198",
-      "createdAt": "2026-09-27T14:14:29.132439+03:00",
+      "id": "txn_a612118a697b1e28",
+      "createdAt": "2026-09-27T14:42:10.874844+03:00",
       "merchantId": "solarbazaar",
       "bin": "522860",
       "last4": "9080",
@@ -369,15 +369,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.13244+03:00",
-          "durationMs": 0,
+          "startedAt": "2026-09-27T14:42:10.874845+03:00",
+          "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_9ac26d6b39dc7a8d",
-      "createdAt": "2026-09-27T14:14:29.132627+03:00",
+      "id": "txn_8827319f59345841",
+      "createdAt": "2026-09-27T14:42:10.874985+03:00",
       "merchantId": "solarbazaar",
       "bin": "377752",
       "last4": "8795",
@@ -394,15 +394,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.132628+03:00",
+          "startedAt": "2026-09-27T14:42:10.874987+03:00",
           "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_cf4116995ef15bc2",
-      "createdAt": "2026-09-27T14:14:29.13278+03:00",
+      "id": "txn_42284edb14e99edb",
+      "createdAt": "2026-09-27T14:42:10.875135+03:00",
       "merchantId": "solarbazaar",
       "bin": "453201",
       "last4": "0676",
@@ -419,15 +419,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.132781+03:00",
+          "startedAt": "2026-09-27T14:42:10.875136+03:00",
           "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_8fb3bc5f6bb2ca54",
-      "createdAt": "2026-09-27T14:14:29.132936+03:00",
+      "id": "txn_9da4d1e7f401b363",
+      "createdAt": "2026-09-27T14:42:10.875279+03:00",
       "merchantId": "solarbazaar",
       "bin": "476134",
       "last4": "3205",
@@ -444,15 +444,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.132938+03:00",
+          "startedAt": "2026-09-27T14:42:10.87528+03:00",
           "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_9bfa968441effdca",
-      "createdAt": "2026-09-27T14:14:29.133096+03:00",
+      "id": "txn_1cdaeb195e391837",
+      "createdAt": "2026-09-27T14:42:10.875398+03:00",
       "merchantId": "solarbazaar",
       "bin": "522860",
       "last4": "8932",
@@ -469,15 +469,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.133097+03:00",
+          "startedAt": "2026-09-27T14:42:10.875399+03:00",
           "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_9e65cb2af3776a51",
-      "createdAt": "2026-09-27T14:14:29.133242+03:00",
+      "id": "txn_272dd376746b3b42",
+      "createdAt": "2026-09-27T14:42:10.875547+03:00",
       "merchantId": "solarbazaar",
       "bin": "522860",
       "last4": "7394",
@@ -494,15 +494,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.133243+03:00",
+          "startedAt": "2026-09-27T14:42:10.875549+03:00",
           "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_e34ddfed8e4c23e5",
-      "createdAt": "2026-09-27T14:14:29.133414+03:00",
+      "id": "txn_74d63651de343b04",
+      "createdAt": "2026-09-27T14:42:10.875711+03:00",
       "merchantId": "solarbazaar",
       "bin": "453201",
       "last4": "0175",
@@ -519,15 +519,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.133419+03:00",
-          "durationMs": 0.001,
+          "startedAt": "2026-09-27T14:42:10.875713+03:00",
+          "durationMs": 0.002,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_d1a41fd87bdbe87e",
-      "createdAt": "2026-09-27T14:14:29.133718+03:00",
+      "id": "txn_1decadf7d78f8439",
+      "createdAt": "2026-09-27T14:42:10.875968+03:00",
       "merchantId": "solarbazaar",
       "bin": "636368",
       "last4": "9206",
@@ -544,15 +544,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.133719+03:00",
-          "durationMs": 0.001,
+          "startedAt": "2026-09-27T14:42:10.875969+03:00",
+          "durationMs": 0.002,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_4f2437e16ace8e2e",
-      "createdAt": "2026-09-27T14:14:29.133858+03:00",
+      "id": "txn_41a841efa05c2eaa",
+      "createdAt": "2026-09-27T14:42:10.87613+03:00",
       "merchantId": "solarbazaar",
       "bin": "476134",
       "last4": "9058",
@@ -569,15 +569,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.133859+03:00",
+          "startedAt": "2026-09-27T14:42:10.876131+03:00",
           "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_a22e598f1c76f9ba",
-      "createdAt": "2026-09-27T14:14:29.134098+03:00",
+      "id": "txn_6baa0cf529db3303",
+      "createdAt": "2026-09-27T14:42:10.876281+03:00",
       "merchantId": "solarbazaar",
       "bin": "606282",
       "last4": "7824",
@@ -594,15 +594,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.134099+03:00",
+          "startedAt": "2026-09-27T14:42:10.876282+03:00",
           "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_bd10ac759a76e45b",
-      "createdAt": "2026-09-27T14:14:29.134247+03:00",
+      "id": "txn_93d21ccb3c204abf",
+      "createdAt": "2026-09-27T14:42:10.87644+03:00",
       "merchantId": "solarbazaar",
       "bin": "522860",
       "last4": "8773",
@@ -619,15 +619,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.134248+03:00",
-          "durationMs": 0.001,
+          "startedAt": "2026-09-27T14:42:10.876441+03:00",
+          "durationMs": 0.002,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_2a5e4381adc17ead",
-      "createdAt": "2026-09-27T14:14:29.134509+03:00",
+      "id": "txn_99da87f3004e2db1",
+      "createdAt": "2026-09-27T14:42:10.87658+03:00",
       "merchantId": "solarbazaar",
       "bin": "377752",
       "last4": "7803",
@@ -644,15 +644,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.134511+03:00",
+          "startedAt": "2026-09-27T14:42:10.876581+03:00",
           "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_2645885287a814bd",
-      "createdAt": "2026-09-27T14:14:29.134645+03:00",
+      "id": "txn_abc7351116e1ade4",
+      "createdAt": "2026-09-27T14:42:10.876727+03:00",
       "merchantId": "solarbazaar",
       "bin": "476134",
       "last4": "1191",
@@ -669,22 +669,22 @@
       "attempts": [
         {
           "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.134647+03:00",
+          "startedAt": "2026-09-27T14:42:10.876728+03:00",
           "durationMs": 0.001,
           "status": "DECLINED",
           "declineReason": "POLICY_DECLINE"
         },
         {
           "acquirer": "AcquirerTwo",
-          "startedAt": "2026-09-27T14:14:29.134649+03:00",
-          "durationMs": 0.001,
+          "startedAt": "2026-09-27T14:42:10.876731+03:00",
+          "durationMs": 0,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_2222e3693f5e65ba",
-      "createdAt": "2026-09-27T14:14:29.134808+03:00",
+      "id": "txn_27ad8c39ace0df2a",
+      "createdAt": "2026-09-27T14:42:10.876898+03:00",
       "merchantId": "solarbazaar",
       "bin": "555544",
       "last4": "8625",
@@ -701,15 +701,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerTwo",
-          "startedAt": "2026-09-27T14:14:29.13481+03:00",
-          "durationMs": 0.012,
+          "startedAt": "2026-09-27T14:42:10.876905+03:00",
+          "durationMs": 0.002,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_d06a4af237842658",
-      "createdAt": "2026-09-27T14:14:29.134935+03:00",
+      "id": "txn_404cdc5c6847e705",
+      "createdAt": "2026-09-27T14:42:10.87706+03:00",
       "merchantId": "solarbazaar",
       "bin": "522860",
       "last4": "2447",
@@ -726,15 +726,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerTwo",
-          "startedAt": "2026-09-27T14:14:29.134936+03:00",
+          "startedAt": "2026-09-27T14:42:10.877061+03:00",
           "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_70f51f415f83cee3",
-      "createdAt": "2026-09-27T14:14:29.135062+03:00",
+      "id": "txn_2ed46cb0ea64daee",
+      "createdAt": "2026-09-27T14:42:10.877197+03:00",
       "merchantId": "solarbazaar",
       "bin": "555544",
       "last4": "4987",
@@ -751,15 +751,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerTwo",
-          "startedAt": "2026-09-27T14:14:29.135063+03:00",
+          "startedAt": "2026-09-27T14:42:10.877198+03:00",
           "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_4803531b76ebe80b",
-      "createdAt": "2026-09-27T14:14:29.135198+03:00",
+      "id": "txn_e2d315660ffad5c2",
+      "createdAt": "2026-09-27T14:42:10.877358+03:00",
       "merchantId": "solarbazaar",
       "bin": "377752",
       "last4": "7348",
@@ -776,15 +776,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerTwo",
-          "startedAt": "2026-09-27T14:14:29.135199+03:00",
+          "startedAt": "2026-09-27T14:42:10.877359+03:00",
           "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_8589ff497222b69e",
-      "createdAt": "2026-09-27T14:14:29.135386+03:00",
+      "id": "txn_263f76c509e5d844",
+      "createdAt": "2026-09-27T14:42:10.877484+03:00",
       "merchantId": "solarbazaar",
       "bin": "555544",
       "last4": "2385",
@@ -801,15 +801,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerTwo",
-          "startedAt": "2026-09-27T14:14:29.135387+03:00",
-          "durationMs": 0.041,
+          "startedAt": "2026-09-27T14:42:10.877486+03:00",
+          "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_b582b3b9c1c7d5e7",
-      "createdAt": "2026-09-27T14:14:29.135572+03:00",
+      "id": "txn_e7ca0e88cce74a20",
+      "createdAt": "2026-09-27T14:42:10.877619+03:00",
       "merchantId": "solarbazaar",
       "bin": "476134",
       "last4": "7395",
@@ -826,15 +826,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerTwo",
-          "startedAt": "2026-09-27T14:14:29.135573+03:00",
+          "startedAt": "2026-09-27T14:42:10.877621+03:00",
           "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_8a3383864e1d8cf7",
-      "createdAt": "2026-09-27T14:14:29.135701+03:00",
+      "id": "txn_bf90f37cb91426ca",
+      "createdAt": "2026-09-27T14:42:10.877775+03:00",
       "merchantId": "solarbazaar",
       "bin": "555544",
       "last4": "5334",
@@ -851,15 +851,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerTwo",
-          "startedAt": "2026-09-27T14:14:29.135702+03:00",
+          "startedAt": "2026-09-27T14:42:10.877776+03:00",
           "durationMs": 0.001,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_d883d28ea5378b57",
-      "createdAt": "2026-09-27T14:14:29.135811+03:00",
+      "id": "txn_e796a52d77955cfd",
+      "createdAt": "2026-09-27T14:42:10.877926+03:00",
       "merchantId": "solarbazaar",
       "bin": "453201",
       "last4": "4160",
@@ -876,22 +876,22 @@
       "attempts": [
         {
           "acquirer": "AcquirerTwo",
-          "startedAt": "2026-09-27T14:14:29.135812+03:00",
+          "startedAt": "2026-09-27T14:42:10.877927+03:00",
           "durationMs": 0.001,
           "status": "DECLINED",
           "declineReason": "SUSPECTED_FRAUD"
         },
         {
           "acquirer": "AcquirerThree",
-          "startedAt": "2026-09-27T14:14:29.135814+03:00",
-          "durationMs": 0,
+          "startedAt": "2026-09-27T14:42:10.87793+03:00",
+          "durationMs": 0.007,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_a82646e06d57d11f",
-      "createdAt": "2026-09-27T14:14:29.135987+03:00",
+      "id": "txn_21d9441e228399c5",
+      "createdAt": "2026-09-27T14:42:10.878082+03:00",
       "merchantId": "solarbazaar",
       "bin": "555544",
       "last4": "6201",
@@ -908,15 +908,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerThree",
-          "startedAt": "2026-09-27T14:14:29.135988+03:00",
-          "durationMs": 0,
+          "startedAt": "2026-09-27T14:42:10.878083+03:00",
+          "durationMs": 0.005,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_37124379ab9b14ca",
-      "createdAt": "2026-09-27T14:14:29.136128+03:00",
+      "id": "txn_ac7bc67a010cbcd3",
+      "createdAt": "2026-09-27T14:42:10.878264+03:00",
       "merchantId": "solarbazaar",
       "bin": "453201",
       "last4": "0588",
@@ -928,35 +928,20 @@
         "AcquirerOne",
         "AcquirerTwo"
       ],
-      "status": "DECLINED",
-      "declineReason": "SUSPECTED_FRAUD",
+      "status": "APPROVED",
+      "acquirer": "AcquirerThree",
       "attempts": [
         {
           "acquirer": "AcquirerThree",
-          "startedAt": "2026-09-27T14:14:29.136129+03:00",
-          "durationMs": 0.001,
-          "status": "DECLINED",
-          "declineReason": "GENERIC_DECLINE"
-        },
-        {
-          "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.136133+03:00",
-          "durationMs": 0,
-          "status": "DECLINED",
-          "declineReason": "POLICY_DECLINE"
-        },
-        {
-          "acquirer": "AcquirerTwo",
-          "startedAt": "2026-09-27T14:14:29.136135+03:00",
-          "durationMs": 0,
-          "status": "DECLINED",
-          "declineReason": "SUSPECTED_FRAUD"
+          "startedAt": "2026-09-27T14:42:10.878265+03:00",
+          "durationMs": 0.004,
+          "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_d430809c7428895c",
-      "createdAt": "2026-09-27T14:14:29.136307+03:00",
+      "id": "txn_b6d55597e806ebc6",
+      "createdAt": "2026-09-27T14:42:10.878433+03:00",
       "merchantId": "solarbazaar",
       "bin": "555544",
       "last4": "3420",
@@ -973,15 +958,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerThree",
-          "startedAt": "2026-09-27T14:14:29.136308+03:00",
-          "durationMs": 0.001,
+          "startedAt": "2026-09-27T14:42:10.878434+03:00",
+          "durationMs": 0.004,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_db9dd1a47c49798b",
-      "createdAt": "2026-09-27T14:14:29.136597+03:00",
+      "id": "txn_64078f9ca28753c5",
+      "createdAt": "2026-09-27T14:42:10.878596+03:00",
       "merchantId": "solarbazaar",
       "bin": "453201",
       "last4": "5586",
@@ -993,35 +978,20 @@
         "AcquirerOne",
         "AcquirerTwo"
       ],
-      "status": "DECLINED",
-      "declineReason": "SUSPECTED_FRAUD",
+      "status": "APPROVED",
+      "acquirer": "AcquirerThree",
       "attempts": [
         {
           "acquirer": "AcquirerThree",
-          "startedAt": "2026-09-27T14:14:29.136601+03:00",
-          "durationMs": 0.006,
-          "status": "DECLINED",
-          "declineReason": "GENERIC_DECLINE"
-        },
-        {
-          "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.136609+03:00",
-          "durationMs": 0,
-          "status": "DECLINED",
-          "declineReason": "POLICY_DECLINE"
-        },
-        {
-          "acquirer": "AcquirerTwo",
-          "startedAt": "2026-09-27T14:14:29.13661+03:00",
-          "durationMs": 0,
-          "status": "DECLINED",
-          "declineReason": "SUSPECTED_FRAUD"
+          "startedAt": "2026-09-27T14:42:10.878597+03:00",
+          "durationMs": 0.007,
+          "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_f787cecdbe833253",
-      "createdAt": "2026-09-27T14:14:29.136866+03:00",
+      "id": "txn_b08a9689ed0b964a",
+      "createdAt": "2026-09-27T14:42:10.878735+03:00",
       "merchantId": "solarbazaar",
       "bin": "555544",
       "last4": "0821",
@@ -1033,35 +1003,20 @@
         "AcquirerOne",
         "AcquirerTwo"
       ],
-      "status": "DECLINED",
-      "declineReason": "POLICY_DECLINE",
+      "status": "APPROVED",
+      "acquirer": "AcquirerThree",
       "attempts": [
         {
           "acquirer": "AcquirerThree",
-          "startedAt": "2026-09-27T14:14:29.136871+03:00",
-          "durationMs": 0.006,
-          "status": "DECLINED",
-          "declineReason": "GENERIC_DECLINE"
-        },
-        {
-          "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.136881+03:00",
-          "durationMs": 0.001,
-          "status": "DECLINED",
-          "declineReason": "SUSPECTED_FRAUD"
-        },
-        {
-          "acquirer": "AcquirerTwo",
-          "startedAt": "2026-09-27T14:14:29.136884+03:00",
-          "durationMs": 0.001,
-          "status": "DECLINED",
-          "declineReason": "POLICY_DECLINE"
+          "startedAt": "2026-09-27T14:42:10.878738+03:00",
+          "durationMs": 0.004,
+          "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_c194892c9db5fdff",
-      "createdAt": "2026-09-27T14:14:29.137054+03:00",
+      "id": "txn_a688ebb98ea7ef58",
+      "createdAt": "2026-09-27T14:42:10.878872+03:00",
       "merchantId": "solarbazaar",
       "bin": "453201",
       "last4": "0814",
@@ -1078,15 +1033,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerThree",
-          "startedAt": "2026-09-27T14:14:29.137056+03:00",
-          "durationMs": 0.001,
+          "startedAt": "2026-09-27T14:42:10.878873+03:00",
+          "durationMs": 0.018,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_72de855498b6c13d",
-      "createdAt": "2026-09-27T14:14:29.137151+03:00",
+      "id": "txn_12467455d29c886e",
+      "createdAt": "2026-09-27T14:42:10.879094+03:00",
       "merchantId": "solarbazaar",
       "bin": "555544",
       "last4": "8738",
@@ -1103,15 +1058,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerThree",
-          "startedAt": "2026-09-27T14:14:29.137152+03:00",
-          "durationMs": 0.001,
+          "startedAt": "2026-09-27T14:42:10.879095+03:00",
+          "durationMs": 0.004,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_cbecc582ac007baa",
-      "createdAt": "2026-09-27T14:14:29.137356+03:00",
+      "id": "txn_d9829a707de9b02a",
+      "createdAt": "2026-09-27T14:42:10.879237+03:00",
       "merchantId": "solarbazaar",
       "bin": "453201",
       "last4": "5317",
@@ -1128,15 +1083,15 @@
       "attempts": [
         {
           "acquirer": "AcquirerThree",
-          "startedAt": "2026-09-27T14:14:29.137359+03:00",
-          "durationMs": 0.001,
+          "startedAt": "2026-09-27T14:42:10.879239+03:00",
+          "durationMs": 0.005,
           "status": "APPROVED"
         }
       ]
     },
     {
-      "id": "txn_17b2c79271f6a213",
-      "createdAt": "2026-09-27T14:14:29.137533+03:00",
+      "id": "txn_017c148305674282",
+      "createdAt": "2026-09-27T14:42:10.879369+03:00",
       "merchantId": "solarbazaar",
       "bin": "400000",
       "last4": "0119",
@@ -1153,23 +1108,16 @@
       "attempts": [
         {
           "acquirer": "AcquirerThree",
-          "startedAt": "2026-09-27T14:14:29.137534+03:00",
-          "durationMs": 0.001,
-          "status": "DECLINED",
-          "declineReason": "GENERIC_DECLINE"
-        },
-        {
-          "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.137536+03:00",
-          "durationMs": 0,
+          "startedAt": "2026-09-27T14:42:10.87937+03:00",
+          "durationMs": 0.003,
           "status": "DECLINED",
           "declineReason": "STOLEN_CARD"
         }
       ]
     },
     {
-      "id": "txn_d676ec6b93c891e0",
-      "createdAt": "2026-09-27T14:14:29.137688+03:00",
+      "id": "txn_f5ec6595232bf3f6",
+      "createdAt": "2026-09-27T14:42:10.879599+03:00",
       "merchantId": "solarbazaar",
       "bin": "400000",
       "last4": "9995",
@@ -1186,23 +1134,16 @@
       "attempts": [
         {
           "acquirer": "AcquirerThree",
-          "startedAt": "2026-09-27T14:14:29.137689+03:00",
-          "durationMs": 0.001,
-          "status": "DECLINED",
-          "declineReason": "GENERIC_DECLINE"
-        },
-        {
-          "acquirer": "AcquirerOne",
-          "startedAt": "2026-09-27T14:14:29.137691+03:00",
-          "durationMs": 0,
+          "startedAt": "2026-09-27T14:42:10.879604+03:00",
+          "durationMs": 0.004,
           "status": "DECLINED",
           "declineReason": "INSUFFICIENT_FUNDS"
         }
       ]
     },
     {
-      "id": "txn_f7e1eb22855998eb",
-      "createdAt": "2026-09-27T14:14:29.137886+03:00",
+      "id": "txn_f8e562b206731939",
+      "createdAt": "2026-09-27T14:42:10.879746+03:00",
       "merchantId": "solarbazaar",
       "bin": "476134",
       "last4": "4178",
@@ -1219,16 +1160,23 @@
       "attempts": [
         {
           "acquirer": "AcquirerThree",
-          "startedAt": "2026-09-27T14:14:29.13789+03:00",
-          "durationMs": 0.005,
+          "startedAt": "2026-09-27T14:42:10.879747+03:00",
+          "durationMs": 0.003,
+          "status": "DECLINED",
+          "declineReason": "GENERIC_DECLINE"
+        },
+        {
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:42:10.879752+03:00",
+          "durationMs": 0.001,
           "status": "DECLINED",
           "declineReason": "EXPIRED_CARD"
         }
       ]
     },
     {
-      "id": "txn_a9823ce63cc1de5b",
-      "createdAt": "2026-09-27T14:14:29.13814+03:00",
+      "id": "txn_64250a7d908c482c",
+      "createdAt": "2026-09-27T14:42:10.880007+03:00",
       "merchantId": "solarbazaar",
       "bin": "522860",
       "last4": "6220",
@@ -1236,16 +1184,16 @@
       "currency": "COP",
       "country": "CO",
       "routingOrder": [
-        "AcquirerThree",
         "AcquirerOne",
-        "AcquirerTwo"
+        "AcquirerTwo",
+        "AcquirerThree"
       ],
       "status": "DECLINED",
       "declineReason": "EXPIRED_CARD",
       "attempts": [
         {
-          "acquirer": "AcquirerThree",
-          "startedAt": "2026-09-27T14:14:29.138141+03:00",
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:42:10.880013+03:00",
           "durationMs": 0.001,
           "status": "DECLINED",
           "declineReason": "EXPIRED_CARD"
@@ -1253,8 +1201,8 @@
       ]
     },
     {
-      "id": "txn_359641f292ae2a35",
-      "createdAt": "2026-09-27T14:14:29.13825+03:00",
+      "id": "txn_d56ef725f7150aa3",
+      "createdAt": "2026-09-27T14:42:10.880144+03:00",
       "merchantId": "solarbazaar",
       "bin": "400000",
       "last4": "0119",
@@ -1262,25 +1210,32 @@
       "currency": "MXN",
       "country": "MX",
       "routingOrder": [
-        "AcquirerThree",
         "AcquirerOne",
-        "AcquirerTwo"
+        "AcquirerTwo",
+        "AcquirerThree"
       ],
       "status": "DECLINED",
       "declineReason": "STOLEN_CARD",
       "attempts": [
         {
-          "acquirer": "AcquirerThree",
-          "startedAt": "2026-09-27T14:14:29.138255+03:00",
-          "durationMs": 0.004,
+          "acquirer": "AcquirerOne",
+          "startedAt": "2026-09-27T14:42:10.880145+03:00",
+          "durationMs": 0.001,
+          "status": "DECLINED",
+          "declineReason": "POLICY_DECLINE"
+        },
+        {
+          "acquirer": "AcquirerTwo",
+          "startedAt": "2026-09-27T14:42:10.880149+03:00",
+          "durationMs": 0.001,
           "status": "DECLINED",
           "declineReason": "STOLEN_CARD"
         }
       ]
     },
     {
-      "id": "txn_154edc73270118bd",
-      "createdAt": "2026-09-27T14:14:29.138567+03:00",
+      "id": "txn_149951d9ece37806",
+      "createdAt": "2026-09-27T14:42:10.880276+03:00",
       "merchantId": "solarbazaar",
       "bin": "400000",
       "last4": "9995",
@@ -1288,16 +1243,16 @@
       "currency": "MXN",
       "country": "MX",
       "routingOrder": [
+        "AcquirerTwo",
         "AcquirerThree",
-        "AcquirerOne",
-        "AcquirerTwo"
+        "AcquirerOne"
       ],
       "status": "DECLINED",
       "declineReason": "INSUFFICIENT_FUNDS",
       "attempts": [
         {
-          "acquirer": "AcquirerThree",
-          "startedAt": "2026-09-27T14:14:29.138568+03:00",
+          "acquirer": "AcquirerTwo",
+          "startedAt": "2026-09-27T14:42:10.880281+03:00",
           "durationMs": 0.001,
           "status": "DECLINED",
           "declineReason": "INSUFFICIENT_FUNDS"
@@ -1305,8 +1260,8 @@
       ]
     },
     {
-      "id": "txn_fb1d7ed88e736e7e",
-      "createdAt": "2026-09-27T14:14:29.138853+03:00",
+      "id": "txn_b5877caaeba78982",
+      "createdAt": "2026-09-27T14:42:10.880428+03:00",
       "merchantId": "solarbazaar",
       "bin": "522860",
       "last4": "3509",
@@ -1314,16 +1269,16 @@
       "currency": "MXN",
       "country": "MX",
       "routingOrder": [
+        "AcquirerTwo",
         "AcquirerThree",
-        "AcquirerOne",
-        "AcquirerTwo"
+        "AcquirerOne"
       ],
       "status": "DECLINED",
       "declineReason": "EXPIRED_CARD",
       "attempts": [
         {
-          "acquirer": "AcquirerThree",
-          "startedAt": "2026-09-27T14:14:29.138855+03:00",
+          "acquirer": "AcquirerTwo",
+          "startedAt": "2026-09-27T14:42:10.88043+03:00",
           "durationMs": 0.001,
           "status": "DECLINED",
           "declineReason": "EXPIRED_CARD"
