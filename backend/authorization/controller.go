@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"yuno-challenge/sharedgin"
+	"yuno-challenge/shared/sharedgin"
 
 	"github.com/gin-gonic/gin"
 )

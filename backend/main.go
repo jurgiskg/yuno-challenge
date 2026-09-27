@@ -16,7 +16,8 @@ import (
 	"yuno-challenge/acquirer/acq2"
 	"yuno-challenge/acquirer/acq3"
 	"yuno-challenge/authorization"
-	"yuno-challenge/sharedgin"
+	"yuno-challenge/processor"
+	"yuno-challenge/shared/sharedgin"
 	"yuno-challenge/testdata"
 
 	"github.com/gin-gonic/gin"
@@ -51,12 +52,12 @@ func main() {
 		logger.Fatalf("Invalid ACQUIRER_ORDER: %v", err)
 	}
 	store := authorization.NewStore()
-	processor, err := acquirer.NewProcessor(acquirers, store, logger)
+	proc, err := processor.New(acquirers, store, logger)
 	if err != nil {
 		logger.Fatalf("Failed to create processor: %v", err)
 	}
 
-	srv := &http.Server{Addr: ":" + port, Handler: newEngine(apiKey, processor, store)}
+	srv := &http.Server{Addr: ":" + port, Handler: newEngine(apiKey, proc, store)}
 	go func() {
 		logger.Infof("Listening on :%s", port)
 		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {

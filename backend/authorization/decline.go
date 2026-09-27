@@ -2,8 +2,8 @@
 // acquirers: decline reasons, the attempt chain, and the store that keeps it
 // for analytics.
 //
-// It deliberately doesn't import acquirer, so acquirers and the failover engine
-// there can depend on it without an import cycle.
+// It deliberately doesn't import acquirer or processor, so both can depend on
+// it without an import cycle.
 package authorization
 
 type DeclineReason string

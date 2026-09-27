@@ -7,8 +7,7 @@
 // decay back towards 1 over time, which lets a demoted acquirer recover once it
 // stops getting traffic instead of staying last forever.
 //
-// The package deliberately doesn't import acquirer, so the failover engine there
-// can depend on it without an import cycle.
+// It works on acquirer names only, so it doesn't depend on the acquirer package.
 package ranking
 
 import (

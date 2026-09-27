@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"yuno-challenge/authorization"
-	"yuno-challenge/country"
+	"yuno-challenge/shared/country"
 )
 
 // Acquirer is implemented by every mock acquirer (see the acq* subpackages).

@@ -3,7 +3,7 @@ package authorization
 import (
 	"time"
 
-	"yuno-challenge/country"
+	"yuno-challenge/shared/country"
 )
 
 type Status string

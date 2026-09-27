@@ -1,4 +1,6 @@
-package acquirer
+// Package processor is the failover engine: it routes each authorization request
+// across acquirers in ranking order until one approves.
+package processor
 
 import (
 	"context"
@@ -8,8 +10,9 @@ import (
 	"fmt"
 	"time"
 
-	"yuno-challenge/acquirer/ranking"
+	"yuno-challenge/acquirer"
 	"yuno-challenge/authorization"
+	"yuno-challenge/processor/ranking"
 
 	"go.uber.org/zap"
 )
@@ -21,7 +24,7 @@ const DefaultAttemptTimeout = 2 * time.Second
 // Processor authorizes transactions by trying acquirers in ranking order until
 // one approves, failing over only on retriable declines.
 type Processor struct {
-	acquirers      map[string]Acquirer
+	acquirers      map[string]acquirer.Acquirer
 	ranking        *ranking.Ranking
 	store          *authorization.Store
 	attemptTimeout time.Duration
@@ -29,12 +32,12 @@ type Processor struct {
 	now            func() time.Time
 }
 
-// NewProcessor returns a processor over the given acquirers. Their order is the
+// New returns a processor over the given acquirers. Their order is the
 // configured routing order: it is used as-is until the ranking has recorded
 // enough outcomes to reorder them.
-func NewProcessor(acquirers []Acquirer, store *authorization.Store, logger *zap.SugaredLogger) (*Processor, error) {
+func New(acquirers []acquirer.Acquirer, store *authorization.Store, logger *zap.SugaredLogger) (*Processor, error) {
 	names := make([]string, len(acquirers))
-	byName := make(map[string]Acquirer, len(acquirers))
+	byName := make(map[string]acquirer.Acquirer, len(acquirers))
 	for i, a := range acquirers {
 		names[i] = a.Name()
 		byName[a.Name()] = a
@@ -109,20 +112,20 @@ func (p *Processor) Process(ctx context.Context, req authorization.Request) auth
 
 // attempt calls the acquirer, treating a call that outlives the attempt
 // timeout as a TIMEOUT decline.
-func (p *Processor) attempt(ctx context.Context, acq Acquirer, req authorization.Request) authorization.Attempt {
+func (p *Processor) attempt(ctx context.Context, acq acquirer.Acquirer, req authorization.Request) authorization.Attempt {
 	ctx, cancel := context.WithTimeout(ctx, p.attemptTimeout)
 	defer cancel()
 
 	started := p.now()
 	// Buffered so the goroutine can finish and exit even after we stop waiting.
-	result := make(chan AuthorizationResponse, 1)
+	result := make(chan acquirer.AuthorizationResponse, 1)
 	go func() { result <- acq.Authorize(ctx, req) }()
 
-	var resp AuthorizationResponse
+	var resp acquirer.AuthorizationResponse
 	select {
 	case resp = <-result:
 	case <-ctx.Done():
-		resp = Declined(authorization.ReasonTimeout)
+		resp = acquirer.Declined(authorization.ReasonTimeout)
 	}
 
 	return authorization.Attempt{

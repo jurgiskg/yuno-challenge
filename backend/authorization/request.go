@@ -3,7 +3,7 @@ package authorization
 import (
 	"strings"
 
-	"yuno-challenge/country"
+	"yuno-challenge/shared/country"
 )
 
 // Card is the customer's card as sent to the acquirers.

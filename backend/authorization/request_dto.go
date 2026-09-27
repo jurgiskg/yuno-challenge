@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
-	"yuno-challenge/country"
-	"yuno-challenge/sharedgin"
+	"yuno-challenge/shared/country"
+	"yuno-challenge/shared/sharedgin"
 
 	"github.com/shopspring/decimal"
 )

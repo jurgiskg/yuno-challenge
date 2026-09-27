@@ -17,7 +17,7 @@ import (
 
 	"yuno-challenge/acquirer"
 	"yuno-challenge/authorization"
-	"yuno-challenge/country"
+	"yuno-challenge/shared/country"
 
 	"github.com/shopspring/decimal"
 )

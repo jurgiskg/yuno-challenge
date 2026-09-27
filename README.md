@@ -95,15 +95,16 @@ controller, DTOs, models and logic.
 backend/
 ├── main.go                 wiring: config, acquirers, processor, routes
 ├── authorization/          authorization domain
-├── acquirer/               acquirer domain + failover engine
+├── acquirer/               acquirer domain
 │   ├── acquirer.go         Acquirer interface, Rules, simulated issuer checks
-│   ├── processor.go        failover engine
-│   ├── ranking/            orders acquirers by recent approval rate
 │   ├── acq1/               AcquirerOne
 │   ├── acq2/               AcquirerTwo
 │   └── acq3/               AcquirerThree
-├── country/                ISO 3166-1 alpha-2 codes
-├── sharedgin/              shared Gin middleware (API key) and error responses
+├── processor/              failover engine
+│   └── ranking/            orders acquirers by recent approval rate
+├── shared/                 code shared across domains
+│   ├── country/            ISO 3166-1 alpha-2 codes
+│   └── sharedgin/          Gin middleware (API key) and error responses
 ├── testdata/               sample requests and the mock acquirer rules
 └── integration-tests/      acceptance test + HTML report
 ```
@@ -119,8 +120,8 @@ Holds everything about an authorization request and its outcome:
 - the in-memory `Store`, the analytics summary, and the HTTP controller
 
 The controller depends on a small `Processor` interface rather than on the
-acquirer package. `authorization` doesn't import `acquirer`, so `acquirer`
-can depend on it without an import cycle.
+processor package. `authorization` imports neither `acquirer` nor
+`processor`, so both can depend on it without an import cycle.
 
 ### `acquirer`: the acquirer domain
 
@@ -141,8 +142,11 @@ simulated issuer checks (expired, stolen or invalid card, insufficient funds).
 To add an acquirer, create a new subpackage that implements the interface and
 register it in `main.go`.
 
-The `Processor` is the failover engine and implements
-`authorization.Processor`. For each request it:
+### `processor`: the failover engine
+
+`processor.Processor` routes a request across acquirers and implements
+`authorization.Processor`. It only knows acquirers through the `Acquirer`
+interface. For each request it:
 
 1. takes the current acquirer order from `ranking`
 2. calls each acquirer in turn, with a 2 s per-attempt timeout that counts as
@@ -152,7 +156,13 @@ The `Processor` is the failover engine and implements
    declines are not counted against the acquirer)
 5. saves the transaction with its attempt chain to the store
 
-`ranking` scores each acquirer with an exponentially weighted moving average
-of its recent outcomes. The score decays back towards 1 over time, so an
-acquirer that starts declining moves down the order automatically and can
+`processor/ranking` scores each acquirer with an exponentially weighted moving
+average of its recent outcomes. The score decays back towards 1 over time, so
+an acquirer that starts declining moves down the order automatically and can
 recover once it stops getting traffic.
+
+### `shared`: cross-domain helpers
+
+`shared/country` holds the ISO 3166-1 alpha-2 country codes used in requests
+and acquirer rules. `shared/sharedgin` holds the Gin API key middleware and
+the common error response format.

@@ -9,7 +9,7 @@ import (
 	"yuno-challenge/acquirer/acq1"
 	"yuno-challenge/acquirer/acq2"
 	"yuno-challenge/acquirer/acq3"
-	"yuno-challenge/country"
+	"yuno-challenge/shared/country"
 	"yuno-challenge/testdata"
 )
 

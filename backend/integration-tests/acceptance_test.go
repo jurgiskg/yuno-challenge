@@ -40,7 +40,7 @@ import (
 	"time"
 
 	"yuno-challenge/authorization"
-	"yuno-challenge/sharedgin"
+	"yuno-challenge/shared/sharedgin"
 	"yuno-challenge/testdata"
 )
 

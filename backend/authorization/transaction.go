@@ -3,7 +3,7 @@ package authorization
 import (
 	"time"
 
-	"yuno-challenge/country"
+	"yuno-challenge/shared/country"
 )
 
 // Attempt is one call to one acquirer within a transaction's attempt chain.
