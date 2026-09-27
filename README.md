@@ -186,3 +186,34 @@ all traffic.
 `shared/country` holds the ISO 3166-1 alpha-2 country codes used in requests
 and acquirer rules. `shared/sharedgin` holds the Gin API key middleware and
 the common error response format.
+
+## Tradeoffs
+
+This is an interview task, so a few things are simpler than they would be in
+production.
+
+- **No real database.** Transactions live in the in-memory `Store` and the
+  ranking scores live in memory too. That keeps the service a single binary
+  with nothing to provision, but a restart clears everything and the state
+  can't be shared between instances. A real deployment would put the
+  authorization log in a database behind the same `Store` methods, and keep
+  the ranking in something shared such as Redis.
+- **Layers are kept together inside each domain.** Each domain package holds
+  its controller, DTOs, models, logic and storage side by side. In a bigger
+  project each domain would be split into sublayers, for example
+  `authorization/http` for the controller and DTOs and `authorization/repo`
+  for storage, with the domain logic in between. With only a few files per
+  domain, the extra packages would add indirection without making the code
+  easier to follow.
+- **Shared code has a single consumer.** `shared/` holds code that isn't tied
+  to one domain, such as country codes, the API key middleware and the error
+  response format. In a monorepo with several services, these packages would
+  be reused across them. Here there is only one API, so `shared/` lives inside
+  the `backend` module rather than in its own module.
+- **Smart ranking is incomplete.** `processor/ranking` orders acquirers by one
+  signal: a single global moving average of approvals versus retriable
+  declines. A real router would rank on more criteria, such as approval rate
+  per country, currency, card BIN or card brand, acquirer latency and timeout
+  rate, transaction fees, and merchant-specific agreements. It would also
+  skip acquirers that can't handle a request at all, instead of learning
+  that from declines.
