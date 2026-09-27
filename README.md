@@ -96,6 +96,62 @@ minute. Storage is in memory, so a restart or redeploy clears the
 authorization log. See [`infra/README.md`](infra/README.md) for the Blueprint
 setup and security notes.
 
+## Metrics
+
+The integration test measures how much failover improves the approval rate.
+It builds the real server and runs three scenarios, starting a fresh server
+for each one so the in-memory state starts empty:
+
+| Scenario | Config |
+|---|---|
+| Single acquirer | `ACQUIRER_ORDER=AcquirerOne` |
+| Multi-acquirer, fixed order | `ACQUIRER_ORDER=AcquirerOne,AcquirerTwo,AcquirerThree`, `DYNAMIC_RANKING=false` |
+| Multi-acquirer, dynamic ranking | `ACQUIRER_ORDER=AcquirerOne,AcquirerTwo,AcquirerThree` |
+
+Each scenario submits the same 50 sample transactions (`testdata` seed 1) one
+at a time. It then fetches `GET /v1/authorizations` and `GET /v1/analytics`,
+checks the analytics against its own count of the log, and computes:
+
+- **Approved:** the share of transactions approved in the end, after failover
+- **On first attempt / rescued by failover:** approved by the first acquirer
+  tried, or by a later one after a retriable decline
+- **Hard decline / every acquirer declined:** why the declined transactions
+  failed
+- **Avg attempts per transaction:** the number of acquirer calls, a proxy for
+  latency
+- **Per-acquirer approval rate and decline reasons**
+- **Routing order changes:** where dynamic ranking reordered the acquirers
+
+The committed run:
+
+| | Single acquirer | Multi, fixed order | Multi, dynamic ranking |
+|---|---:|---:|---:|
+| Approved | 26/50 (52%) | 43/50 (86%) | 40/50 (80%) |
+| Rescued by failover | 0 | 17 | 2 |
+| Avg attempts per transaction | 1.00 | 1.58 | 1.20 |
+
+The fixed-order scenario shows the gain from failover alone: 17 of the 24
+transactions a single acquirer declined were approved by AcquirerTwo or
+AcquirerThree. Dynamic ranking needs 24% fewer acquirer calls, because once
+AcquirerOne starts declining, later transactions go to an acquirer that
+approves them first time. AcquirerThree approves 80% at random, so the
+multi-acquirer approval rates move by a few points between runs. The gap
+between 86% and 80% is chance, not an effect of ranking.
+
+The results are in three places:
+
+- [`METRICS.md`](METRICS.md): the full comparison, example attempt chains and
+  the mock acquirer rules
+- [`evidence/`](evidence/): the raw authorization log, analytics and server
+  output for each scenario
+- [`backend/integration-tests/report.html`](backend/integration-tests/report.html)
+  ([rendered](https://htmlpreview.github.io/?https://github.com/jurgiskg/yuno-challenge/blob/main/backend/integration-tests/report.html)):
+  every attempt chain side by side
+
+To reproduce, run `make integration-test OUT=../evidence` from `backend/`.
+That regenerates the report and the evidence. `METRICS.md` is written by hand
+from the committed run, so update it as well if you commit a new run.
+
 ## Architecture
 
 The code lives in a single Go module (`backend/`). Packages are grouped by
