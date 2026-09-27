@@ -9,6 +9,8 @@ import (
 	"syscall"
 	"time"
 
+	"yuno-challenge/merchant"
+
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
@@ -51,6 +53,9 @@ func newEngine() *gin.Engine {
 	v1.GET("/health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"status": "ok"})
 	})
+
+	merchantController := merchant.NewController()
+	v1.POST("/authorizations", merchantController.CreateAuthorization)
 
 	return engine
 }
