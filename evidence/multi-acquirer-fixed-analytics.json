@@ -1,16 +1,12 @@
 {
   "transactions": 50,
-  "approved": 40,
-  "approvalRate": 0.8,
-  "approvedAfterFailover": 14,
+  "approved": 43,
+  "approvalRate": 0.86,
+  "approvedAfterFailover": 17,
   "averageAttempts": 1.58,
   "declineReasons": [
     {
       "reason": "EXPIRED_CARD",
-      "count": 3
-    },
-    {
-      "reason": "GENERIC_DECLINE",
       "count": 3
     },
     {
@@ -54,14 +50,9 @@
     {
       "acquirer": "AcquirerThree",
       "attempts": 9,
-      "approved": 6,
-      "approvalRate": 0.6666666666666666,
-      "declineReasons": [
-        {
-          "reason": "GENERIC_DECLINE",
-          "count": 3
-        }
-      ]
+      "approved": 9,
+      "approvalRate": 1,
+      "declineReasons": []
     },
     {
       "acquirer": "AcquirerTwo",

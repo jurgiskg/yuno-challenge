@@ -140,7 +140,7 @@ func TestCreateAuthorization_Outcome(t *testing.T) {
 					{Acquirer: "AcquirerOne", StartedAt: started, Duration: time.Millisecond, DeclineReason: ReasonStolenCard},
 				},
 			},
-			wantStatus: http.StatusPaymentRequired,
+			wantStatus: http.StatusBadRequest,
 			want: AuthorizationResponse{
 				ID: "txn_2", Status: StatusDeclined, DeclineReason: ReasonStolenCard,
 				Attempts: []AttemptResponse{

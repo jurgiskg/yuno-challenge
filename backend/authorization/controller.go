@@ -28,13 +28,14 @@ func NewController(processor Processor, store *Store) Controller {
 // CreateAuthorization godoc
 // @Summary Authorize a transaction
 // @Description Authorize a card transaction, failing over across acquirers on retriable declines.
+// @Description A decline returns 400 with an AuthorizationResponse body (status DECLINED); an invalid
+// @Description request returns 400 with an ErrorResponse body.
 // @Tags authorization
 // @Accept json
 // @Produce json
 // @Param request body CreateAuthorizationRequest true "Authorization request"
 // @Success 200 {object} AuthorizationResponse "Approved"
-// @Failure 400 {object} sharedgin.ErrorResponse
-// @Failure 402 {object} AuthorizationResponse "Declined: a hard decline, or every acquirer tried declined"
+// @Failure 400 {object} AuthorizationResponse "Declined, or sharedgin.ErrorResponse for an invalid request"
 // @Router /authorizations [post]
 func (ctrl Controller) CreateAuthorization(ctx *gin.Context) {
 	var req CreateAuthorizationRequest
@@ -51,7 +52,7 @@ func (ctrl Controller) CreateAuthorization(ctx *gin.Context) {
 	txn := ctrl.processor.Process(ctx.Request.Context(), req.ToRequest())
 	status := http.StatusOK
 	if !txn.Approved {
-		status = http.StatusPaymentRequired
+		status = http.StatusBadRequest
 	}
 	ctx.JSON(status, NewAuthorizationResponse(txn))
 }

@@ -29,13 +29,21 @@
   "acquirers": [
     {
       "acquirer": "AcquirerOne",
-      "attempts": 31,
+      "attempts": 32,
       "approved": 26,
-      "approvalRate": 0.8387096774193549,
+      "approvalRate": 0.8125,
       "declineReasons": [
         {
           "reason": "POLICY_DECLINE",
-          "count": 4
+          "count": 3
+        },
+        {
+          "reason": "INSUFFICIENT_FUNDS",
+          "count": 1
+        },
+        {
+          "reason": "STOLEN_CARD",
+          "count": 1
         },
         {
           "reason": "SUSPECTED_FRAUD",
@@ -51,35 +59,31 @@
       "declineReasons": [
         {
           "reason": "GENERIC_DECLINE",
-          "count": 4
+          "count": 5
         },
         {
           "reason": "EXPIRED_CARD",
           "count": 3
         },
         {
-          "reason": "STOLEN_CARD",
-          "count": 2
+          "reason": "INSUFFICIENT_FUNDS",
+          "count": 1
         },
         {
-          "reason": "INSUFFICIENT_FUNDS",
+          "reason": "STOLEN_CARD",
           "count": 1
         }
       ]
     },
     {
       "acquirer": "AcquirerTwo",
-      "attempts": 13,
+      "attempts": 12,
       "approved": 8,
-      "approvalRate": 0.6153846153846154,
+      "approvalRate": 0.6666666666666666,
       "declineReasons": [
         {
           "reason": "SUSPECTED_FRAUD",
           "count": 3
-        },
-        {
-          "reason": "INSUFFICIENT_FUNDS",
-          "count": 1
         },
         {
           "reason": "POLICY_DECLINE",

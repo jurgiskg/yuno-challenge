@@ -328,7 +328,7 @@ func (s *server) get(t *testing.T, path string, into any) {
 }
 
 // submit sends the requests one at a time, in order, so the ranking sees them
-// in sequence. The service answers 200 when approved and 402 when declined.
+// in sequence. The service answers 200 when approved and 400 when declined.
 func submit(t *testing.T, srv *server, reqs []authorization.CreateAuthorizationRequest) []authorization.AuthorizationResponse {
 	t.Helper()
 	responses := make([]authorization.AuthorizationResponse, len(reqs))
@@ -338,7 +338,7 @@ func submit(t *testing.T, srv *server, reqs []authorization.CreateAuthorizationR
 		if err := json.Unmarshal(body, &resp); err != nil {
 			t.Fatalf("request %d: status %d, undecodable body: %s", i, status, body)
 		}
-		wantStatus := http.StatusPaymentRequired
+		wantStatus := http.StatusBadRequest
 		if resp.Status == authorization.StatusApproved {
 			wantStatus = http.StatusOK
 		}

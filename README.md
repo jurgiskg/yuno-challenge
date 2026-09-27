@@ -7,8 +7,8 @@ retriable: `SUSPECTED_FRAUD`, `POLICY_DECLINE`, `TIMEOUT` or `GENERIC_DECLINE`.
 Issuer declines such as `STOLEN_CARD` or `INSUFFICIENT_FUNDS` stop the chain
 right away, because every acquirer would decline them.
 
-**Results:** on the 50 sample transactions, a single acquirer approves 52%.
-Failover across three acquirers approves 80% (+28 pp). See
+**Results:** on the 50 sample transactions, a single acquirer approved 52%.
+Failover across three acquirers approved 86% (+34 pp). See
 [`METRICS.md`](METRICS.md) for the full comparison and example attempt chains,
 and [`evidence/`](evidence/) for the raw logs.
 
@@ -57,7 +57,7 @@ it. Both attempts appear in the response.
 | Method | Path | Description |
 |---|---|---|
 | `GET` | `/v1/health` | Liveness check (public) |
-| `POST` | `/v1/authorizations` | Authorize a transaction. Returns `200` if approved, `402` if declined (hard decline, or every acquirer tried declined) |
+| `POST` | `/v1/authorizations` | Authorize a transaction. Returns `200` if approved, `400` if declined (hard decline, or every acquirer tried declined). An invalid request also returns `400`, with an error body instead of the attempt chain |
 | `GET` | `/v1/authorizations` | Full authorization log with each transaction's attempt chain |
 | `GET` | `/v1/analytics` | Overall and per-acquirer approval rates, average attempts and decline reasons |
 

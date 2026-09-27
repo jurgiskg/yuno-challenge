@@ -56,7 +56,7 @@
 </head>
 <body>
 <h1>Multi-acquirer failover: acceptance report</h1>
-<div class="muted">50 sample transactions (testdata seed 1) per scenario · generated 2026-09-27 14:10:21 EEST</div>
+<div class="muted">50 sample transactions (testdata seed 1) per scenario · generated 2026-09-27 14:14:29 EEST</div>
 
 
 <div class="hero">
@@ -77,9 +77,9 @@
 
   <div class="tile">
     <div class="label">Multi-acquirer, fixed order</div>
-    <div class="value">80.0%</div>
-    <div class="muted">40 of 50 approved · AcquirerOne &gt; AcquirerTwo &gt; AcquirerThree</div>
-    <div class="delta up">&#43;28.0 pp vs single acquirer</div>
+    <div class="value">86.0%</div>
+    <div class="muted">43 of 50 approved · AcquirerOne &gt; AcquirerTwo &gt; AcquirerThree</div>
+    <div class="delta up">&#43;34.0 pp vs single acquirer</div>
   </div>
 
   <div class="tile">
@@ -96,21 +96,21 @@
   <thead><tr><th></th><th class="num">Single acquirer</th><th class="num">Multi-acquirer, fixed order</th><th class="num">Multi-acquirer, dynamic ranking</th></tr></thead>
   <tbody>
   
-    <tr><td>Approved</td><td class="num">26/50 (52.0%)</td><td class="num">40/50 (80.0%)</td><td class="num">40/50 (80.0%)</td></tr>
+    <tr><td>Approved</td><td class="num">26/50 (52.0%)</td><td class="num">43/50 (86.0%)</td><td class="num">40/50 (80.0%)</td></tr>
   
     <tr><td class="indent">on first attempt</td><td class="num">26</td><td class="num">26</td><td class="num">38</td></tr>
   
-    <tr><td class="indent">rescued by failover</td><td class="num">0</td><td class="num">14</td><td class="num">2</td></tr>
+    <tr><td class="indent">rescued by failover</td><td class="num">0</td><td class="num">17</td><td class="num">2</td></tr>
   
-    <tr><td>Declined</td><td class="num">24</td><td class="num">10</td><td class="num">10</td></tr>
+    <tr><td>Declined</td><td class="num">24</td><td class="num">7</td><td class="num">10</td></tr>
   
     <tr><td class="indent">hard decline (not retried)</td><td class="num">4</td><td class="num">7</td><td class="num">7</td></tr>
   
-    <tr><td class="indent">every acquirer declined</td><td class="num">20</td><td class="num">3</td><td class="num">3</td></tr>
+    <tr><td class="indent">every acquirer declined</td><td class="num">20</td><td class="num">0</td><td class="num">3</td></tr>
   
     <tr><td>Avg attempts per transaction</td><td class="num">1.00</td><td class="num">1.58</td><td class="num">1.20</td></tr>
   
-    <tr><td>Routing order changes</td><td class="num">0</td><td class="num">0</td><td class="num">3</td></tr>
+    <tr><td>Routing order changes</td><td class="num">0</td><td class="num">0</td><td class="num">2</td></tr>
   
   </tbody>
 </table>
@@ -140,25 +140,25 @@
     
       <tr>
         <td class="num">1</td><td>CO</td><td><code>453201</code></td><td class="num nowrap">8177942.00 COP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(6 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(7 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
       <tr>
         <td class="num">2</td><td>BR</td><td><code>636368</code></td><td class="num nowrap">345.22 BRL</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(3 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(4 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
       <tr>
         <td class="num">3</td><td>CL</td><td><code>476134</code></td><td class="num nowrap">1125030 CLP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(4 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
       <tr>
         <td class="num">4</td><td>BR</td><td><code>606282</code></td><td class="num nowrap">2267.73 BRL</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(3 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
@@ -176,7 +176,7 @@
     
       <tr>
         <td class="num">7</td><td>BR</td><td><code>453201</code></td><td class="num nowrap">5307.44 BRL</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(2 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
@@ -200,13 +200,13 @@
     
       <tr>
         <td class="num">11</td><td>CO</td><td><code>453201</code></td><td class="num nowrap">6981234.00 COP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
       <tr>
         <td class="num">12</td><td>BR</td><td><code>636368</code></td><td class="num nowrap">6322.16 BRL</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(2 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
@@ -236,13 +236,13 @@
     
       <tr>
         <td class="num">17</td><td>BR</td><td><code>453201</code></td><td class="num nowrap">5171.20 BRL</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
       <tr>
         <td class="num">18</td><td>CO</td><td><code>476134</code></td><td class="num nowrap">2483329.00 COP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
@@ -260,7 +260,7 @@
     
       <tr>
         <td class="num">21</td><td>CO</td><td><code>453201</code></td><td class="num nowrap">2620474.00 COP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
@@ -272,7 +272,7 @@
     
       <tr>
         <td class="num">23</td><td>CL</td><td><code>476134</code></td><td class="num nowrap">1812245 CLP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(2 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
@@ -296,7 +296,7 @@
     
       <tr>
         <td class="num">27</td><td>MX</td><td><code>476134</code></td><td class="num nowrap">6644.46 MXN</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status fail">Declined: POLICY_DECLINE</span></td>
       </tr>
     
@@ -308,7 +308,7 @@
     
       <tr>
         <td class="num">29</td><td>MX</td><td><code>522860</code></td><td class="num nowrap">30938.85 MXN</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status fail">Declined: POLICY_DECLINE</span></td>
       </tr>
     
@@ -344,7 +344,7 @@
     
       <tr>
         <td class="num">35</td><td>MX</td><td><code>453201</code></td><td class="num nowrap">28256.53 MXN</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status fail">Declined: POLICY_DECLINE</span></td>
       </tr>
     
@@ -374,7 +374,7 @@
     
       <tr>
         <td class="num">40</td><td>CL</td><td><code>555544</code></td><td class="num nowrap">1696239 CLP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(1 µs)</span></span></div></td>
         <td class="nowrap"><span class="status fail">Declined: SUSPECTED_FRAUD</span></td>
       </tr>
     
@@ -398,7 +398,7 @@
     
       <tr>
         <td class="num">44</td><td>CO</td><td><code>400000</code></td><td class="num nowrap">6212238.00 COP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">STOLEN_CARD</span> <span class="muted">(2 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">STOLEN_CARD</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status fail">Declined: STOLEN_CARD</span></td>
       </tr>
     
@@ -422,7 +422,7 @@
     
       <tr>
         <td class="num">48</td><td>MX</td><td><code>400000</code></td><td class="num nowrap">36580.05 MXN</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status fail">Declined: POLICY_DECLINE</span></td>
       </tr>
     
@@ -434,7 +434,7 @@
     
       <tr>
         <td class="num">50</td><td>MX</td><td><code>522860</code></td><td class="num nowrap">34931.70 MXN</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status fail">Declined: POLICY_DECLINE</span></td>
       </tr>
     
@@ -452,13 +452,13 @@
   
     <tr><td>AcquirerOne</td><td class="num">50</td><td class="num">26</td><td class="num">52.0%</td><td><code>POLICY_DECLINE 13, SUSPECTED_FRAUD 7, EXPIRED_CARD 2, INSUFFICIENT_FUNDS 1, STOLEN_CARD 1</code></td></tr>
   
-    <tr><td>AcquirerThree</td><td class="num">9</td><td class="num">6</td><td class="num">66.7%</td><td><code>GENERIC_DECLINE 3</code></td></tr>
+    <tr><td>AcquirerThree</td><td class="num">9</td><td class="num">9</td><td class="num">100.0%</td><td><code>-</code></td></tr>
   
     <tr><td>AcquirerTwo</td><td class="num">20</td><td class="num">8</td><td class="num">40.0%</td><td><code>SUSPECTED_FRAUD 5, POLICY_DECLINE 4, EXPIRED_CARD 1, INSUFFICIENT_FUNDS 1, STOLEN_CARD 1</code></td></tr>
   
   </tbody>
 </table>
-<p><span class="muted">Final decline reasons:</span> <code>EXPIRED_CARD 3, GENERIC_DECLINE 3, INSUFFICIENT_FUNDS 2, STOLEN_CARD 2</code></p>
+<p><span class="muted">Final decline reasons:</span> <code>EXPIRED_CARD 3, INSUFFICIENT_FUNDS 2, STOLEN_CARD 2</code></p>
 
 
 
@@ -470,37 +470,37 @@
     
       <tr>
         <td class="num">1</td><td>CO</td><td><code>453201</code></td><td class="num nowrap">8177942.00 COP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(10 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(8 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
       <tr>
         <td class="num">2</td><td>BR</td><td><code>636368</code></td><td class="num nowrap">345.22 BRL</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(4 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(26 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
       <tr>
         <td class="num">3</td><td>CL</td><td><code>476134</code></td><td class="num nowrap">1125030 CLP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(3 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(4 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
       <tr>
         <td class="num">4</td><td>BR</td><td><code>606282</code></td><td class="num nowrap">2267.73 BRL</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(2 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
       <tr>
         <td class="num">5</td><td>CO</td><td><code>522860</code></td><td class="num nowrap">6637367.00 COP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(2 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
       <tr>
         <td class="num">6</td><td>CL</td><td><code>377752</code></td><td class="num nowrap">1792655 CLP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(2 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
@@ -536,7 +536,7 @@
     
       <tr>
         <td class="num">12</td><td>BR</td><td><code>636368</code></td><td class="num nowrap">6322.16 BRL</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(3 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
@@ -554,7 +554,7 @@
     
       <tr>
         <td class="num">15</td><td>CO</td><td><code>522860</code></td><td class="num nowrap">2070500.00 COP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
@@ -584,19 +584,19 @@
     
       <tr>
         <td class="num">20</td><td>BR</td><td><code>522860</code></td><td class="num nowrap">7409.18 BRL</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
       <tr>
         <td class="num">21</td><td>CO</td><td><code>453201</code></td><td class="num nowrap">2620474.00 COP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
       <tr>
         <td class="num">22</td><td>BR</td><td><code>636368</code></td><td class="num nowrap">4442.04 BRL</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
@@ -614,7 +614,7 @@
     
       <tr>
         <td class="num">25</td><td>CO</td><td><code>522860</code></td><td class="num nowrap">4992529.00 COP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
@@ -626,7 +626,7 @@
     
       <tr>
         <td class="num">27</td><td>MX</td><td><code>476134</code></td><td class="num nowrap">6644.46 MXN</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(1 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerTwo</span></td>
       </tr>
     
@@ -638,19 +638,19 @@
     
       <tr>
         <td class="num">29</td><td>MX</td><td><code>522860</code></td><td class="num nowrap">30938.85 MXN</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(1 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerTwo</span></td>
       </tr>
     
       <tr>
         <td class="num">30</td><td>BR</td><td><code>555544</code></td><td class="num nowrap">7194.31 BRL</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(2 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(1 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerTwo</span></td>
       </tr>
     
       <tr>
         <td class="num">31</td><td>MX</td><td><code>377752</code></td><td class="num nowrap">23604.71 MXN</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(1 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerTwo</span></td>
       </tr>
     
@@ -662,38 +662,38 @@
     
       <tr>
         <td class="num">33</td><td>MX</td><td><code>476134</code></td><td class="num nowrap">1362.16 MXN</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(1 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerTwo</span></td>
       </tr>
     
       <tr>
         <td class="num">34</td><td>CO</td><td><code>555544</code></td><td class="num nowrap">1445414.00 COP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(1 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerTwo</span></td>
       </tr>
     
       <tr>
         <td class="num">35</td><td>MX</td><td><code>453201</code></td><td class="num nowrap">28256.53 MXN</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerThree: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(2 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerThree: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerThree</span></td>
       </tr>
     
       <tr>
         <td class="num">36</td><td>CL</td><td><code>555544</code></td><td class="num nowrap">437984 CLP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(1 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerThree: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerThree: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerThree</span></td>
       </tr>
     
       <tr>
         <td class="num">37</td><td>MX</td><td><code>453201</code></td><td class="num nowrap">24661.80 MXN</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerThree: <span class="status fail">GENERIC_DECLINE</span> <span class="muted">(0 µs)</span></span></div></td>
-        <td class="nowrap"><span class="status fail">Declined: GENERIC_DECLINE</span></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(1 µs)</span></span><span class="attempt">AcquirerThree: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td class="nowrap"><span class="status ok">Approved by AcquirerThree</span></td>
       </tr>
     
       <tr>
         <td class="num">38</td><td>CL</td><td><code>555544</code></td><td class="num nowrap">1473394 CLP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerThree: <span class="status fail">GENERIC_DECLINE</span> <span class="muted">(0 µs)</span></span></div></td>
-        <td class="nowrap"><span class="status fail">Declined: GENERIC_DECLINE</span></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(1 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerThree: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td class="nowrap"><span class="status ok">Approved by AcquirerThree</span></td>
       </tr>
     
       <tr>
@@ -704,26 +704,26 @@
     
       <tr>
         <td class="num">40</td><td>CL</td><td><code>555544</code></td><td class="num nowrap">1696239 CLP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerThree: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(1 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerThree: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerThree</span></td>
       </tr>
     
       <tr>
         <td class="num">41</td><td>MX</td><td><code>453201</code></td><td class="num nowrap">19226.50 MXN</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(1 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerThree: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerThree: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerThree</span></td>
       </tr>
     
       <tr>
         <td class="num">42</td><td>CL</td><td><code>555544</code></td><td class="num nowrap">1264187 CLP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerThree: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(5 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerThree: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerThree</span></td>
       </tr>
     
       <tr>
         <td class="num">43</td><td>MX</td><td><code>453201</code></td><td class="num nowrap">27978.85 MXN</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerThree: <span class="status fail">GENERIC_DECLINE</span> <span class="muted">(0 µs)</span></span></div></td>
-        <td class="nowrap"><span class="status fail">Declined: GENERIC_DECLINE</span></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(1 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerThree: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td class="nowrap"><span class="status ok">Approved by AcquirerThree</span></td>
       </tr>
     
       <tr>
@@ -734,7 +734,7 @@
     
       <tr>
         <td class="num">45</td><td>BR</td><td><code>400000</code></td><td class="num nowrap">943.81 BRL</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">INSUFFICIENT_FUNDS</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">INSUFFICIENT_FUNDS</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status fail">Declined: INSUFFICIENT_FUNDS</span></td>
       </tr>
     
@@ -746,7 +746,7 @@
     
       <tr>
         <td class="num">47</td><td>CO</td><td><code>522860</code></td><td class="num nowrap">7754904.00 COP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">EXPIRED_CARD</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">EXPIRED_CARD</span> <span class="muted">(2 µs)</span></span></div></td>
         <td class="nowrap"><span class="status fail">Declined: EXPIRED_CARD</span></td>
       </tr>
     
@@ -780,11 +780,11 @@
   <thead><tr><th>Acquirer</th><th class="num">Tried</th><th class="num">Approved</th><th class="num">Rate</th><th>Decline reasons</th></tr></thead>
   <tbody>
   
-    <tr><td>AcquirerOne</td><td class="num">31</td><td class="num">26</td><td class="num">83.9%</td><td><code>POLICY_DECLINE 4, SUSPECTED_FRAUD 1</code></td></tr>
+    <tr><td>AcquirerOne</td><td class="num">32</td><td class="num">26</td><td class="num">81.2%</td><td><code>POLICY_DECLINE 3, INSUFFICIENT_FUNDS 1, STOLEN_CARD 1, SUSPECTED_FRAUD 1</code></td></tr>
   
-    <tr><td>AcquirerThree</td><td class="num">16</td><td class="num">6</td><td class="num">37.5%</td><td><code>GENERIC_DECLINE 4, EXPIRED_CARD 3, STOLEN_CARD 2, INSUFFICIENT_FUNDS 1</code></td></tr>
+    <tr><td>AcquirerThree</td><td class="num">16</td><td class="num">6</td><td class="num">37.5%</td><td><code>GENERIC_DECLINE 5, EXPIRED_CARD 3, INSUFFICIENT_FUNDS 1, STOLEN_CARD 1</code></td></tr>
   
-    <tr><td>AcquirerTwo</td><td class="num">13</td><td class="num">8</td><td class="num">61.5%</td><td><code>SUSPECTED_FRAUD 3, INSUFFICIENT_FUNDS 1, POLICY_DECLINE 1</code></td></tr>
+    <tr><td>AcquirerTwo</td><td class="num">12</td><td class="num">8</td><td class="num">66.7%</td><td><code>SUSPECTED_FRAUD 3, POLICY_DECLINE 1</code></td></tr>
   
   </tbody>
 </table>
@@ -795,7 +795,7 @@
 <table class="compact">
   <thead><tr><th class="num">From transaction</th><th>Routing order</th></tr></thead>
   <tbody>
-  <tr><td class="num">#1</td><td>AcquirerOne &gt; AcquirerTwo &gt; AcquirerThree</td></tr><tr><td class="num">#28</td><td>AcquirerTwo &gt; AcquirerThree &gt; AcquirerOne</td></tr><tr><td class="num">#36</td><td>AcquirerThree &gt; AcquirerOne &gt; AcquirerTwo</td></tr><tr><td class="num">#50</td><td>AcquirerThree &gt; AcquirerTwo &gt; AcquirerOne</td></tr>
+  <tr><td class="num">#1</td><td>AcquirerOne &gt; AcquirerTwo &gt; AcquirerThree</td></tr><tr><td class="num">#28</td><td>AcquirerTwo &gt; AcquirerThree &gt; AcquirerOne</td></tr><tr><td class="num">#36</td><td>AcquirerThree &gt; AcquirerOne &gt; AcquirerTwo</td></tr>
   </tbody>
 </table>
 
@@ -814,7 +814,7 @@
     
       <tr>
         <td class="num">2</td><td>BR</td><td><code>636368</code></td><td class="num nowrap">345.22 BRL</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(2 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(3 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
@@ -826,37 +826,37 @@
     
       <tr>
         <td class="num">4</td><td>BR</td><td><code>606282</code></td><td class="num nowrap">2267.73 BRL</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(10 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
       <tr>
         <td class="num">5</td><td>CO</td><td><code>522860</code></td><td class="num nowrap">6637367.00 COP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(2 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
       <tr>
         <td class="num">6</td><td>CL</td><td><code>377752</code></td><td class="num nowrap">1792655 CLP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(4 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(2 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
       <tr>
         <td class="num">7</td><td>BR</td><td><code>453201</code></td><td class="num nowrap">5307.44 BRL</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(2 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
       <tr>
         <td class="num">8</td><td>CO</td><td><code>476134</code></td><td class="num nowrap">1852011.00 COP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(10 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
       <tr>
         <td class="num">9</td><td>CL</td><td><code>522860</code></td><td class="num nowrap">1614751 CLP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(3 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
@@ -874,25 +874,25 @@
     
       <tr>
         <td class="num">12</td><td>BR</td><td><code>636368</code></td><td class="num nowrap">6322.16 BRL</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
       <tr>
         <td class="num">13</td><td>CL</td><td><code>476134</code></td><td class="num nowrap">998684 CLP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(2 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
       <tr>
         <td class="num">14</td><td>BR</td><td><code>606282</code></td><td class="num nowrap">2410.61 BRL</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(2 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
       <tr>
         <td class="num">15</td><td>CO</td><td><code>522860</code></td><td class="num nowrap">2070500.00 COP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
@@ -916,13 +916,13 @@
     
       <tr>
         <td class="num">19</td><td>CL</td><td><code>522860</code></td><td class="num nowrap">1811634 CLP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(2 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
       <tr>
         <td class="num">20</td><td>BR</td><td><code>522860</code></td><td class="num nowrap">7409.18 BRL</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
@@ -934,7 +934,7 @@
     
       <tr>
         <td class="num">22</td><td>BR</td><td><code>636368</code></td><td class="num nowrap">4442.04 BRL</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
@@ -958,19 +958,19 @@
     
       <tr>
         <td class="num">26</td><td>CL</td><td><code>377752</code></td><td class="num nowrap">1209874 CLP</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerOne</span></td>
       </tr>
     
       <tr>
         <td class="num">27</td><td>MX</td><td><code>476134</code></td><td class="num nowrap">6644.46 MXN</td>
-        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(1 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerTwo</span></td>
       </tr>
     
       <tr>
         <td class="num">28</td><td>CO</td><td><code>555544</code></td><td class="num nowrap">4134522.00 COP</td>
-        <td><div class="chain"><span class="attempt">AcquirerTwo: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerTwo: <span class="status ok">approved</span> <span class="muted">(12 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerTwo</span></td>
       </tr>
     
@@ -988,19 +988,19 @@
     
       <tr>
         <td class="num">31</td><td>MX</td><td><code>377752</code></td><td class="num nowrap">23604.71 MXN</td>
-        <td><div class="chain"><span class="attempt">AcquirerTwo: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerTwo: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerTwo</span></td>
       </tr>
     
       <tr>
         <td class="num">32</td><td>MX</td><td><code>555544</code></td><td class="num nowrap">32149.67 MXN</td>
-        <td><div class="chain"><span class="attempt">AcquirerTwo: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerTwo: <span class="status ok">approved</span> <span class="muted">(41 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerTwo</span></td>
       </tr>
     
       <tr>
         <td class="num">33</td><td>MX</td><td><code>476134</code></td><td class="num nowrap">1362.16 MXN</td>
-        <td><div class="chain"><span class="attempt">AcquirerTwo: <span class="status ok">approved</span> <span class="muted">(2 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerTwo: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerTwo</span></td>
       </tr>
     
@@ -1018,32 +1018,32 @@
     
       <tr>
         <td class="num">36</td><td>CL</td><td><code>555544</code></td><td class="num nowrap">437984 CLP</td>
-        <td><div class="chain"><span class="attempt">AcquirerThree: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerThree: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerThree</span></td>
       </tr>
     
       <tr>
         <td class="num">37</td><td>MX</td><td><code>453201</code></td><td class="num nowrap">24661.80 MXN</td>
+        <td><div class="chain"><span class="attempt">AcquirerThree: <span class="status fail">GENERIC_DECLINE</span> <span class="muted">(1 µs)</span></span><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td class="nowrap"><span class="status fail">Declined: SUSPECTED_FRAUD</span></td>
+      </tr>
+    
+      <tr>
+        <td class="num">38</td><td>CL</td><td><code>555544</code></td><td class="num nowrap">1473394 CLP</td>
         <td><div class="chain"><span class="attempt">AcquirerThree: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerThree</span></td>
       </tr>
     
       <tr>
-        <td class="num">38</td><td>CL</td><td><code>555544</code></td><td class="num nowrap">1473394 CLP</td>
-        <td><div class="chain"><span class="attempt">AcquirerThree: <span class="status fail">GENERIC_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerOne: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span></div></td>
-        <td class="nowrap"><span class="status fail">Declined: POLICY_DECLINE</span></td>
-      </tr>
-    
-      <tr>
         <td class="num">39</td><td>MX</td><td><code>453201</code></td><td class="num nowrap">16970.24 MXN</td>
-        <td><div class="chain"><span class="attempt">AcquirerThree: <span class="status fail">GENERIC_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerThree: <span class="status fail">GENERIC_DECLINE</span> <span class="muted">(6 µs)</span></span><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status fail">Declined: SUSPECTED_FRAUD</span></td>
       </tr>
     
       <tr>
         <td class="num">40</td><td>CL</td><td><code>555544</code></td><td class="num nowrap">1696239 CLP</td>
-        <td><div class="chain"><span class="attempt">AcquirerThree: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
-        <td class="nowrap"><span class="status ok">Approved by AcquirerThree</span></td>
+        <td><div class="chain"><span class="attempt">AcquirerThree: <span class="status fail">GENERIC_DECLINE</span> <span class="muted">(6 µs)</span></span><span class="attempt">AcquirerOne: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(1 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td class="nowrap"><span class="status fail">Declined: POLICY_DECLINE</span></td>
       </tr>
     
       <tr>
@@ -1054,31 +1054,31 @@
     
       <tr>
         <td class="num">42</td><td>CL</td><td><code>555544</code></td><td class="num nowrap">1264187 CLP</td>
-        <td><div class="chain"><span class="attempt">AcquirerThree: <span class="status ok">approved</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerThree: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
         <td class="nowrap"><span class="status ok">Approved by AcquirerThree</span></td>
       </tr>
     
       <tr>
         <td class="num">43</td><td>MX</td><td><code>453201</code></td><td class="num nowrap">27978.85 MXN</td>
-        <td><div class="chain"><span class="attempt">AcquirerThree: <span class="status fail">GENERIC_DECLINE</span> <span class="muted">(1 µs)</span></span><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status fail">SUSPECTED_FRAUD</span> <span class="muted">(0 µs)</span></span></div></td>
-        <td class="nowrap"><span class="status fail">Declined: SUSPECTED_FRAUD</span></td>
+        <td><div class="chain"><span class="attempt">AcquirerThree: <span class="status ok">approved</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td class="nowrap"><span class="status ok">Approved by AcquirerThree</span></td>
       </tr>
     
       <tr>
         <td class="num">44</td><td>CO</td><td><code>400000</code></td><td class="num nowrap">6212238.00 COP</td>
-        <td><div class="chain"><span class="attempt">AcquirerThree: <span class="status fail">STOLEN_CARD</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerThree: <span class="status fail">GENERIC_DECLINE</span> <span class="muted">(1 µs)</span></span><span class="attempt">AcquirerOne: <span class="status fail">STOLEN_CARD</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status fail">Declined: STOLEN_CARD</span></td>
       </tr>
     
       <tr>
         <td class="num">45</td><td>BR</td><td><code>400000</code></td><td class="num nowrap">943.81 BRL</td>
-        <td><div class="chain"><span class="attempt">AcquirerThree: <span class="status fail">INSUFFICIENT_FUNDS</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerThree: <span class="status fail">GENERIC_DECLINE</span> <span class="muted">(1 µs)</span></span><span class="attempt">AcquirerOne: <span class="status fail">INSUFFICIENT_FUNDS</span> <span class="muted">(0 µs)</span></span></div></td>
         <td class="nowrap"><span class="status fail">Declined: INSUFFICIENT_FUNDS</span></td>
       </tr>
     
       <tr>
         <td class="num">46</td><td>CL</td><td><code>476134</code></td><td class="num nowrap">671357 CLP</td>
-        <td><div class="chain"><span class="attempt">AcquirerThree: <span class="status fail">EXPIRED_CARD</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerThree: <span class="status fail">EXPIRED_CARD</span> <span class="muted">(5 µs)</span></span></div></td>
         <td class="nowrap"><span class="status fail">Declined: EXPIRED_CARD</span></td>
       </tr>
     
@@ -1090,13 +1090,13 @@
     
       <tr>
         <td class="num">48</td><td>MX</td><td><code>400000</code></td><td class="num nowrap">36580.05 MXN</td>
-        <td><div class="chain"><span class="attempt">AcquirerThree: <span class="status fail">STOLEN_CARD</span> <span class="muted">(1 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerThree: <span class="status fail">STOLEN_CARD</span> <span class="muted">(4 µs)</span></span></div></td>
         <td class="nowrap"><span class="status fail">Declined: STOLEN_CARD</span></td>
       </tr>
     
       <tr>
         <td class="num">49</td><td>MX</td><td><code>400000</code></td><td class="num nowrap">35823.77 MXN</td>
-        <td><div class="chain"><span class="attempt">AcquirerThree: <span class="status fail">GENERIC_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerOne: <span class="status fail">POLICY_DECLINE</span> <span class="muted">(0 µs)</span></span><span class="attempt">AcquirerTwo: <span class="status fail">INSUFFICIENT_FUNDS</span> <span class="muted">(0 µs)</span></span></div></td>
+        <td><div class="chain"><span class="attempt">AcquirerThree: <span class="status fail">INSUFFICIENT_FUNDS</span> <span class="muted">(1 µs)</span></span></div></td>
         <td class="nowrap"><span class="status fail">Declined: INSUFFICIENT_FUNDS</span></td>
       </tr>
     
